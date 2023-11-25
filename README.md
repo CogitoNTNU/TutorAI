@@ -30,6 +30,7 @@ TutorAI is a language agent capable of assisting with learning academic subjects
 To setup the project, one needs to have all the prerequisites installed. Then one needs to clone the repository, setup a virtual environment, and install the dependencies. This is described in more detail below.
 
 ### Prerequisites
+- Ensure that git is installed on your machine. [Download Git](https://git-scm.com/downloads)
 - Ensure Python 3.9 or newer is installed on your machine. [Download Python](https://www.python.org/downloads/)
 - Familiarity with basic Python package management and virtual environments is beneficial.
 
