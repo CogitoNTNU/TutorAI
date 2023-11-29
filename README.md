@@ -26,6 +26,16 @@
 ## Introduction
 TutorAI is a language agent capable of assisting with learning academic subjects. The project revolves around building an application that ingests a textbook in PDF format and facilitates efficient learning of the course material.
 
+### Planned Features
+TutorAI is designed to be an interactive and comprehensive educational tool aimed at enhancing the learning experience for users of all ages. Below are the planned features that we are excited to introduce:
+
+* **PDF upload**: This functionality enables users to upload PDF documents directly into TutorAI. The application will integrate these documents seamlessly, allowing for an interactive and integrated learning experience.
+* **Information search**: Empower your learning with the ability to conduct in-depth searches within uploaded PDFs. Whether it's a quick fact verification or a deep dive into complex topics, TutorAI makes comprehensive information access simple and efficient.
+* **Learning plans**: These plans will be tailored to the user's learning pace, style, and goals, offering a structured path to mastering the subject.
+* **Flashcards and Memory aids**: Enhance memory retention with our range of digital memory aids, including customizable flashcards. These interactive tools are designed to make study sessions more productive and engaging.
+* **Quiz and test generation**: Automatic generation of quizzes and tests based on the material in the PDF
+* **Study streaks**: This gamified element aims to motivate users to engage with their learning material regularly, making education a daily habit, and exams passed easily.
+
 ## Setup
 To setup the project, one needs to have all the prerequisites installed. Then one needs to clone the repository, setup a virtual environment, and install the dependencies. This is described in more detail below.
 
