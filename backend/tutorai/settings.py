@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     "corsheaders",
     "drf_yasg",
     # Own applications
+    "api",
+    "users",
+    "documents",
 ]
 
 MIDDLEWARE = [
