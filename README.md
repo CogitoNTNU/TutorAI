@@ -136,15 +136,15 @@ There are currently no tests for the frontend.
 <table align="center">
   <tr>
     <td align="center">
-        <a href="https://github.com/olavsl">
-            <img src="https://github.com/olavsl.png?size=100" width="100px;" alt="Olav Selnes Lorentzen"/><br />
-            <sub><b>Olav Selnes Lorentzen</b></sub>
-        </a>
-    </td>
-    <td align="center">
         <a href="https://github.com/Knolaisen">
             <img src="https://github.com/Knolaisen.png?size=100" width="100px;" alt="Kristoffer Nohr Olaisen"/><br />
             <sub><b>Kristoffer Nohr Olaisen</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/olavsl">
+            <img src="https://github.com/olavsl.png?size=100" width="100px;" alt="Olav Selnes Lorentzen"/><br />
+            <sub><b>Olav Selnes Lorentzen</b></sub>
         </a>
     </td>
     <td align="center">
