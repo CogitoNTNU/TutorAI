@@ -23,7 +23,7 @@ npm run build
 
 
 
-React + TypeScript + Vite
+## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -56,3 +56,7 @@ export default {
 
 
 
+## Tailwind css
+Tailwind css allows us to write the css in the html class-name attribute. This is a very powerful tool that allows us to write css in a very intuitive way.
+
+Read more: https://tailwindcss.com/docs/guides/vite
