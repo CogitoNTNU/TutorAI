@@ -49,6 +49,7 @@ To setup the project, one needs to have all the prerequisites installed. Then on
 git clone https://github.com/CogitoNTNU/TutorAI.git
 cd TutorAI
 ```
+## Setup the backend
 
 ### Virtual Environment (Recommended)
 
@@ -114,21 +115,46 @@ For secure and efficient management of environment-specific variables, TutorAI u
 
 
 ## Usage
-To run the project, run the following command in the root directory of the project:
+To run the project, run the following command in the `backend` directory of the project:
 ```bash
-python main.py
+python manage.py runserver
 ```
 
 ## Tests
-To run all the tests, run the following command in the root directory of the project:
+### Backend
+To run all the tests, run the following command in the `backend` directory of the project:
 ```bash
-pytest
+python manage.py test
 ```
+### Frontend
+There are currently no tests for the frontend.
 
-If you do not want to run api tests, run the following command instead:
-```bash
-pytest -m "not apitest"
-```
+
+
+## Contributors
+
+<table align="center">
+  <tr>
+    <td align="center">
+        <a href="https://github.com/olavsl">
+            <img src="https://github.com/olavsl.png?size=100" width="100px;" alt="Olav Selnes Lorentzen"/><br />
+            <sub><b>Olav Selnes Lorentzen</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/Knolaisen">
+            <img src="https://github.com/Knolaisen.png?size=100" width="100px;" alt="Kristoffer Nohr Olaisen"/><br />
+            <sub><b>Kristoffer Nohr Olaisen</b></sub>
+        </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/SverreNystad">
+            <img src="https://github.com/SverreNystad.png?size=100" width="100px;"/><br />
+            <sub><b>Sverre Nystad</b></sub>
+        </a>
+    </td>
+  </tr>
+</table>
 
 ## License
 Licensed under the [MIT License](LICENSE). Because this is a template repository, you need to change the license if you want to use it for your own project.
