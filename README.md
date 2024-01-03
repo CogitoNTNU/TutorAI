@@ -115,8 +115,17 @@ For secure and efficient management of environment-specific variables, TutorAI u
 
 
 ## Usage
-To run the project, run the following command in the `backend` directory of the project:
+### Frontend
+To run the client, run the following command in the root directory of the project:
+```bash	
+cd frontend
+npm install
+npm run dev
+```
+### Backend
+To run server, run the following command in the root directory of the project:
 ```bash
+cd backend
 python manage.py runserver
 ```
 
