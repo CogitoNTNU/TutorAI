@@ -114,12 +114,18 @@ For secure and efficient management of environment-specific variables, TutorAI u
     By following these steps, you'll ensure that your application has all the necessary environment-specific configurations, while keeping sensitive data secure and out of version control.
 
 
+### Setup the frontend
+The frontend is built using React and TypeScript. To install the dependencies, run the following command in the root directory of the project:
+```bash
+cd frontend
+npm install
+```
+
 ## Usage
 ### Frontend
 To run the client, run the following command in the root directory of the project:
 ```bash	
 cd frontend
-npm install
 npm run dev
 ```
 ### Backend
