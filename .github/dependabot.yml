@@ -5,6 +5,7 @@
 
 version: 2
 updates:
+  ## Backend
   - package-ecosystem: "pip"
     directory: "/backend"
     schedule:
