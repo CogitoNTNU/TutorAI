@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  tutorai:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DEBUG=True
+      - DATABASE_HOST=db
+      - DDATABSE_PORT=5432
+      - DATABASE_NAME=tutoraidb
+      - DATABASE_USER=tutoraiuser
+      - DATABASE_PASSWORD=tutoraipassword
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=tutoraidb
+      - POSTGRES_USER=tutoraiuser
+      - POSTGRES_PASSWORD=tutoraipassword
+
+volumes:
+  postgres_data:

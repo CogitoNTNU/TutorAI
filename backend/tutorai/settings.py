@@ -88,9 +88,14 @@ CORS_ALLOW_ALL_ORIGINS = True
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tutoraidb',
+        'USER': 'tutoraiuser',
+        'PASSWORD': 'tutoraipassword',
+        'HOST': 'db',
+        'PORT': '5432',
+        'OPTIONS': {'sslmode': 'prefer'}
     }
 }
 
