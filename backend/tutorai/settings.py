@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,17 +89,16 @@ CORS_ALLOW_ALL_ORIGINS = True
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tutoraidb',
-        'USER': 'tutoraiuser',
-        'PASSWORD': 'tutoraipassword',
-        'HOST': 'db',
-        'PORT': '5432',
-        'OPTIONS': {'sslmode': 'prefer'}
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("DATABASE_NAME", "tutoraidb"),
+        "USER": os.getenv("DATABASE_USER", "tutoraiuser"),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD", "tutoraipassword"),
+        "HOST": os.getenv("DATABASE_HOST", "db"),
+        "PORT": os.getenv("DATABASE_PORT", "5432"),
+        "OPTIONS": {"sslmode": "prefer"},
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
