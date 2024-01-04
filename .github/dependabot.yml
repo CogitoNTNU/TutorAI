@@ -5,11 +5,21 @@
 
 version: 2
 updates:
-  - package-ecosystem: "pip" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  ## Backend
+  - package-ecosystem: "pip"
+    directory: "/backend"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     commit-message:
       prefix: "dependency: "
       include: "scope"
-    open-pull-requests-limit: 15
+    open-pull-requests-limit: 10
+  ## Frontend
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "dependency: "
+      include: "scope"
+    open-pull-requests-limit: 10
