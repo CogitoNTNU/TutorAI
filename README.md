@@ -168,6 +168,12 @@ There are currently no tests for the frontend.
             <sub><b>Sverre Nystad</b></sub>
         </a>
     </td>
+      <td align="center">
+        <a href="https://github.com/sandviklee">
+            <img src="https://github.com/sandviklee.png?size=100" width="100px;"/><br />
+            <sub><b>Sverre Nystad</b></sub>
+        </a>
+    </td>
   </tr>
 </table>
 
