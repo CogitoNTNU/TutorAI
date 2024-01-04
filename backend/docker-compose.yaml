@@ -15,7 +15,7 @@ services:
     environment:
       - DEBUG=True
       - DATABASE_HOST=db
-      - DDATABSE_PORT=5432
+      - DATABASE_PORT=5432
       - DATABASE_NAME=tutoraidb
       - DATABASE_USER=tutoraiuser
       - DATABASE_PASSWORD=tutoraipassword
