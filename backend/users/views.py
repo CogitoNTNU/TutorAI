@@ -19,6 +19,7 @@ from .serializers import LoginSerializer, RegisterSerializer
     method="post",
     request_body=LoginSerializer,
     operation_description="Login to the application",
+    tags=["User Management"],
 )
 @api_view(["POST"])
 def LoginView(request):
@@ -36,7 +37,12 @@ def LoginView(request):
         )
 
 
-@swagger_auto_schema(method="post", request_body=RegisterSerializer)
+@swagger_auto_schema(
+    method="post",
+    request_body=RegisterSerializer,
+    operation_description="Register a new user to the application. This will create a new user in the database.",
+    tags=["User Management"],
+)
 @api_view(["POST"])
 def RegisterUser(request):
     serializer = RegisterSerializer(data=request.data)
