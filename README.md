@@ -42,7 +42,7 @@ To setup the project, one needs to have all the prerequisites installed. Then on
 ### Prerequisites
 - Ensure that git is installed on your machine. [Download Git](https://git-scm.com/downloads)
 - Ensure Python 3.9 or newer is installed on your machine. [Download Python](https://www.python.org/downloads/)
-- Familiarity with basic Python package management and virtual environments is beneficial.
+- Docker is used for the backend and database setup. [Download Docker](https://www.docker.com/products/docker-desktop)
 
 ### Clone the repository
 ```bash
@@ -50,8 +50,19 @@ git clone https://github.com/CogitoNTNU/TutorAI.git
 cd TutorAI
 ```
 ## Setup the backend
+To setup the backend one can either automatically setup the backend using docker or manually setup the backend.
 
-### Virtual Environment (Recommended)
+### Docker
+For ease of use and version management control, we use Docker to keep track of our containers and virtual environments.
+```bash	
+cd backend
+docker-compose build
+docker-compose up
+```
+
+### Manual
+
+#### Virtual Environment (Recommended)
 
 <details> 
 <summary><strong>🚀 A better way to set up repositories </strong></summary>
@@ -83,7 +94,7 @@ A virtual environment in Python is a self-contained directory that contains a Py
         ```
 </details>
 
-### Install dependencies
+#### Install dependencies
 With the virtual environment activated, install the project dependencies:
 ```bash
 pip install -r requirements.txt
