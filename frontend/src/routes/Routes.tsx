@@ -1,8 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import routes from "./routesDefinitions.ts";
 
 // Pages
-// import Dashboard from "../pages/dashboard.tsx";
 import Login from "../pages/Login.tsx";
 import Signup from "../pages/Signup.tsx";
 import Page404 from "../pages/Page404.tsx";
