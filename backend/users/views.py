@@ -12,11 +12,7 @@ from drf_yasg.utils import swagger_auto_schema
 
 # from drf_yasg import openapi
 
-from .serializers import UserSerializer, LoginSerializer
-
-
-class CreateUserView(generics.CreateAPIView):
-    serializer_class = UserSerializer
+from .serializers import LoginSerializer, RegisterSerializer
 
 
 @swagger_auto_schema(
@@ -38,3 +34,15 @@ def LoginView(request):
         return Response(
             {"message": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED
         )
+
+
+@swagger_auto_schema(method="post", request_body=RegisterSerializer)
+@api_view(["POST"])
+def RegisterUser(request):
+    serializer = RegisterSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(
+            {"message": "User registered successfully"}, status=status.HTTP_201_CREATED
+        )
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
