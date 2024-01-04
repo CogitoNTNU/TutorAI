@@ -1,18 +1,18 @@
 from rest_framework import serializers
+from django.contrib.auth.hashers import make_password
 from .models import User
 
 
-class UserSerializer(serializers.ModelSerializer):
+class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            "id",
             "username",
-            "email",
             "password",
-            "created_at",
+            "email",
+            "first_name",
+            "last_name",
             "streak_count",
-            "last_active",
         ]
         extra_kwargs = {"password": {"write_only": True}}
 
@@ -20,9 +20,12 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create(
             username=validated_data["username"],
             email=validated_data["email"],
-            # Handle password hashing
-            password=validated_data["password"],
+            first_name=validated_data.get("first_name", ""),
+            last_name=validated_data.get("last_name", ""),
+            streak_count=validated_data.get("streak_count", 0),
         )
+        user.set_password(validated_data["password"])
+        user.save()
         return user
 
 
