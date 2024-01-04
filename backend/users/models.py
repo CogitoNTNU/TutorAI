@@ -1,16 +1,18 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
 
-# user model
-class User(models.Model):
-    username = models.CharField(max_length=255)
-    email = models.EmailField(max_length=255)
-    password = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    streak_count = models.IntegerField(default=0)
+class User(AbstractUser):
+    """
+    Custom user model.
+    As it is a AbstractUser, it has all the fields of the default User model Like:
+    username, first_name, last_name, email, password, groups, user_permissions, is_staff, is_active, is_superuser, last_login, date_joined
+    """
+
     last_active = models.DateTimeField(auto_now=True)
+    streak_count = models.IntegerField(default=0)
 
     def __str__(self):
         return self.username
