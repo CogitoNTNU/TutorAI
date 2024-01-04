@@ -1,3 +1,8 @@
+## Django ##
+
+# Do not add migrations to git
+**/migrations/*.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
