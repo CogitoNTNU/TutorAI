@@ -2,8 +2,8 @@
 <div align="center">
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/SverreNystad/TutorAI/django.yml)
-![GitHub top language](https://img.shields.io/github/languages/top/CogitoNTNU/TutorAI)
-![GitHub language count](https://img.shields.io/github/languages/count/CogitoNTNU/TutorAI)
+![GitHub top language](https://img.shields.io/github/languages/top/SverreNystad/TutorAI)
+![GitHub language count](https://img.shields.io/github/languages/count/SverreNystad/TutorAI)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Project Version](https://img.shields.io/badge/version-0.0.1-blue)](https://img.shields.io/badge/version-0.0.1-blue)
 
