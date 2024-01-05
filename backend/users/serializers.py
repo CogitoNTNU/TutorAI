@@ -9,15 +9,12 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = [
             "username",
             "password",
-            "email",
-            # "streak_count",
         ]
         extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
         user: User = User.objects.create(
             username=validated_data["username"],
-            email=validated_data["email"],
             streak_count=0,
         )
         user.set_password(validated_data["password"])
