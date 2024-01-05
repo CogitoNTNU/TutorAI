@@ -2,17 +2,37 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 
 # Create your views here.
-
+from django.contrib.auth.models import AnonymousUser
 from rest_framework import generics
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.models import User
 
-# from drf_yasg import openapi
+from users.models import InvalidToken
+from .serializers import (
+    LoginSerializer,
+    LogoutSerializer,
+    RegisterSerializer,
+)
 
-from .serializers import LoginSerializer, RegisterSerializer
+# Login view
+login_success_response = openapi.Response(
+    description="User logged in successfully",
+    examples={
+        "application/json": {"refresh": "<refresh_token>", "access": "<access_token>"}
+    },
+)
+
+login_error_response = openapi.Response(
+    description="Login failed",
+    examples={"application/json": {"message": "Invalid credentials"}},
+)
 
 
 @swagger_auto_schema(
@@ -20,6 +40,8 @@ from .serializers import LoginSerializer, RegisterSerializer
     request_body=LoginSerializer,
     operation_description="Login to the application",
     tags=["User Management"],
+    response_description="Returns a JWT token to be used for authentication.",
+    responses={200: login_success_response, 401: login_error_response},
 )
 @api_view(["POST"])
 def LoginView(request):
@@ -28,8 +50,15 @@ def LoginView(request):
     user = authenticate(username=username, password=password)
 
     if user is not None:
-        # Login successful
-        return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
+        # Login successful create a JWT token
+        refresh = RefreshToken.for_user(user)
+        return Response(
+            {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+            },
+            status=status.HTTP_200_OK,
+        )
     else:
         # Login failed
         return Response(
@@ -37,11 +66,30 @@ def LoginView(request):
         )
 
 
+register_success_response = openapi.Response(
+    description="User registered successfully",
+    examples={"application/json": {"message": "User registered successfully"}},
+)
+
+register_error_response = openapi.Response(
+    description="Invalid data",
+    examples={
+        "application/json": {
+            "username": ["A user with that username already exists."],
+            "email": ["User with this Email already exists."]
+            # Include other field errors as appropriate
+        }
+    },
+)
+
+
 @swagger_auto_schema(
     method="post",
     request_body=RegisterSerializer,
     operation_description="Register a new user to the application. This will create a new user in the database.",
     tags=["User Management"],
+    response_description="Returns a message confirming that the user has been registered.",
+    responses={201: register_success_response, 400: register_error_response},
 )
 @api_view(["POST"])
 def RegisterUser(request):
