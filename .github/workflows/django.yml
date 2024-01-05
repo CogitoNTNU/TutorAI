@@ -21,12 +21,10 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Build docker image
+      - name: Build docker image and run tests
         run: |
           cd backend
           docker compose build
           docker compose up
-      - name: Run Tests
-        run: |
-          cd backend
-          docker-compose run tutorai python manage.py test
+          docker compose run tutorai python manage.py test
+          docker compose down
