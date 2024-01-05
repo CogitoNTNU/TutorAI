@@ -39,7 +39,7 @@ login_error_response = openapi.Response(
     responses={200: login_success_response, 401: login_error_response},
 )
 @api_view(["POST"])
-def LoginView(request):
+def login(request):
     username = request.data.get("username")
     password = request.data.get("password")
     user = authenticate(username=username, password=password)
@@ -87,7 +87,7 @@ register_error_response = openapi.Response(
     responses={201: register_success_response, 400: register_error_response},
 )
 @api_view(["POST"])
-def RegisterUser(request):
+def register_user(request):
     serializer = RegisterSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
