@@ -20,6 +20,7 @@ const UploadComponent: React.FC = () => {
             const file = event.target.files[0];
             setSelectedFile(file);
             setPdfData(file);
+            setPageNumber(1);
 
             // Convert file to a data URL for react-pdf
             const reader = new FileReader();
