@@ -8,4 +8,25 @@ type LoginAttempt = {
   password: string;
 };
 
-export type { User, LoginAttempt };
+type LoginResponse = {
+  user: User;
+  refreshToken: string;
+  accessToken: string;
+};
+
+type SignupAttempt = {
+  username: string;
+  password: string;
+  confirmPassword: string;
+};
+
+type SignupResponse = {
+  user: User;
+};
+export type {
+  User,
+  LoginAttempt,
+  LoginResponse,
+  SignupAttempt,
+  SignupResponse,
+};
