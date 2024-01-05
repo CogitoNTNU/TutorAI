@@ -14,13 +14,20 @@ class DocumentUploadTests(TestCase):
         self.valid_pdf = SimpleUploadedFile(
             "test.pdf", b"file_content", content_type="application/pdf"
         )
+        self.non_valid_file = SimpleUploadedFile(
+            "test.txt", b"file_content", content_type="text/plain"
+        )
 
     def tearDown(self):
         # Clean up any created files if necessary
         pass
 
-    def test_no_pdf(self):
+    def test_no_file(self):
         response = self.client.post(self.upload_end_point, {"pdf": ""})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_wrong_file_format(self):
+        response = self.client.post(self.upload_end_point, {"pdf": self.non_valid_file})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_valid_pdf(self):
