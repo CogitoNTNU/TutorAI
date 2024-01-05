@@ -17,7 +17,8 @@ jobs:
         run: |
           cd backend
           docker compose build
-          docker compose up -d
+          docker compose run tutorai python manage.py makemigrations
           docker compose run tutorai python manage.py migrate
+          docker compose up -d
           docker compose run tutorai python manage.py test
           docker compose down
