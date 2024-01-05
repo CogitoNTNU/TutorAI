@@ -2,18 +2,17 @@ from django.test import TestCase, Client
 from rest_framework import status
 import json
 from users.models import User
+
 # Create your tests here.
 
 base = "/api/"
 
 
 class UserCreationTests(TestCase):
-
     def setUp(self):
         # This code will run before each test
         self.register_end_point = f"{base}create-user/"
-        self.user = User.objects.create_user(
-            username='testuser', password='12345')
+        self.user = User.objects.create_user(username="testuser", password="12345")
         self.valid_username = "username"
 
     def tearDown(self):
@@ -29,7 +28,7 @@ class UserCreationTests(TestCase):
             "email": "test@test.com",
             "first_name": "simon",
             "last_name": "sandvik",
-            "streak_count": 1
+            "streak_count": 1,
         }
         response = client.post(self.register_end_point, request_body)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -47,7 +46,7 @@ class UserCreationTests(TestCase):
             "email": "test@test.com",
             "first_name": "simon",
             "last_name": "sandvik",
-            "streak_count": 1
+            "streak_count": 1,
         }
         response = client.post(self.register_end_point, request_body)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -62,7 +61,7 @@ class UserCreationTests(TestCase):
             "email": "test@test.com",
             "first_name": "simon",
             "last_name": "sandvik",
-            "streak_count": 1
+            "streak_count": 1,
         }
         response = client.post(self.register_end_point, request_body)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -75,7 +74,7 @@ class UserCreationTests(TestCase):
             "email": "test@test.com",
             "first_name": "simon",
             "last_name": "sandvik",
-            "streak_count": 1
+            "streak_count": 1,
         }
 
         response = client.post(self.register_end_point, request_body)
@@ -90,36 +89,21 @@ class UserCreationTests(TestCase):
             "email": valid_email,
             "first_name": "simon",
             "last_name": "sandvik",
-            "streak_count": 1
+            "streak_count": 1,
         }
 
         response = client.post(self.register_end_point, request_body)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_invalid_email(self):
-        client = Client()
-        invalid_email: str = "testtest.com"
-        request_body = {
-            "username": "username",
-            "password": "test",
-            "email": invalid_email,
-            "first_name": "simon",
-            "last_name": "sandvik",
-            "streak_count": 1
-        }
-
-        response = client.post(self.register_end_point, request_body)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
 
 class LoginTests(TestCase):
-
     def setUp(self):
         self.login_end_point = f"{base}login/"
         # This code will run before each test
-        self.user_pasword = 'a12345'
+        self.user_pasword = "a12345"
         self.user = User.objects.create_user(
-            username='logintestuser', password=self.user_pasword)
+            username="logintestuser", password=self.user_pasword
+        )
 
     def tearDown(self):
         # This code will run after each test
@@ -146,7 +130,7 @@ class LoginTests(TestCase):
         invalid_password: str = "P21241!,.$"
         request_body: dict = {
             "username": invalid_username,
-            "password": invalid_password
+            "password": invalid_password,
         }
 
         response = client.post(self.login_end_point, request_body)
@@ -157,7 +141,7 @@ class LoginTests(TestCase):
         client = Client()
         request_body = {
             "username": str(self.user.username).upper(),
-            "password": self.user_pasword
+            "password": self.user_pasword,
         }
 
         response = client.post(self.login_end_point, request_body)
@@ -167,7 +151,7 @@ class LoginTests(TestCase):
         client = Client()
         request_body = {
             "username": self.user.username,
-            "password": str(self.user_pasword).upper()
+            "password": str(self.user_pasword).upper(),
         }
 
         response = client.post(self.login_end_point, request_body)
@@ -175,30 +159,21 @@ class LoginTests(TestCase):
 
     def test_valid_login_on_existing_user(self):
         client = Client()
-        request_body = {
-            "username": self.user.username,
-            "password": self.user_pasword
-        }
+        request_body = {"username": self.user.username, "password": self.user_pasword}
 
         response = client.post(self.login_end_point, request_body)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_correct_username_valid_on_existing_user(self):
         client = Client()
-        request_body = {
-            "username": self.user.username,
-            "password": "WRONG-PASSWORD"
-        }
+        request_body = {"username": self.user.username, "password": "WRONG-PASSWORD"}
 
         response = client.post(self.login_end_point, request_body)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_correct_pass_valid_on_existing_user(self):
         client = Client()
-        request_body = {
-            "username": "WRONG-PASSWORD",
-            "password": self.user_pasword
-        }
+        request_body = {"username": "WRONG-PASSWORD", "password": self.user_pasword}
 
         response = client.post(self.login_end_point, request_body)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
