@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import postSignupAttempt from "../services/SignupService";
 import { useNavigate } from "react-router-dom";
 import postLoginAttempt from "../services/LoginService";
@@ -11,6 +11,13 @@ const Signup = () => {
     const [signupMessage, setSignupMessage] = useState("");
     const [loginCredentials, setLoginCredentials] = useState({} as LoginResponse);
 
+    useEffect(() => {
+        if (loginCredentials.accessToken) {
+            // TODO - set login credentials in context both accessToken and accessToken
+            console.log("Login successful. Welcome " + loginCredentials.user.username);
+        }
+    }, [loginCredentials]);
+    
     const handleSignup = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (password !== confirmPassword) {
