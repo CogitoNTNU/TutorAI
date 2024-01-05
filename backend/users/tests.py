@@ -1,6 +1,5 @@
 from django.test import TestCase, Client
 from rest_framework import status
-import json
 from users.models import User
 
 # Create your tests here.
