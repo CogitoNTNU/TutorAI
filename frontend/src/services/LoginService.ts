@@ -1,30 +1,39 @@
 import axios from "axios";
 import apiRoutes from "../routes/routesDefinitions";
-import { LoginAttempt, User } from "../types/User";
+import { LoginAttempt, LoginResponse, User } from "../types/User";
 
 export default async function postLoginAttempt(
   username: string,
   password: string
-): Promise<User | null> {
-  // Create login attempt
+): Promise<LoginResponse | null> {
   const loginAttempt: LoginAttempt = {
     username: username,
     password: password,
   };
 
-  return await axios
-    .post(apiRoutes.login, loginAttempt)
-    .then((res) => {
-      if (res.status === 200 && res.data.username && res.data.password) {
-        const user: User = {
-          username: res.data.username,
-          password: res.data.password,
-        };
-        return user;
-      }
-    })
-    .catch((e) => {
-      console.log(e);
-      return e.response;
-    });
+  try {
+    const res = await axios.post(apiRoutes.login, loginAttempt);
+    if (res.status === 200 && res.data) {
+      // Assuming res.data.user contains user info and res.data.token contains the authentication token
+      const user: User = {
+        username: username,
+        password: password,
+      };
+      const loginResponse: LoginResponse = {
+        user: user,
+        refreshToken: res.data.refresh,
+        accessToken: res.data.access,
+      };
+      console.log(loginResponse);
+
+      return loginResponse;
+    } else {
+      // Handle unsuccessful login attempts
+      return null;
+    }
+  } catch (e) {
+    console.error(e);
+    // You can return a more specific error message or object here
+    return null;
+  }
 }
