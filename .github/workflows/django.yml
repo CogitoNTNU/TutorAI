@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
+      fail-fast: true
       max-parallel: 4
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
@@ -26,5 +26,6 @@ jobs:
           cd backend
           docker compose build
           docker compose up
+          docker compose run tutorai python manage.py migrate
           docker compose run tutorai python manage.py test
           docker compose down
