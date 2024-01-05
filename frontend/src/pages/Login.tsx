@@ -11,7 +11,6 @@ const Login = () => {
         event.preventDefault();
         const user = await postLoginAttempt(username, password)
         .then((response) => {
-            console.log(response);
             
             return response;
         }
@@ -21,7 +20,10 @@ const Login = () => {
             return error;
         });
         if (!!user) {
-            setLoginMessage("Login successful." + user.username);
+            setUsername(user.username);
+            setPassword(user.password);
+            // TODO - set login credentials in context both accessToken and accessToken
+            setLoginMessage("Login successful. Welcome " + username);
         } else {
             setLoginMessage("Incorrect username or password.");
         }
