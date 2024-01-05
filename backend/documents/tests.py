@@ -12,7 +12,7 @@ class DocumentUploadTests(TestCase):
         self.upload_end_point = f"{base}upload/"
         # Use an existing test PDF file or create a dummy file
         self.valid_pdf = SimpleUploadedFile(
-            "test.pdf", b"file_content", content_type="application/pdf"
+            "test.pdf", b"file_content", content_type="multipart/form-data"
         )
         self.non_valid_file = SimpleUploadedFile(
             "test.txt", b"file_content", content_type="text/plain"
