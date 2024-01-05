@@ -104,10 +104,15 @@ class LoginTests(TestCase):
         self.user = User.objects.create_user(
             username="logintestuser", password=self.user_pasword
         )
+        self.different_user_password = "differentuserpassword"
+        self.different_user = User.objects.create_user(
+            username="differentuser", password=self.different_user_password
+        )
 
     def tearDown(self):
         # This code will run after each test
         self.user.delete()
+        self.different_user.delete()
 
     def test_invalid_login_attempt_with_empty_fields(self):
         client = Client()
@@ -177,3 +182,33 @@ class LoginTests(TestCase):
 
         response = client.post(self.login_end_point, request_body)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_valid_login_gets_jwt_tokens(self):
+        client = Client()
+        request_body = {"username": self.user.username, "password": self.user_pasword}
+
+        response = client.post(self.login_end_point, request_body)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue("refresh" in response.data)
+        self.assertTrue("access" in response.data)
+        access = response.data.get("access")
+        refresh = response.data.get("refresh")
+        self.assertNotEqual(access, refresh)
+
+    def test_valid_logins_gets_different_jwt_tokens(self):
+        client = Client()
+        request_body1 = {"username": self.user.username, "password": self.user_pasword}
+        request_body2 = {
+            "username": self.different_user.username,
+            "password": self.different_user_password,
+        }
+        response1 = client.post(self.login_end_point, request_body1)
+        response2 = client.post(self.login_end_point, request_body2)
+        self.assertEqual(response1.status_code, status.HTTP_200_OK)
+
+        access1 = response1.data.get("access")
+        refresh1 = response1.data.get("refresh")
+        access2 = response2.data.get("access")
+        refresh2 = response2.data.get("refresh")
+        self.assertNotEqual(access1, access2)
+        self.assertNotEqual(refresh1, refresh2)
