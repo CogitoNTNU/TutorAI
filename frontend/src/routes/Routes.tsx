@@ -4,12 +4,13 @@ import { Route, Routes } from "react-router-dom";
 import Login from "../pages/Login.tsx";
 import Signup from "../pages/Signup.tsx";
 import Page404 from "../pages/Page404.tsx";
-
+import Upload from "../pages/Upload.tsx";
 
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<h1>Home</h1>} />
+      <Route path="/" element={<Login/>} />
+      <Route path="/upload" element={<Upload/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/signup" element={<Signup/>} />
       <Route path="*" element={<Page404 />} />
