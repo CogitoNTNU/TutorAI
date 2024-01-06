@@ -49,7 +49,7 @@ def create_flashcards(request):
     print(request.data, flush=True)
 
     # Check if the uploaded file is a PDF
-    if pdf_file.content_type != "application/pdf":
+    if request.content_type != "application/pdf":
         return Response(
             {"message": "The uploaded file is not a PDF"},
             status=status.HTTP_400_BAD_REQUEST,
