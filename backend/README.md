@@ -74,6 +74,23 @@ docker-compose run tutorai python manage.py makemigrations
 docker-compose run tutorai python manage.py migrate
 ```
 
+## If the migrations are not working
+
+One need to delete migrations files in migrations folders. Shut down the docker-compose and remove the database volume. Then run the following commands:
+
+```bash
+docker-compose down
+docker volume rm backend_postgres_data
+```
+Then you can apply the migrations again.
+```bash
+docker-compose run tutorai python manage.py makemigrations
+docker-compose run tutorai python manage.py migrate
+```
+and then run the docker-compose again.
+```bash
+docker-compose up
+```
 
 ## How to create a new application in the backend
 
