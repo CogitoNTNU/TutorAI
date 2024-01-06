@@ -19,6 +19,7 @@ services:
       - DATABASE_NAME=tutoraidb
       - DATABASE_USER=tutoraiuser
       - DATABASE_PASSWORD=tutoraipassword
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
 
   db:
     image: postgres:13
