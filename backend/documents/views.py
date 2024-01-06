@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 
 
 @api_view(["POST"])
-def upload_pdf(request):
+def create_flashcards(request):
     print(request.data, flush=True)
 
     if "pdf" in request.FILES:
@@ -13,7 +13,7 @@ def upload_pdf(request):
         print(request.FILES.get("pdf"), flush=True)
         print(pdf_file.content_type, flush=True)
         # Check if the uploaded file is a PDF
-        if pdf_file.content_type != "multipart/form-data":
+        if pdf_file.content_type != "application/pdf":
             return Response(
                 {"message": "The uploaded file is not a PDF"},
                 status=status.HTTP_400_BAD_REQUEST,
