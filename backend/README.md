@@ -65,6 +65,16 @@ http://127.0.0.1:8000/admin/
 
 Enjoy!
 
+## When making changes to the models
+
+When making changes to the models, you need to create a migration file and migrate the database.
+
+```bash
+docker-compose run tutorai python manage.py makemigrations
+docker-compose run tutorai python manage.py migrate
+```
+
+
 ## How to create a new application in the backend
 
 To create a new application This command creates a new directory named "api" within your "backend" directory, along with the basic files needed for a Django app.
