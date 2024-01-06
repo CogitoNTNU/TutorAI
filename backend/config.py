@@ -14,4 +14,5 @@ class Config():
         self.GPT_MODEL = gpt_model
         load_dotenv(dotenv_path=path)
         self.API_KEY = os.getenv('OPEN_AI_API_KEY')
+    
         
