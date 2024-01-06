@@ -1,7 +1,7 @@
 const baseAPIUrl: string = "http://localhost:8000/api";
 
 const apiRoutes = {
-  upload: `${baseAPIUrl}/upload/`,
+  createFlashcards: `${baseAPIUrl}/create-flashcards/`,
   login: `${baseAPIUrl}/login/`,
   signup: `${baseAPIUrl}/create-user/`,
 };
