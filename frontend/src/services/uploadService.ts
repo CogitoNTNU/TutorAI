@@ -11,7 +11,7 @@ const uploadPDF = async (file: File): Promise<Response> => {
   }
 
   const response = await axios
-    .post(apiRoutes.upload, {
+    .post(apiRoutes.createFlashcards, {
       method: "POST",
       body: formData,
       // Add headers if necessary (e.g., for authentication)

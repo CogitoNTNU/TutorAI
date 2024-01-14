@@ -115,8 +115,16 @@ For secure and efficient management of environment-specific variables, TutorAI u
     ```
 
 2. **Add Environment Variables:**
+   You will need to add the following environment variables to the `.env` file:
+    - OPENAI_API_KEY: Your OpenAI API key
+    - POSTGRES_DB: The name of the database
+    - POSTGRES_USER: The username of the database
+    - POSTGRES_PASSWORD: The password of the database
+    - POSTGRES_HOST: The host of the database
+    - POSTGRES_PORT: The port of the database
+
     ```bash
-    echo "API_KEY=YOUR_API_KEY" > .env # Remember to change YOUR_API_KEY to your actual API key
+    echo "OPENAI_API_KEY=YOUR_API_KEY" > .env # Remember to change YOUR_API_KEY to your actual API key
     ```
 
 3. **Obtaining an API Key:**
