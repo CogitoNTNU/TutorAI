@@ -38,7 +38,7 @@ class testPersistantFlashcard(TestCase):
         # This code will run after each test
         self.user.delete()
 
-    def test_persitant_cardset(self):
+    def test_persistant_cardset(self):
         self.assertTrue(Cardset.objects.count() == 0)
         
         self.cardset = Cardset.objects.create(name="testcardset", description="testcardset", user=self.user)
@@ -46,7 +46,7 @@ class testPersistantFlashcard(TestCase):
         
         self.cardset.delete()
     
-    def test_persitant_flashcard(self):
+    def test_persistant_flashcard(self):
         self.assertTrue(Flashcard.objects.count() == 0)
         
         self.cardset = Cardset.objects.create(name="testcardset", description="testcardset", user=self.user)
