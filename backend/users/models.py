@@ -15,6 +15,6 @@ class User(AbstractUser):
         auto_now=True, help_text="Last time the user fulfilled the daily task"
     )
     streak_count = models.IntegerField(default=0, help_text="Current streak count")
-
+    
     def __str__(self):
         return self.username
