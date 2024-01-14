@@ -1,5 +1,5 @@
 import os
-from pdfminer.high_level import extract_text
+import chardet
 
 def convert_pdf_to_txt(pdf_file):
     """Convert a PDF file to text and return the path to the text file.
@@ -10,6 +10,11 @@ def convert_pdf_to_txt(pdf_file):
     Returns:
         str: Text content of PDF file.
     """
-    # Extract text from the PDF file
-    text = extract_text(pdf_file, codec='utf-8')
+    # The pdf_file from the input is a django.core.files.uploadedfile.InMemoryUploadedFile.
+    # Extract the text content of the file.
+
+    file_content_bytes = pdf_file.read()
+    encoding = chardet.detect(file_content_bytes)["encoding"]
+    text = file_content_bytes.decode(encoding)
+
     return text
