@@ -1,4 +1,9 @@
 from django.test import TestCase, Client
+from django.core.files.uploadedfile import SimpleUploadedFile
+
+from flashcards.convert_pdf_to_txt import convert_pdf_to_txt
+
+import os
 from flashcards.models import Cardset, Flashcard
 from users.models import User
 
@@ -6,6 +11,17 @@ from users.models import User
 
 
 base = "/api/"
+
+class ConvertPdfTest(TestCase):
+
+    def setUp(self) -> None:
+        self.pdf_file_path = os.path.join(os.path.dirname(__file__), 'test.pdf')
+
+    def test_convert_pdf(self):
+        # Convert the PDF file to text
+        text = convert_pdf_to_txt(self.pdf_file_path)
+        # Assert that the returned value is a string
+        self.assertIsInstance(text, str)
 
 class GetFlashcardTest(TestCase):
 
