@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "api",
     "users",
     "documents",
+    "flashcards",
 ]
 
 MIDDLEWARE = [
