@@ -27,7 +27,7 @@ get_flashcard_success_response = openapi.Response(
     method="post",
     operation_description="Generate flashcards from a given text",
     tags=["Flashcards"],
-    responses={200: get_flashcard_error_response, 400: get_flashcard_error_response},
+    responses={200: get_flashcard_success_response, 400: get_flashcard_error_response},
 )    
 
 @api_view(["POST"])
@@ -64,4 +64,19 @@ def create_flashcards(request):
         return Response(
             {"message": "Error generating flashcards"}, status=status.HTTP_400_BAD_REQUEST
         )
+    return Response(flashcards, status=status.HTTP_200_OK)
+
+
+@swagger_auto_schema(
+    method="get",
+    operation_description="Generate flashcards from a predefined text",
+    tags=["Flashcards"],
+    responses={200: get_flashcard_success_response, 400: get_flashcard_error_response},
+) 
+
+@api_view(["GET"])
+def generate_mock_flashcard(request):
+    flashcards = generate_flashcards()
+    # flashcards = parse_flashcard(flashcards)
+    
     return Response(flashcards, status=status.HTTP_200_OK)
