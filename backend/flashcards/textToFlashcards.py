@@ -24,12 +24,15 @@ def request_chat_completion(previous_message: dict, role: str = "system", messag
     # TODO: Create this function
     return ""
     
-def generate_template(sample_info: str) -> str:
+def generate_template(sample_info: str = sample_info) -> str:
     """
     Returns a template with the correct flashcard and prompt format which can be used to generate flashcards using the sample text
     """
     # TODO: Create this function
-    return ""
+
+    template = f"Create a set of flashcards from the following text: {sample_info}"
+
+    return template
 
 def generate_flashcards(sample_info: str = sample_info) -> str:
     """
@@ -42,7 +45,9 @@ def generate_flashcards(sample_info: str = sample_info) -> str:
         str: The flashcard generated from the sample text
     """
     # TODO: Create this function
-    return ""
+    template = generate_template(sample_info)
+    response = request_chat_completion({}, "system", template, [])
+    return response
     
 def parse_flashcard(flashcards_data: list[str]) -> list[dict[str, str]]:
     """
