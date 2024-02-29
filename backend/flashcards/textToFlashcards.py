@@ -21,42 +21,15 @@ def request_chat_completion(previous_message: dict, role: str = "system", messag
         response list[str]: The response from the OpenAI API
         if empty string, an error has occured
     """
-    try:
-        if(not (role == "system" or "user" or "assistant")):
-            print("Invalid role")
-            return ""
-        
-        if(previous_message):
-            response = openai.chat.completions.create(
-                model = "gpt-4",
-                messages = [
-                    previous_message,
-                    {"role": role, "content": message}
-                ], 
-                functions = functions
-            )
-        else: 
-            response = openai.chat.completions.create(
-                model = "gpt-4",
-                messages=[
-                    {"role": role, "content": message}, 
-                ]
-            )
-        return response.choices[0].message.content
-    
-    except Exception as error: 
-        print(f"An error has occured while requesting chat completion.")
-        print(f"The error: {str(error)}")
-        return ""
+    # TODO: Create this function
+    return ""
     
 def generate_template(sample_info: str) -> str:
     """
     Returns a template with the correct flashcard and prompt format which can be used to generate flashcards using the sample text
     """
-    example_flashcard = "What is the capital of France? - Paris | Why is is coffe good? - Because it is tasty. | Who was the first man on the moon - Lance Armstrong"
-    template = f"Generate a set flashcard with this format {example_flashcard} about the most important part of this sample text: {sample_info}. Use only information from the sample text. Use only the format given.  "
-
-    return template
+    # TODO: Create this function
+    return ""
 
 def generate_flashcards(sample_info: str = sample_info) -> str:
     """
@@ -68,12 +41,9 @@ def generate_flashcards(sample_info: str = sample_info) -> str:
     Returns:
         str: The flashcard generated from the sample text
     """
-    template = generate_template(sample_info)
-
-    result = request_chat_completion(None, 'system', template)
-    result = result.split('|')
-
-    return result
+    # TODO: Create this function
+    return ""
+    
 def parse_flashcard(flashcards_data: list[str]) -> list[dict[str, str]]:
     """
     Returns a list of dictionaries with the front and back of the flashcard
@@ -88,14 +58,5 @@ def parse_flashcard(flashcards_data: list[str]) -> list[dict[str, str]]:
         [{"front": "What is the capital of the USA?", "back": "Washington DC"}, {"front": "What is the capital of France?", "back": "Paris"}]
 
     """
-    parse_flashcard = []
-    separator = '-'
+    # TODO: Create this function
     
-    for card in flashcards_data:
-        card = {
-            "front": card.split(separator)[0].strip(),
-            "back": card.split(separator)[1].strip()
-        }
-        parse_flashcard.append(card)
-
-    return parse_flashcard
