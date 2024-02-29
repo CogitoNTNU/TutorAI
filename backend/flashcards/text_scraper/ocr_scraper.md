@@ -4,6 +4,8 @@ Workflow
 
 PIL (Pillow) => open an image
 
-OpenCV => Change an image
+OpenCV => Change an image / preprossess
 
 Tesseract (PyTesseract) => OCR an image
+
+Convert pdf to images, pipeline to remove noice and water marks and stuff, and then pass to pytesseract
