@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     # Own applications
     "api",
     "users",
-    "documents",
     "flashcards",
 ]
 

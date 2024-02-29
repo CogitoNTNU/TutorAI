@@ -3,6 +3,7 @@ anyio==4.2.0
 asgiref==3.7.2
 certifi==2023.11.17
 cffi==1.16.0
+chardet==5.2.0
 charset-normalizer==3.3.2
 colorama==0.4.6
 cryptography==41.0.7
@@ -13,6 +14,7 @@ django-rest-framework==0.1.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
 drf-yasg==1.21.7
+exceptiongroup==1.2.0
 h11==0.14.0
 httpcore==1.0.2
 httpx==0.26.0

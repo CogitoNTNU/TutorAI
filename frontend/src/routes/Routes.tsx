@@ -10,7 +10,7 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Login/>} />
-      <Route path="/upload" element={<Upload/>} />
+      <Route path="/create-flashcards" element={<Upload/>} />
       <Route path="/login" element={<Login/>} />
       <Route path="/signup" element={<Signup/>} />
       <Route path="*" element={<Page404 />} />
