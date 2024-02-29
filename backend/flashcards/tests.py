@@ -5,7 +5,6 @@ from flashcards.convert_pdf_to_txt import convert_pdf_to_txt
 
 import os
 from flashcards.models import Cardset, Flashcard
-from users.models import User
 
 # Create your tests here.
 
@@ -43,29 +42,12 @@ class GetFlashcardTest(TestCase):
         self.assertIn("back", response.json()[0])
         
 class testPersistantFlashcard(TestCase):
-    
-    def setUp(self):
-        # This code will run before each test
-        self.user = User.objects.create_user(username="testuser", password="12345")
-        self.valid_username = "username"
 
-        
-    def tearDown(self):
-        # This code will run after each test
-        self.user.delete()
 
-    def test_persistant_cardset(self):
-        self.assertTrue(Cardset.objects.count() == 0)
-        
-        self.cardset = Cardset.objects.create(name="testcardset", description="testcardset", user=self.user)
-        self.assertTrue(Cardset.objects.count() == 1)
-        
-        self.cardset.delete()
-    
     def test_persistant_flashcard(self):
         self.assertTrue(Flashcard.objects.count() == 0)
         
-        self.cardset = Cardset.objects.create(name="testcardset", description="testcardset", user=self.user)
+        self.cardset = Cardset.objects.create(name="testcardset", description="testcardset")
         self.card1 = Flashcard.objects.create(front="testfront", back="testback", cardset=self.cardset)
         self.card2 = Flashcard.objects.create(front="testfront2", back="testback2", cardset=self.cardset)
         self.assertTrue(Flashcard.objects.count() == 2)
@@ -75,7 +57,7 @@ class testPersistantFlashcard(TestCase):
         self.card2.delete()
 
     def test_get_flashcards_from_cardset(self):
-        self.cardset = Cardset.objects.create(name="testcardset", description="testcardset", user=self.user)
+        self.cardset = Cardset.objects.create(name="testcardset", description="testcardset")
         self.assertTrue(self.cardset.flashcard_set.all().count() == 0)
 
         self.card1 = Flashcard.objects.create(front="testfront", back="testback", cardset=self.cardset)
