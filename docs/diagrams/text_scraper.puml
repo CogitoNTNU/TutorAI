@@ -1,0 +1,24 @@
+@startuml
+
+package text_scraper {
+
+    class TextExtractor {
+        + extractText(file: File): String
+    }
+
+    package image_preprocessing {
+        class Pipeline {
+            + apply(image: Image): Image
+            + add_filter(self, image_filter: Callable):
+        }
+
+        class PipelineFactory {
+            + createPipeline(info): Pipeline
+        }
+    }
+    
+    TextExtractor --> PipelineFactory
+    PipelineFactory --> Pipeline
+}
+
+@enduml
