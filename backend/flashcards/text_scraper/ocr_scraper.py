@@ -8,7 +8,7 @@ from textblob import TextBlob
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
-image_file = "TutorAI/backend/flashcards/text_scraper/assets/page_01.jpg"
+image_file = "TutorAI/backend/flashcards/text_scraper/assets/handwritten.jpg"
 
 
 #im: Image.Image = Image.open(image_file)
@@ -101,17 +101,47 @@ def thick_font(image):
     image = cv2.bitwise_not(image)
     return image
 
+# Remove boarders
+
+def remove_borders(image):
+    contours, hierarchy = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours_sorted = sorted(contours, key=lambda x:cv2.contourArea(x))
+    largest_bounding_box = contours_sorted[-1]
+    x,y,w,h = cv2.boundingRect(largest_bounding_box)
+    crop = image[y:y+h, x:x+w]
+    return crop
+
+crop = remove_borders(no_noise)
+cv2.imwrite("TutorAI/backend/flashcards/text_scraper/assets/no_noise_romeve_border.jpg", crop)
+
+
+
+# Missing borders
+def add_borders(image):
+    color = [255, 255, 255]
+    top, bottom, left, right = [150]*4
+    image_with_border = cv2.copyMakeBorder(crop, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
+    return image_with_border
+
+image_with_border = add_borders(crop)
+cv2.imwrite("TutorAI/backend/flashcards/text_scraper/assets/no_noise_romeve_border_with_border.jpg", image_with_border)
+
+
+
+
 
 
 # Rotation and deskewing
 # remove border before using this
 #https://becominghuman.ai/how-to-automatically-deskew-straighten-a-text-image-using-opencv-a0c30aed83df
-import numpy as np
 
 def getSkewAngle(cvImage) -> float:
     # Prep image, copy, convert to gray scale, blur, and threshold
     newImage = cvImage.copy()
-    gray = cv2.cvtColor(newImage, cv2.COLOR_BGR2GRAY)
+    if len(newImage.shape) == 3 and newImage.shape[2] == 3: # Check if image is color, i might remove this later
+        gray = cv2.cvtColor(newImage, cv2.COLOR_BGR2GRAY)
+    else:
+        gray = newImage.copy()
     blur = cv2.GaussianBlur(gray, (9, 9), 0)
     thresh = cv2.threshold(blur, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
 
@@ -154,46 +184,20 @@ def deskew(cvImage):
     return rotateImage(cvImage, -1.0 * angle)
 
 
-new = cv2.imread("TutorAI/backend/flashcards/text_scraper/assets/page_01_rotated.jpg")
+#new = cv2.imread("TutorAI/backend/flashcards/text_scraper/assets/page_01_rotated.jpg")
 
-fixed = deskew(new)
+fixed = deskew(image_with_border)
 cv2.imwrite("TutorAI/backend/flashcards/text_scraper/assets/page_01_rotated_fixed.jpg", fixed)
 
 
-# Remove boarders
-
-def remove_borders(image):
-    contours, hierarchy = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    contours_sorted = sorted(contours, key=lambda x:cv2.contourArea(x))
-    largest_bounding_box = contours_sorted[-1]
-    x,y,w,h = cv2.boundingRect(largest_bounding_box)
-    crop = image[y:y+h, x:x+w]
-    return crop
-
-crop = remove_borders(no_noise)
-cv2.imwrite("TutorAI/backend/flashcards/text_scraper/assets/no_noise_romeve_border.jpg", crop)
-
-
-
-# Missing borders
-def add_borders(image):
-    color = [255, 255, 255]
-    top, bottom, left, right = [150]*4
-    image_with_border = cv2.copyMakeBorder(crop, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
-    return image_with_border
-
-image_with_border = add_borders(crop)
-cv2.imwrite("TutorAI/backend/flashcards/text_scraper/assets/no_noise_romeve_border_with_border.jpg", image_with_border)
 
 
 
 
 
+text = pytesseract.image_to_string(fixed)
 
-
-text = pytesseract.image_to_string(crop)
-
-
+""" må finne en bedre spell checker algoritme
 # Post processing
 tb = TextBlob(text)
 corrected = tb.correct()
@@ -203,7 +207,7 @@ print("================")
 print(corrected)
 
 
-
+"""
 
 
 
