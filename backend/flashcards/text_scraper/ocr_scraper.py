@@ -8,7 +8,7 @@ from textblob import TextBlob
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
-image_file = "TutorAI/backend/flashcards/text_scraper/assets/handwritten.jpg"
+image_file = "TutorAI/backend/flashcards/text_scraper/assets/page_01_rotated.jpg"
 
 
 #im: Image.Image = Image.open(image_file)
@@ -21,8 +21,7 @@ image = cv2.imread(image_file)
 #cv2.imshow("Image", img)
 cv2.waitKey(0)
 
-text = pytesseract.image_to_string(image)
-print(text)
+
 
 
 #https://stackoverflow.com/questions/28816046/
@@ -120,7 +119,7 @@ cv2.imwrite("TutorAI/backend/flashcards/text_scraper/assets/no_noise_romeve_bord
 def add_borders(image):
     color = [255, 255, 255]
     top, bottom, left, right = [150]*4
-    image_with_border = cv2.copyMakeBorder(crop, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
+    image_with_border = cv2.copyMakeBorder(image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
     return image_with_border
 
 image_with_border = add_borders(crop)
@@ -166,6 +165,7 @@ def getSkewAngle(cvImage) -> float:
     cv2.imwrite("temp/boxes.jpg", newImage)
     # Determine the angle. Convert it to the value that was originally used to obtain skewed image
     angle = minAreaRect[-1]
+    print(angle)
     if angle < -45:
         angle = 90 + angle
     return -1.0 * angle
@@ -181,6 +181,8 @@ def rotateImage(cvImage, angle: float):
 
 def deskew(cvImage):
     angle = getSkewAngle(cvImage)
+    if abs(angle) == 90:
+        return cvImage
     return rotateImage(cvImage, -1.0 * angle)
 
 
@@ -196,6 +198,7 @@ cv2.imwrite("TutorAI/backend/flashcards/text_scraper/assets/page_01_rotated_fixe
 
 
 text = pytesseract.image_to_string(fixed)
+print(text)
 
 """ må finne en bedre spell checker algoritme
 # Post processing
