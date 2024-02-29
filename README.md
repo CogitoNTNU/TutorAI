@@ -193,6 +193,13 @@ There are currently no tests for the frontend.
             <sub><b>Simon Sandvik Lee</b></sub>
         </a>
     </td>
+    </td>
+      <td align="center">
+        <a href="https://github.com/kaamyashinde">
+            <img src="https://github.com/kaamyashinde.png?size=100" width="100px;"/><br />
+            <sub><b>Simon Sandvik Lee</b></sub>
+        </a>
+    </td>
   </tr>
 </table>
 
