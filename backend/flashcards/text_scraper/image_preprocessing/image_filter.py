@@ -7,16 +7,13 @@ from textblob import TextBlob
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
-class ImageProcessor:
+class Filter:
     
     def __init__(self, image):
         self.image = image
 
     def get_image(self):
         return self.image
-    
-    def set_image(self, image):
-        self.image = image
 
     def invert_image(self):
         self.image = cv2.bitwise_not(self.image)
@@ -25,11 +22,11 @@ class ImageProcessor:
         self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
 
     def binarize(self):
-        gray_image = self.grayscale(self.image)
-        thresh, im_bw = cv2.threshold(gray_image, 200, 230, cv2.THRESH_BINARY) # must calibrate these values
+        self.grayscale(self.image)
+        thresh, im_bw = cv2.threshold(self.image, 200, 230, cv2.THRESH_BINARY) # must calibrate these values
         self.image =  im_bw
     
-    def noise_removal(self):
+    def remove_noise(self):
         kernel = np.ones((1,1), np.uint8)
         image = cv2.dilate(self.image, kernel, iterations=1)
         kernel = np.ones((1,1), np.uint8) # must calibrate these values
