@@ -25,12 +25,14 @@ openai==1.6.1
 opencv-python==4.9.0.80
 packaging==23.2
 pdfminer.six==20231228
+pillow==10.2.0
 psycopg2==2.9.9
 pycparser==2.21
 pydantic==2.5.3
 pydantic_core==2.14.6
 PyJWT==2.8.0
 PyPDF2==1.26.0
+pytesseract==0.3.10
 python-dotenv==1.0.0
 pytz==2023.3.post1
 PyYAML==6.0.1
