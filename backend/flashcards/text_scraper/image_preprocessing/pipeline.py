@@ -1,13 +1,12 @@
 
 import image_filter as imF
+import cv2
 
 
 
 class PipelineFactory:
     def __init__(self, image):
         self.image = image
-        self.filter = imF.Filter(self.image)
-        
     
     def create_pipeline(self, pipeline_type):
         match pipeline_type:
@@ -42,10 +41,14 @@ class Pipe1(Pipeline):
     
     def __init__(self, image):
         self.image = image
+        self.filter = imF.Filter(image)
+
     
     def pipe(self):
         print("Pipe1")
-        filter.remove_noise()
+        self.filter.invert_image()
+        
+        
         
     
 class Pipe2(Pipeline):
@@ -55,6 +58,7 @@ class Pipe2(Pipeline):
     
     def pipe(self):
         print("Pipe2")
+        filter.remove_noise()
         
 class Pipe3(Pipeline):
     
@@ -64,6 +68,25 @@ class Pipe3(Pipeline):
     def pipe(self):
         print("Pipe3")
 
-        
+import PIL.Image as Image 
 
-        
+if __name__=="__main__":
+    image_file = "TutorAI/backend/flashcards/text_scraper/assets/page_01_rotated.jpg"
+    image = cv2.imread(image_file)
+    factory = PipelineFactory(image)
+    pipe = factory.create_pipeline(1)
+    pipe.pipe()
+    filtered_image = pipe.get_image()
+    
+    filter = imF.Filter(filtered_image)
+    filter.display()
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
