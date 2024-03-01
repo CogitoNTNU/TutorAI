@@ -28,6 +28,7 @@ pycparser==2.21
 pydantic==2.5.3
 pydantic_core==2.14.6
 PyJWT==2.8.0
+pymongo==4.6.2
 PyPDF2==1.26.0
 python-dotenv==1.0.0
 pytz==2023.3.post1
