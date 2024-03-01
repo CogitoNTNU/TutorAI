@@ -8,7 +8,7 @@ class TextReader:
         self.bookname=""
 
     def __str__(self) -> str:
-        return f"{self.bookname}({"\n".join(self.pages)})"    
+        return f"{self.bookname}({' '.join(self.pages)})"    
 
     def read(self,pdf_file):
         # Open the PDF file
@@ -23,6 +23,7 @@ class TextReader:
                 # Get the text from the current page
                 page = pdf_reader.pages[page_num] 
                 self.pages.append(page.extract_text())
+            self.bookname=pdf_file[:pdf_file.find(".pdf")]
     
 
 

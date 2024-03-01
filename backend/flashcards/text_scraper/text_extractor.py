@@ -7,10 +7,15 @@ class TextExtractor:
         self.reader=TextReader()
 
     def extractTextPdf(self, filename):
-        self.pages=self.reader.read(filename).pages
+        self.reader.read(filename)
+        self.pages=self.reader.pages
+
 
 
 
 if __name__=="__main__":
     extr=TextExtractor()
-    extr.extractTextPdf("Elise-Mohr-Skogan_Masteroppgave_V23_ferdig.pdf")
+    extr.extractTextPdf("assets/book-riscv-rev1.pdf")
+    for page in extr.pages:
+        print(page)
+    print(extr.reader.bookname)
