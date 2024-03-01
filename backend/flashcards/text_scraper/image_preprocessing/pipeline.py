@@ -1,7 +1,12 @@
 
+import image_filter as imF
+
+
+
 class PipelineFactory:
     def __init__(self, image):
         self.image = image
+        self.filter = imF.Filter(self.image)
         
     
     def create_pipeline(self, pipeline_type):
@@ -15,6 +20,7 @@ class PipelineFactory:
             case _:
                 print("Invalid pipeline type")
                 return None
+
     
 
 
@@ -28,6 +34,9 @@ class Pipeline:
     def pipe(self):
         pass
     
+    def get_image(self):
+        return self.image
+    
 
 class Pipe1(Pipeline):
     
@@ -36,6 +45,7 @@ class Pipe1(Pipeline):
     
     def pipe(self):
         print("Pipe1")
+        filter.remove_noise()
         
     
 class Pipe2(Pipeline):
