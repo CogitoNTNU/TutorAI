@@ -20,33 +20,29 @@ class PipelineFactory:
                 print("Invalid pipeline type")
                 return None
 
-    
-
 
 
 from abc import abstractmethod
-
-
 class Pipeline:
     
     @abstractmethod
     def pipe(self):
         pass
     
-    def get_image(self):
-        return self.image
-    
 
 class Pipe1(Pipeline):
     
     def __init__(self, image):
         self.image = image
-        self.filter = imF.Filter(image)
+        self.filter = imF.Filter()
+        
+    def get_image(self):   
+        return self.image
 
     
     def pipe(self):
         print("Pipe1")
-        self.filter.invert_image()
+        self.image = self.filter.invert_image(self.image)
         
         
         
@@ -55,15 +51,17 @@ class Pipe2(Pipeline):
     
     def __init__(self, image):
         self.image = image
+        self.filter = imF.Filter()
     
     def pipe(self):
         print("Pipe2")
-        filter.remove_noise()
+        self.image = self.filter.remove_noise(self.image)
         
 class Pipe3(Pipeline):
     
     def __init__(self, image):
         self.image = image
+        self.filter = imF.Filter()
     
     def pipe(self):
         print("Pipe3")
@@ -76,12 +74,13 @@ if __name__=="__main__":
     factory = PipelineFactory(image)
     pipe = factory.create_pipeline(1)
     pipe.pipe()
-    filtered_image = pipe.get_image()
+    filtered_image = pipe.get_image() 
     
-    filter = imF.Filter(filtered_image)
-    filter.display()
+    filter = imF.Filter() 
+    filter.display(filtered_image)
     
     
+    #kan endre arkitekturen, slik at filter får inn bildet, og pipe får inn filter, eller så må filter ikke ta inn et bilde, men pipeline gjør det. Tror det er det beste. 
     
     
     

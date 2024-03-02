@@ -3,8 +3,24 @@
 package text_scraper {
 
     class TextExtractor {
+        + extractPages(file: File): String / Image
+    }
+
+    class TextReader {
         + extractText(file: File): String
     }
+
+    class OCR {
+        + extractText(file: File): String
+    }
+
+
+    class TextePackage{
+    
+    }
+
+
+    
 
     package image_preprocessing {
         class Pipeline {
@@ -15,10 +31,48 @@ package text_scraper {
         class PipelineFactory {
             + createPipeline(info): Pipeline
         }
+
+        class Filter {
+            + invert_image(): void 
+            + grayscale_image(): void
+            + binarize(): void
+            + remove_noise(): void
+            + thin_font(): void
+            + thick_font(): void
+
+        }
     }
     
-    TextExtractor --> PipelineFactory
+    OCR --> PipelineFactory
+    OCR --> Pipeline
     PipelineFactory --> Pipeline
+
 }
+
+package external_ocr {
+
+    class TesseractOCR {
+        + image_to_string(image: Image): String
+    }
+}
+
+package post_processing {
+
+    class TextPostProcessor {
+        + process(text: String): String
+    }
+}
+
+
+    
+
+
+TextExtractor --> OCR
+TextExtractor --> TextReader
+TextExtractor --> TextPostProcessor
+OCR --> TesseractOCR
+Pipeline --> Filter
+TextExtractor -left-> TextePackage
+
 
 @enduml

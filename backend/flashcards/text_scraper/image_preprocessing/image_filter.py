@@ -5,59 +5,53 @@ import numpy as np
 
 class Filter:
     
-    def __init__(self, image):
-        self.image = image
-
-    def get_image(self):
-        return self.image
-
-    def invert_image(self):
-        self.image = cv2.bitwise_not(self.image)
+    def invert_image(self, image):
+        return cv2.bitwise_not(image)
         
-    def grayscale(self):
-        self.image = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+    def grayscale(self, image):
+        return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-    def binarize(self):
-        self.grayscale(self.image)
-        thresh, im_bw = cv2.threshold(self.image, 200, 230, cv2.THRESH_BINARY) # must calibrate these values
-        self.image =  im_bw
+    def binarize(self, image):
+        self.grayscale(image)
+        thresh, im_bw = cv2.threshold(image, 200, 230, cv2.THRESH_BINARY) # must calibrate these values
+        return im_bw
     
-    def remove_noise(self):
+    def remove_noise(self, image):
         kernel = np.ones((1,1), np.uint8)
-        image = cv2.dilate(self.image, kernel, iterations=1)
+        image = cv2.dilate(image, kernel, iterations=1)
         kernel = np.ones((1,1), np.uint8) # must calibrate these values
         image = cv2.erode(image, kernel, iterations=1)
         image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
         image = cv2.medianBlur(image, 3)
-        self.image = image
+        return image
 
-    def thin_font(self):
-        image = cv2.bitwise_not(self.image)
+    def thin_font(self, image):
+        image = cv2.bitwise_not(image)
         kernel = np.ones((2,2), np.uint8)
         image = cv2.erode(image, kernel, iterations=1)
         image = cv2.bitwise_not(image)
-        self.image = image
+        return image
 
-    def thick_font(self):
-        image = cv2.bitwise_not(self.image)
+    def thick_font(self, image):
+        image = cv2.bitwise_not(image)
         kernel = np.ones((2,2), np.uint8)
         image = cv2.dilate(image, kernel, iterations=1)
         image = cv2.bitwise_not(image)
-        self.image = image
+        return image
     
-    def remove_borders(self):
-        contours, hierarchy = cv2.findContours(self.image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    def remove_borders(self, image):
+        contours, hierarchy = cv2.findContours(image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         contours_sorted = sorted(contours, key=lambda x:cv2.contourArea(x))
         largest_bounding_box = contours_sorted[-1]
         x,y,w,h = cv2.boundingRect(largest_bounding_box)
-        crop = self.image[y:y+h, x:x+w]
-        self.image = crop
+        crop = image[y:y+h, x:x+w]
+        return crop
     
-    def add_borders(self):
+    def add_borders(self, image):
         color = [255, 255, 255]
         top, bottom, left, right = [150]*4
-        image_with_border = cv2.copyMakeBorder(self.image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
-        self.image =  image_with_border
+        image_with_border = cv2.copyMakeBorder(image, top, bottom, left, right, cv2.BORDER_CONSTANT, value=color)
+        return image_with_border
     
     
         # Rotation and deskewing
@@ -110,19 +104,19 @@ class Filter:
         return newImage
 
 
-    def deskew(self):
-        angle = self.getSkewAngle(self.image)
+    def deskew(self, image):
+        angle = self.getSkewAngle(image)
         if abs(angle) == 90:                    # må være litt obs på dette med 90%
-            pass
+            return image
         else:
-            self.image =  self.rotateImage(self.image, -1.0 * angle)
+            return self.rotateImage(image, -1.0 * angle)
     
     
 
     #https://stackoverflow.com/questions/28816046/
     #displaying-different-images-with-actual-size-in-matplotlib-subplot
-    def display(self):
-        im_data = self.image
+    def display(self, im_data):
+
         dpi = 80
 
         height, width  = im_data.shape[:2]
