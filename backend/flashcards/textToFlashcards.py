@@ -1,5 +1,6 @@
 import openai
 from config import Config
+from dataclasses import dataclass
 
 api_key = Config().API_KEY
 
@@ -61,7 +62,12 @@ def generate_flashcards(sample_info: str = sample_info) -> str:
     response = request_chat_completion("system", message=template)
     response = response.split("|")
     return response
-    
+
+@dataclass
+class Flashcard:
+    front: str
+    back: str
+
 def parse_flashcard(flashcards_data: list[str]) -> list[dict[str, str]]:
     """
     Returns a list of dictionaries with the front and back of the flashcard
@@ -82,9 +88,26 @@ def parse_flashcard(flashcards_data: list[str]) -> list[dict[str, str]]:
     for i in flashcards_data:
         i = i.replace("Front: ", "").replace("Back: ", "")
         i = i.split("-")
-        flashcards.append({"front": i[0], "back": i[1]})
+        flashcards.append(Flashcard(front=i[0].strip(), back=i[1].strip()))
     
     return flashcards
+
+def parse_for_anki(flashcards: list[dict[str, str]]) -> str:
+    """
+    Returns a string with the flashcards in the correct format for Anki
+
+    Correct format: front:back
+    Example: "apple:"banana"
+
+    Args:
+        flashcards (list[dict[str, str]]): The flashcards to be parsed
+
+    Returns:
+        str: A string with the flashcards in the correct format for Anki
+    """
+    # TODO: Create this function
+    pass
+
 
 def generate_parsed_flashcards(sample_info: str = sample_info) -> list[dict[str, str]]:
     """
