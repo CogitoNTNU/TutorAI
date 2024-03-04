@@ -21,12 +21,13 @@ package text_scraper {
 
 
     
-
     package image_preprocessing {
         class Pipeline {
             + apply(image: Image): Image
             + add_filter(self, image_filter: Callable):
         }
+        note left of Pipeline: Pipe and Filter architecture pattern
+
 
         class PipelineFactory {
             + createPipeline(info): Pipeline
@@ -61,6 +62,7 @@ package post_processing {
     class TextPostProcessor {
         + process(text: String): String
     }
+
 }
 
 
