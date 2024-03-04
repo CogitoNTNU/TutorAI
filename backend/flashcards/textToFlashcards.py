@@ -39,10 +39,10 @@ def generate_template(sample_info: str = sample_info) -> str:
     Returns a template with the correct flashcard and prompt format which can be used to generate flashcards using the sample text
     """
     # TODO: Create this function
-    example = f"Front: Which year was the person born?, Back: 1999 | Front: At what temperture does water boil?, Back: 100 degrees celsius | Front: MAC, Back: Message Authentication Code"
+    example = f"Front: Which year was the person born? - Back: 1999 | Front: At what temperture does water boil? - Back: 100 degrees celsius | Front: MAC - Back: Message Authentication Code"
 
 
-    template = f"Create a set of flashcards using the following format: {example} from the following text: {sample_info}. Use only information from the text to generate the flashcards. Use only the given format"
+    template = f"Create a set of flashcards using the following format: {example} from the following text: {sample_info}. Use only information from the text to generate the flashcards. Use only the given format. DO not use line breaks. Do not use any other format"
 
     return template
 
@@ -77,4 +77,24 @@ def parse_flashcard(flashcards_data: list[str]) -> list[dict[str, str]]:
 
     """
     # TODO: Create this function
+    flashcards = []
+
+    for i in flashcards_data:
+        i = i.replace("Front: ", "").replace("Back: ", "")
+        i = i.split("-")
+        flashcards.append({"front": i[0], "back": i[1]})
     
+    return flashcards
+
+def generate_parsed_flashcards(sample_info: str = sample_info) -> list[dict[str, str]]:
+    """
+    Returns a list of dictionaries with the front and back of the flashcard
+
+    Args:
+        sample_info (str): The sample text to be used
+
+    Returns:
+        list[dict[str, str]]: A list of dictionaries with the front and back of the flashcard
+    """
+    flashcards = generate_flashcards(sample_info)
+    return parse_flashcard(flashcards)
