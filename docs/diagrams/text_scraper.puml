@@ -26,7 +26,7 @@ package text_scraper {
             + apply(image: Image): Image
             + add_filter(self, image_filter: Callable):
         }
-        note left of Pipeline: Pipe and Filter architecture pattern
+        note left of Pipeline: Pipe and Filter \n architecture pattern
 
 
         class PipelineFactory {
