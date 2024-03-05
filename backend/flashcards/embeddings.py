@@ -19,7 +19,8 @@ class Embeddings(EmbeddingsInterface):
 
         return response
 
+if __name__ == "__main__":
+    # Example use
+    embeddings = Embeddings()
 
-embeddings = Embeddings()
-
-print(embeddings.get_embedding("Hello world!!"))
+    print(embeddings.get_embedding("Hello world!!"))
