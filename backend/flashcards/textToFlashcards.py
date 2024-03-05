@@ -13,10 +13,8 @@ def request_chat_completion(role: str = "system", message: str = "") -> list[str
     Returns a response from the OpenAI API
 
     Args:
-        previous_message (dict): The previous message in the conversation
         role (str, optional): The role of the message. Defaults to "system".
         message (str, optional): The message to be sent. Defaults to "".
-        functions (list, optional): The functions to be used. Defaults to [].
     
     Returns:
         response list[str]: The response from the OpenAI API
@@ -37,7 +35,7 @@ def request_chat_completion(role: str = "system", message: str = "") -> list[str
     
 def generate_template(sample_info: str = sample_info) -> str:
     """
-    Returns a template with the correct flashcard and prompt format which can be used to generate flashcards using the sample text
+    Returns a template with the correct flashcard and prompt format which can be used to generate flashcards using the sample info
     """
 
     example = f"Front: Which year was the person born? - Back: 1999 | Front: At what temperture does water boil? - Back: 100 degrees celsius | Front: MAC - Back: Message Authentication Code"
@@ -104,6 +102,10 @@ def parse_for_anki(flashcards: list[Flashcard]) -> str:
         str: A string with the flashcards in the correct format for Anki
     """
     # TODO: Create this function
+    num_elements = len(flashcards)
+    text = ""
+    separator = ""
+    
     pass
 
 
@@ -119,3 +121,18 @@ def generate_parsed_flashcards(sample_info: str = sample_info) -> list[dict[str,
     """
     flashcards = generate_flashcards(sample_info)
     return parse_flashcard(flashcards)
+
+def create_text_file(file_content: str) -> None:
+    """
+    Creates a text file with the given content
+
+    Args:
+        file_content (str): The content to be written to the file
+
+    Returns:
+        None
+    """
+
+    #TODO: Create this function
+
+    pass
