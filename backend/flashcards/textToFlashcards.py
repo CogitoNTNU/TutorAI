@@ -39,15 +39,13 @@ def generate_template(sample_info: str = sample_info) -> str:
     """
     Returns a template with the correct flashcard and prompt format which can be used to generate flashcards using the sample text
     """
-    # TODO: Create this function
+
     example = f"Front: Which year was the person born? - Back: 1999 | Front: At what temperture does water boil? - Back: 100 degrees celsius | Front: MAC - Back: Message Authentication Code"
-
-
     template = f"Create a set of flashcards using the following format: {example} from the following text: {sample_info}. Use only information from the text to generate the flashcards. Use only the given format. DO not use line breaks. Do not use any other format"
 
     return template
 
-def generate_flashcards(sample_info: str = sample_info) -> str:
+def generate_flashcards(sample_info: str = sample_info) -> list[str]:
     """
     Returns a flashcard generated from the sample text
 
@@ -55,7 +53,7 @@ def generate_flashcards(sample_info: str = sample_info) -> str:
         sample_info (str): The sample text to be used
 
     Returns:
-        str: The flashcard generated from the sample text
+        list: The list of flashcards generated from the sample text
     """
     # TODO: Create this function
     template = generate_template(sample_info)
@@ -68,18 +66,18 @@ class Flashcard:
     front: str
     back: str
 
-def parse_flashcard(flashcards_data: list[str]) -> list[dict[str, str]]:
+def parse_flashcard(flashcards_data: list[str]) -> list[Flashcard]:
     """
-    Returns a list of dictionaries with the front and back of the flashcard
+    Returns a list of the Flashcard dataclass 
 
     Args:
         flashcards_data (list[str]): The flashcard to be parsed
 
     Returns:
-        list[dict[str, str]]: A list of dictionaries with the front and back of the flashcard
+        list[Flashcard]: A list of Flashcards with the front and back of the flashcard
 
     example:
-        [{"front": "What is the capital of the USA?", "back": "Washington DC"}, {"front": "What is the capital of France?", "back": "Paris"}]
+        [Flashcard(front="apple", back="banana"), Flashcard(front="orange", back="grape")]
 
     """
     # TODO: Create this function
@@ -92,7 +90,7 @@ def parse_flashcard(flashcards_data: list[str]) -> list[dict[str, str]]:
     
     return flashcards
 
-def parse_for_anki(flashcards: list[dict[str, str]]) -> str:
+def parse_for_anki(flashcards: list[Flashcard]) -> str:
     """
     Returns a string with the flashcards in the correct format for Anki
 
@@ -100,7 +98,7 @@ def parse_for_anki(flashcards: list[dict[str, str]]) -> str:
     Example: "apple:"banana"
 
     Args:
-        flashcards (list[dict[str, str]]): The flashcards to be parsed
+        flashcards (list[Flashcard]): The flashcards to be parsed
 
     Returns:
         str: A string with the flashcards in the correct format for Anki
