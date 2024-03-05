@@ -53,11 +53,10 @@ def generate_flashcards(sample_info: str = sample_info) -> list[str]:
     Returns:
         list: The list of flashcards generated from the sample text
     """
-    # TODO: Create this function
     template = generate_template(sample_info)
     response = request_chat_completion("system", message=template)
     response = response.split("|")
-    return response
+    return parse_flashcard(response)
 
 @dataclass
 class Flashcard:
@@ -78,7 +77,6 @@ def parse_flashcard(flashcards_data: list[str]) -> list[Flashcard]:
         [Flashcard(front="apple", back="banana"), Flashcard(front="orange", back="grape")]
 
     """
-    # TODO: Create this function
     flashcards = []
 
     for i in flashcards_data:
@@ -101,26 +99,17 @@ def parse_for_anki(flashcards: list[Flashcard]) -> str:
     Returns:
         str: A string with the flashcards in the correct format for Anki
     """
-    # TODO: Create this function
     num_elements = len(flashcards)
     text = ""
-    separator = ""
+    separator = "\n"
+
+    for i in range(num_elements):
+        front = flashcards[i].front
+        back = flashcards[i].back
+
+        text += front + ":" + back + separator
     
-    pass
-
-
-def generate_parsed_flashcards(sample_info: str = sample_info) -> list[dict[str, str]]:
-    """
-    Returns a list of dictionaries with the front and back of the flashcard
-
-    Args:
-        sample_info (str): The sample text to be used
-
-    Returns:
-        list[dict[str, str]]: A list of dictionaries with the front and back of the flashcard
-    """
-    flashcards = generate_flashcards(sample_info)
-    return parse_flashcard(flashcards)
+    return text
 
 def create_text_file(file_content: str) -> None:
     """
@@ -132,7 +121,22 @@ def create_text_file(file_content: str) -> None:
     Returns:
         None
     """
+    with open("flashcards.txt", "w") as file:
+        file.write(file_content)
 
-    #TODO: Create this function
+def generate_flashcards_for_anki(sample_info: str = sample_info) -> None:
+    """
+    Returns a string with the flashcards in the correct format for Anki
 
-    pass
+    Correct format: front:back
+    Example: "apple:"banana"
+
+    Args:
+        sample_info (str): The sample text to be used
+
+    Returns:
+        str: A string with the flashcards in the correct format for Anki
+    """
+    flashcards = generate_flashcards(sample_info)
+    flashcards = parse_for_anki(flashcards)
+    create_text_file(flashcards)
