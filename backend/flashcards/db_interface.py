@@ -26,7 +26,7 @@ class DatabaseInterface(ABC):
 
         Returns:
             str: The curriculum related to the question
-        '''    
+        '''
         pass
 
     @abstractmethod
