@@ -6,7 +6,6 @@ from abc import ABC, ABCMeta, abstractmethod
 api_key = Config().API_KEY
 
 openai.api_key = api_key
-sample_info = "Cristiano Ronaldo dos Santos Aveiro GOIH ComM (Portuguese pronunciation: [kɾiʃˈtjɐnu ʁɔˈnaldu]; born 5 February 1985) is a Portuguese professional footballer who plays as a forward for and captains both Saudi Pro League club Al Nassr and the Portugal national team. Widely regarded as one of the greatest players of all-time, Ronaldo has won five Ballon d'Or awards,[note 3] a record three UEFA Men's Player of the Year Awards, and four European Golden Shoes, the most by a European player. Kaamya does not like coffe. Kristoffer does like coffee. "
 
 class FlashcardGenerator(ABC):
     @abstractmethod
