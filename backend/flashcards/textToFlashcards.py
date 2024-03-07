@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from abc import ABC, ABCMeta, abstractmethod
 
 api_key = Config().API_KEY
-
 openai.api_key = api_key
 
 class FlashcardGenerator(ABC):
@@ -42,7 +41,7 @@ class OpenAIFlashcardGenerator(FlashcardGenerator):
             result = response.choices[0].message.content
         return result
     
-def generate_template(sample_info: str = sample_info) -> str:
+def generate_template(sample_info: str) -> str:
     """
     Returns a template with the correct flashcard and prompt format which can be used to generate flashcards using the sample info
     """
@@ -52,7 +51,12 @@ def generate_template(sample_info: str = sample_info) -> str:
 
     return template
 
-def generate_flashcards(sample_info: str = sample_info) -> list[Flashcard]:
+@dataclass
+class Flashcard:
+    front: str
+    back: str
+
+def generate_flashcards(sample_info: str) -> list[Flashcard]:
     """
     Returns a flashcard generated from the sample text
 
@@ -67,10 +71,6 @@ def generate_flashcards(sample_info: str = sample_info) -> list[Flashcard]:
     response = response.split("|")
     return parse_flashcard(response)
 
-@dataclass
-class Flashcard:
-    front: str
-    back: str
 
 def parse_flashcard(flashcards_data: list[str]) -> list[Flashcard]:
     """
@@ -133,7 +133,7 @@ def create_text_file(file_content: str) -> None:
     with open("flashcards.txt", "w") as file:
         file.write(file_content)
 
-def generate_flashcards_for_anki(sample_info: str = sample_info) -> None:
+def generate_flashcards_for_anki(sample_info: str) -> None:
     """
     Returns a string with the flashcards in the correct format for Anki
 
