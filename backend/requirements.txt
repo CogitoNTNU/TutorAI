@@ -20,6 +20,7 @@ httpcore==1.0.2
 httpx==0.26.0
 idna==3.6
 inflection==0.5.1
+numpy==1.26.3
 openai==1.6.1
 packaging==23.2
 pdfminer.six==20231228
