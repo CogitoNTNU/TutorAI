@@ -14,7 +14,8 @@ class TextToFlashcardTest(TestCase):
         self.assertNotEqual(response, "Error: No message provided")
     
     def test_generate_flashcards(self):
-        flashcards = generate_flashcards(self.sample_info)
+        template = generate_template(self.sample_info)
+        flashcards = generate_flashcards(template)
         self.assertIsInstance(flashcards, list)
         self.assertIsInstance(flashcards[0], Flashcard)
     
