@@ -22,61 +22,17 @@ class OCR:
         self.file = file
         self.image = None
         self.page_data = []
-        
-        
-    def hoppelopp(self):
-        """
-        loops through each page of the pdf and extracts the text
-        """
-        
-        # Create a PdfDocument object
-        doc = PdfDocument()
-
-        # Load a PDF document
-        doc.LoadFromFile(self.file)
-
-        # Get a specific page
-        for page_num in range(doc.Pages.Count):
-            page = doc.Pages.get_Item(page_num)
-            
-            
-            for image in page.ExtractImages():
-                    # image = Image.open(io.BytesIO(image))
-                    # self.image = image
-                    # self.preprocess()
-                    # text = self.get_text()
-                    # self.page_data.append(text)
-                    self.img_dats.append(image)
-            try:
-                
-                print("yo")
-                    
-                    
-                # # Extract image from the page
-                # images = page.extractImages()
-                # if images:
-                #     self.image = Image.open(io.BytesIO(images[0]))
-                #     self.preprocess()
-                #     text = self.get_text()
-                #     self.page_data.append(text)
-                # else:
-                #     print(f"No images found on page {page_num}")
-            except SpireException as e:
-                print(f"An error occurred while extracting images from page {page_num}: {e}")
-            except Exception as e:
-                print(f"An unexpected error occurred: {e}")
-
-        doc.Close()
-            
-            
+    
         
     def preprocess(self):
         """
-        preprocesses the image
+        preprocesses the image without changing it's size or shape,
+        returns the preprocessed image
+    
         """
         pipeline: piper.Pipeline = piper.PipelineFactory(self.image).create_pipeline(1)
         pipeline.pipe()
-        self.image = pipeline.get_image()
+        return pipeline.get_image()
         
         
 
@@ -106,6 +62,17 @@ class OCR:
             pages_as_images.append(pil_image)
         return pages_as_images
     
+    
+    def find_preprocessing_pipeine(self, image):
+        """
+        Finds the preprocessing pipeline for the image
+        """
+        """
+        TODO: Implement this function
+        """
+        pass
+    
+    
     def ocr_images(self, file):
         """
         take in pdf file, and calls a function that creates a list of images from the pdf file, then uses OCR to extract text from the images
@@ -127,7 +94,6 @@ if __name__=="__main__":
     pdf_file = "TutorAI/backend/flashcards/text_scraper/assets/example.pdf"
     
     ocr = OCR(pdf_file)
-    #ocr.hoppelopp()
     ocr.ocr_images(pdf_file)
     page_data = ocr.get_page_data()
     

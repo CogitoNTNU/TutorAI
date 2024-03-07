@@ -29,6 +29,7 @@ class Invert_image(Filter):
     """
     def __call__(self, image):
         return cv2.bitwise_not(image)
+    
         
 class Grayscale(Filter):
     """Grayscale the image, callable
