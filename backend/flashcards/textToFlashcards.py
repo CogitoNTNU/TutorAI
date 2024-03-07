@@ -52,7 +52,7 @@ def generate_template(sample_info: str = sample_info) -> str:
 
     return template
 
-def generate_flashcards(sample_info: str = sample_info) -> list[str]:
+def generate_flashcards(sample_info: str = sample_info) -> list[Flashcard]:
     """
     Returns a flashcard generated from the sample text
 
