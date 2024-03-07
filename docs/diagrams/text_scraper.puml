@@ -15,7 +15,7 @@ package text_scraper {
     }
 
 
-    class TextePackage{
+    class TextPackage{
     
     }
 
@@ -74,7 +74,7 @@ TextExtractor --> TextReader
 TextExtractor --> TextPostProcessor
 OCR --> TesseractOCR
 Pipeline --> Filter
-TextExtractor -left-> TextePackage
+TextExtractor -left-> TextPackage
 
 
 @enduml
