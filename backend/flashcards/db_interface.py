@@ -65,7 +65,7 @@ class Database(DatabaseInterface):
         # Make simple functionality to return the single document that is stored in this collection
         return self.collection.find_one({})
 
-    def post_curriculum(self, curriculum: str, page: int, embedding: list[float]) -> bool:
+    def post_curriculum(self, curriculum: str, page_num: int, paragraph_num: int, embedding: list[float]) -> bool:
         '''
         Post the curriculum to the database
 
@@ -77,14 +77,14 @@ class Database(DatabaseInterface):
         if curriculum == None:
             raise ValueError('Curriculum cannot be None')
 
-        if page == None:
+        if page_num == None:
             raise ValueError('Page number cannot be None')
         
         if embedding == None:
             raise ValueError('Embedding cannot be None')
 
         try:
-            self.collection.insert_one({'text': curriculum, 'page': page, 'embedding': embedding})
+            self.collection.insert_one({'text': curriculum, 'pageNum': page_num, 'paragraphNum': paragraph_num, 'embedding': embedding})
             return True
         except:
             return False
@@ -101,4 +101,4 @@ if __name__ == '__main__':
     curriculum = input('Enter a curriculum: ')
     embeddings = Embeddings()
     embedding = embeddings.get_embedding(text=curriculum)
-    print(db.post_curriculum(curriculum=curriculum, page=1, embedding=embedding))
+    print(db.post_curriculum(curriculum=curriculum, page_num=1, paragraph_num=4, embedding=embedding))
