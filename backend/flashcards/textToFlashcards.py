@@ -13,8 +13,8 @@ class FlashcardGenerator(ABC):
         """
         Takes a role and a message and returns a response from a LLM
         """
-
         pass
+    
     
 class OpenAIFlashcardGenerator(FlashcardGenerator):
     def request_chat_completion(role: str = "system", message: str = "") -> list[str]: 
