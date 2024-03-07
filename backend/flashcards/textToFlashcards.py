@@ -56,22 +56,6 @@ class Flashcard:
     front: str
     back: str
 
-def generate_flashcards(sample_info: str) -> list[Flashcard]:
-    """
-    Returns a flashcard generated from the sample text
-
-    Args:
-        sample_info (str): The sample text to be used
-
-    Returns:
-        list: The list of flashcards generated from the sample text
-    """
-    template = generate_template(sample_info)
-    response = OpenAIFlashcardGenerator.request_chat_completion("system", message=template)
-    response = response.split("|")
-    return parse_flashcard(response)
-
-
 def parse_flashcard(flashcards_data: list[str]) -> list[Flashcard]:
     """
     Returns a list of the Flashcard dataclass 
@@ -94,6 +78,21 @@ def parse_flashcard(flashcards_data: list[str]) -> list[Flashcard]:
         flashcards.append(Flashcard(front=i[0].strip(), back=i[1].strip()))
     
     return flashcards
+
+def generate_flashcards(sample_info: str) -> list[Flashcard]:
+    """
+    Returns a flashcard generated from the sample text
+
+    Args:
+        sample_info (str): The sample text to be used
+
+    Returns:
+        list: The list of flashcards generated from the sample text
+    """
+    template = generate_template(sample_info)
+    response = OpenAIFlashcardGenerator.request_chat_completion("system", message=template)
+    response = response.split("|")
+    return parse_flashcard(response)
 
 def parse_for_anki(flashcards: list[Flashcard]) -> str:
     """
