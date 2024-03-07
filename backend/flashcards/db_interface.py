@@ -47,7 +47,7 @@ class DatabaseInterface(ABC):
 
 class Database(DatabaseInterface):
     def __init__(self):
-        self.client = MongoClient(Config().MONGODB_CONNECTION_STRING)
+        self.client = MongoClient("Nothing to see here")
         self.db = self.client['test-curriculum-database']
         self.collection = self.db['test-curriculum-collection']
 
@@ -61,21 +61,24 @@ class Database(DatabaseInterface):
         Returns:
             str: The curriculum related to the question
         '''
+
         # Define the query
         query = {
             "$vectorSearch": {
-                "index": "conversationsIndex",
-                "path": "conversationEmbedding",
+                "index": "embeddings",
+                "path": "embedding",
                 "queryVector": embedding,
                 "numCandidates": 2,
                 "limit": 1
             }
         }
-
+        
         # Execute the query
-        documents = list(self.collection.aggregate([query]))
+        documents = self.collection.aggregate([query])
 
-        print(documents)
+        print("Problem: ",documents)
+        for x in documents:
+            print(x)
         # Make simple functionality to return the single document that is stored in this collection
         return self.collection.find_one({})
 
@@ -109,11 +112,14 @@ if __name__ == '__main__':
     db = Database()
     
     # Test the get_curriculum method
-    # curriculum = db.get_curriculum(embedding=[0.5, 0.5])
-    # print(curriculum)
+    text = input("Hva søker du etter?")
+    embeddings = Embeddings()
+    embedding = embeddings.get_embedding(text)
+    curriculum = db.get_curriculum(embedding=embedding)
+    print(curriculum)
 
     # Test the post_curriculum method
-    curriculum = input('Enter a curriculum: ')
-    embeddings = Embeddings()
-    embedding = embeddings.get_embedding(text=curriculum)
-    print(db.post_curriculum(curriculum=curriculum, page_num=1, paragraph_num=4, embedding=embedding))
+    # curriculum = input('Enter a curriculum: ')
+    # embeddings = Embeddings()
+    # embedding = embeddings.get_embedding(text=curriculum)
+    # print(db.post_curriculum(curriculum=curriculum, page_num=1, paragraph_num=4, embedding=embedding))
