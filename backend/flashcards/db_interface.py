@@ -26,7 +26,7 @@ class DatabaseInterface(ABC):
 
         Returns:
             str: The curriculum related to the question
-        '''    
+        '''
         pass
 
     @abstractmethod
@@ -56,7 +56,21 @@ class Database(DatabaseInterface):
         Returns:
             str: The curriculum related to the question
         '''
+        # Define the query
+        query = {
+            "$vectorSearch": {
+                "index": "conversationsIndex",
+                "path": "conversationEmbedding",
+                "queryVector": embedding,
+                "numCandidates": 2,
+                "limit": 1
+            }
+        }
 
+        # Execute the query
+        documents = list(self.collection.aggregate([query]))
+
+        print(documents)
         # Make simple functionality to return the single document that is stored in this collection
         return self.collection.find_one({})
 
@@ -74,6 +88,7 @@ class Database(DatabaseInterface):
     
 # Test the get_curriculum method
 if __name__ == '__main__':
+
     db = Database()
     print(db.get_curriculum([1.0, 2.0, 3.0]))
 
