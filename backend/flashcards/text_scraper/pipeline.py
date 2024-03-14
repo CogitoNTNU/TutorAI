@@ -44,7 +44,7 @@ class Pipeline:
         self.image = image
         self.filters = filters
     
-    def pipe(self):
+    def apply_filters(self):
     
         """
         loops through each filter and applies it to the image
@@ -66,7 +66,7 @@ if __name__=="__main__":
     image_file = "TutorAI/backend/flashcards/text_scraper/assets/page_01_rotated.jpg"
     image = cv2.imread(image_file)
     pipeline: Pipeline = PipelineFactory(image).create_pipeline(1)
-    pipeline.pipe()
+    pipeline.apply_filters()
     
     imF.Display()(pipeline.get_image())
     

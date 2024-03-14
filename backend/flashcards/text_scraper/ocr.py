@@ -31,7 +31,7 @@ class OCR:
     
         """
         pipeline: piper.Pipeline = piper.PipelineFactory(self.image).create_pipeline(1)
-        pipeline.pipe()
+        pipeline.apply_filters()
         return pipeline.get_image()
         
         
