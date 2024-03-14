@@ -51,7 +51,7 @@ class DatabaseInterface(ABC):
         pass
 
 
-class Database(DatabaseInterface):
+class MongoDB(DatabaseInterface):
     def __init__(self):
         self.client = MongoClient(Config().MONGODB_URI)
         self.db = self.client["test-curriculum-database"]

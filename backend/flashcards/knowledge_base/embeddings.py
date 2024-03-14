@@ -20,7 +20,7 @@ class EmbeddingsInterface(ABC):
         pass
 
 
-class Embeddings(EmbeddingsInterface):
+class OpenAIEmbedding(EmbeddingsInterface):
     def __init__(self, model_name: str = "text-embedding-ada-002"):
         api_key = Config().API_KEY
         self.client = openai.Client(api_key=api_key)
