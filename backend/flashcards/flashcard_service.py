@@ -11,7 +11,8 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list["Flashcard"]
 
     # Extract text from the uploaded file
     # TODO: Use the scraper to extract the text from the uploaded file
-
+    text: str = ""
+    
     # Post the text into knowledge base
     # TODO: Use the rag service to post the text into the knowledge base
 
