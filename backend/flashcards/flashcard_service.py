@@ -11,12 +11,13 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list["Flashcard"]
 
     # Extract text from the uploaded file
     # TODO: Use the scraper to extract the text from the uploaded file
-    text: str = ""
     
+    text: str = ""
+
     # Post the text into knowledge base
     # TODO: Use the rag service to post the text into the knowledge base
+    
 
     # Generate flashcards from the text
     # TODO: use the FlashcardGenerator to generate flashcards from the text
 
-    # Format the texts into flashcards
