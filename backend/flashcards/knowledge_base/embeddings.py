@@ -32,7 +32,7 @@ class Embeddings(EmbeddingsInterface):
         return response.data[0].embedding
 
 
-def cosine_similarity(embedding1, embedding2):
+def cosine_similarity(embedding1: list[float], embedding2: list[float]) -> float:
     """
     Calculate the cosine similarity between two embeddings
 
