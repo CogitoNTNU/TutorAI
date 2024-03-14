@@ -6,7 +6,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
 
-from .textToFlashcards import generate_flashcards, parse_flashcard
+from .text_to_flashcards import generate_flashcards, parse_flashcard
 from .convert_pdf_to_txt import convert_pdf_to_txt
 
 from drf_yasg.utils import swagger_auto_schema
