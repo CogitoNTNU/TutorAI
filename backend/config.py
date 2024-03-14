@@ -14,5 +14,6 @@ class Config():
         self.GPT_MODEL = os.getenv(key='GPT_MODEL', default='gpt-4')
         load_dotenv(dotenv_path=path)
         self.API_KEY = os.getenv('OPENAI_API_KEY')
+        self.MONGODB_URI = os.getenv('MONGODB_URI')
     
         
