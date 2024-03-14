@@ -22,7 +22,7 @@ class DatabaseInterface(ABC):
         )
     
     @abstractmethod
-    def get_curriculum(self, embedding: list[float]) -> list[str]:
+    def get_curriculum(self, query_string: str) -> list[str]:
         '''
         Get the curriculum from the database
 
@@ -35,7 +35,7 @@ class DatabaseInterface(ABC):
         pass
 
     @abstractmethod
-    def post_curriculum(self, curriculum: str, page_num: int, paragraph_num: int, embedding: list[float]) -> bool:
+    def post_curriculum(self, curriculum: str, page_num: int, paragraph_num: int) -> bool:
         '''
         Post the curriculum to the database
 
@@ -55,7 +55,13 @@ class Database(DatabaseInterface):
         self.collection = self.db['test-curriculum-collection']
         self.similarity_threshold = 0.83
 
-    def get_curriculum(self, embedding: list[float]) -> list[str]:
+    def get_curriculum(self, query_string: list[str], model) -> list[str]:
+        
+        #Create embedding from query
+        S = EmbeddingsInterface(ABC)
+        embedding = S.get_embedding(self, query_string, model)
+
+        #Checking if embedding consists of decimals or "none"
         if not embedding:
             raise ValueError('Embedding cannot be None')
         
