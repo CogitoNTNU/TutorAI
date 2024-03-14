@@ -17,7 +17,7 @@ drf-yasg==1.21.7
 exceptiongroup==1.2.0
 h11==0.14.0
 httpcore==1.0.2
-httpx==0.26.0
+httpx==0.27.0
 idna==3.6
 inflection==0.5.1
 numpy==1.26.3
