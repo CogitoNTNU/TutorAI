@@ -30,7 +30,8 @@ class OCR:
         returns the preprocessed image
     
         """
-        pipeline: piper.Pipeline = piper.PipelineFactory(self.image).create_pipeline(1)
+        chosen_pipeline = self.find_preprocessing_pipeine(self.image)
+        pipeline: piper.Pipeline = piper.PipelineFactory(self.image).create_pipeline(chosen_pipeline)
         pipeline.apply_filters()
         return pipeline.get_image()
         
@@ -70,7 +71,7 @@ class OCR:
         """
         TODO: Implement this function
         """
-        pass
+        return 1
     
     
     def ocr_images(self, file):
@@ -81,13 +82,29 @@ class OCR:
         images: list[Image.Image] = self.make_pdf_into_image_list(file)
         
         for image in images:
+            # TODO: self.preprocess()
             text = pytesseract.image_to_string(image)
             print(text)
             self.page_data.append(text)
+            
+    def ocr_page(self, page):
+        """
+        takes in a page, and uses OCR to extract text from the page
+        params: page: PdfPage
+        returns: text: str
+        """
+        image = page.render(
+            scale=300 / 72
+        ).to_pil()
+        # image = self.preprocess(image)
+        text = pytesseract.image_to_string(image)
+        return text
         
     
     def get_page_data(self):
         return self.page_data
+    
+    
         
     
 if __name__=="__main__":

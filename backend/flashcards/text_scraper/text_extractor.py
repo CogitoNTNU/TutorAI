@@ -1,5 +1,8 @@
+import random
 from text_reader import TextReader
 
+from ocr import OCR
+import PyPDF2
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
@@ -12,6 +15,43 @@ class TextExtractor:
     def extractTextPdf(self, filename):
         self.reader.read(filename)
         self.pages=self.reader.pages
+        
+    def extractTextImage(self, filename):
+        
+        ocr: OCR = OCR(filename)
+        ocr.ocr_images(filename)
+        page_data = ocr.get_page_data()
+        return page_data
+    
+    def isReadable(self, filename) -> bool:
+        
+        
+        file = open(filename, 'rb')
+
+        pdf_reader = PyPDF2.PdfFileReader(file)
+        total_pages1 = pdf_reader.numPages
+        
+        pages = []
+        for i in range(3): # TODO: change to 3 woth log2(total_pages1)
+            page_number = random.randint(0, total_pages1 - 1)
+            try:
+                pages.append(pdf_reader.getPage(page_number))
+            except Exception:
+                print("not enough pages")
+                continue
+        
+        text = ""
+        ocr_text = ""
+        for page in pages:
+            text += page.extractText() #TODO make correct functions to extract text
+            ocr = OCR(filename)
+            ocr_text += ocr.ocr_page(page)
+            
+        if len(text) / len(ocr_text) > 0.88:
+            return True
+        return False
+            
+        
 
     def _pdf_readable(file: InMemoryUploadedFile) -> bool:
         """
@@ -42,14 +82,19 @@ class TextExtractor:
         except Exception as e:
             # If an error occurred, we use ocr
             return False
+           
+        
+        
         
     
     
 
 
 if __name__=="__main__":
-    extr=TextExtractor()
-    extr.extractTextPdf("assets/book-riscv-rev1.pdf")
-    for page in extr.pages:
-        print(page)
-    print(extr.reader.bookname)
+    # extr=TextExtractor()
+    # extr.extractTextPdf("assets/book-riscv-rev1.pdf")
+    # for page in extr.pages:
+    #     print(page)
+    # print(extr.reader.bookname)
+    
+    print(TextExtractor._pdf_readable("TutorAI/backend/flashcards/text_scraper/assets/example.pdf"))
