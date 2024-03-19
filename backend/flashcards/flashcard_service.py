@@ -4,10 +4,10 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from flashcards.rag_service import post_context
 from flashcards.knowledge_base.factory import create_database
 from flashcards.knowledge_base.factory import create_embeddings_model
-from flashcards.text_to_flashcards import generate_flashcards
+from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 
 
-def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list["Flashcard"]:
+def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     """
     Process the files and return the flashcards.
     """
@@ -773,16 +773,16 @@ process closes fd or exits.
     """
     page_num = 1
     paragraph_num = 1
-    db = create_database("mongodb")
-    embeddings = create_embeddings_model("openai")
+    db = create_database()
+    embeddings = create_embeddings_model()
 
     # Post the text into knowledge base
     # TODO: Use the rag service to post the text into the knowledge base
     
-    context_posted: bool
-    context_posted = post_context(context, page_num, paragraph_num, db, embeddings)
-
+    context_posted: bool = post_context(context, page_num, paragraph_num, db, embeddings)
 
     # Generate flashcards from the text
     # TODO: use the FlashcardGenerator to generate flashcards from the text
+
     flashcards = generate_flashcards(context)
+    return flashcards

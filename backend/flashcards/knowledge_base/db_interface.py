@@ -50,6 +50,19 @@ class DatabaseInterface(ABC):
         """
         pass
 
+    @abstractmethod
+    def get_source_reference(self, documents: list[str], curriculum: str) -> dict:
+        '''
+        Get source reference, which includes page number and pdf title
+
+        Args:
+            documents (list[str]): The list of strings that answers the question asked.
+            curriculum (str): The entire curriculum that is posted.
+        Returns:
+            dict: Returns a dictionary with keys, "page number" and "pdf title"
+        
+        '''
+        pass
 
 class MongoDB(DatabaseInterface):
     def __init__(self):
@@ -91,8 +104,9 @@ class MongoDB(DatabaseInterface):
             ):
                 documents.remove(document)
 
-        # Return only the text content of the documents
-        documents = [document["text"] for document in documents]
+        # Return the text content of the documents and page number
+        documents = [{"text":document["text"],"pagenum":document["pageNum"]} for document in documents]
+        documents[0]["pagenum"]
         return documents
 
     def post_curriculum(
@@ -123,3 +137,11 @@ class MongoDB(DatabaseInterface):
             return True
         except:
             return False
+
+    def get_source_reference(self, documents: list[str], curriculum: str) -> dict:
+        for documents in curriculum:
+            if documents == curriculum:
+                page_number = documents[0]["pagenum"]
+                pdf_title = None #TODO: Endre på denne
+        return {"Page number": page_number, "pdf title": pdf_title}
+            
