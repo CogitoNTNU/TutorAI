@@ -11,42 +11,44 @@ class TextExtractor:
     def __init__(self):
         self.pages=[]
         self.reader=TextReader()
+        
+    def extractText(self, filename):
+        if self.is_readable(filename):
+            self.extractTextPdf(filename)
+        else:
+            self.extractTextImage(filename)
+        return self.pages
 
     def extractTextPdf(self, filename):
         self.reader.read(filename)
         self.pages=self.reader.pages
+        
         
     def extractTextImage(self, filename):
         
         ocr: OCR = OCR(filename)
         ocr.ocr_images(filename)
         page_data = ocr.get_page_data()
-        return page_data
+        self.pages = page_data
     
-    def isReadable(self, filename) -> bool:
+    def is_readable(self, filename) -> bool:
         
-        
-        file = open(filename, 'rb')
-
-        pdf_reader = PyPDF2.PdfFileReader(file)
-        total_pages1 = pdf_reader.numPages
-        
-        pages = []
-        for i in range(3): # TODO: change to 3 woth log2(total_pages1)
-            page_number = random.randint(0, total_pages1 - 1)
-            try:
-                pages.append(pdf_reader.getPage(page_number))
-            except Exception:
-                print("not enough pages")
-                continue
+        self.reader.read(filename)
+        total_pages1 = len(self.reader.pages) 
         
         text = ""
         ocr_text = ""
-        for page in pages:
-            text += page.extractText() #TODO make correct functions to extract text
-            ocr = OCR(filename)
-            ocr_text += ocr.ocr_page(page)
+        ocr = OCR(filename)
+        
+        for i in range(3): # TODO: change to 3 with log2(total_pages1)
+            page_number = random.randint(0, total_pages1 - 1)
+                       
+            text += self.reader.read_page(filename, page_number)
+            ocr_text += ocr.ocr_page(filename, page_number)
             
+                
+            
+        if len(ocr_text) == 0: return True #TODO: lag feilmelding
         if len(text) / len(ocr_text) > 0.88:
             return True
         return False
@@ -86,8 +88,16 @@ class TextExtractor:
         
         
         
-    
-    
+from pdfminer.high_level import extract_text
+
+def extract_text_from_pdf(pdf_path):
+    text = extract_text(pdf_path)
+        # Here, you could add any post-processing to clean up the text
+    return text
+
+
+                
+
 
 
 if __name__=="__main__":
@@ -97,4 +107,22 @@ if __name__=="__main__":
     #     print(page)
     # print(extr.reader.bookname)
     
-    print(TextExtractor._pdf_readable("TutorAI/backend/flashcards/text_scraper/assets/example.pdf"))
+    #print(TextExtractor._pdf_readable("TutorAI/backend/flashcards/text_scraper/assets/example.pdf"))
+    textExtractor = TextExtractor()
+    
+    # page_data = textExtractor.extractText("TutorAI/backend/flashcards/text_scraper/assets/example.pdf")
+    # for page in page_data:
+    #     try:
+    #         print(page.encode( errors='ignore'))
+    #     except:
+    #         pass
+    
+    
+
+    pdf_path = "TutorAI/backend/flashcards/text_scraper/assets/example.pdf"
+    text_content = extract_text_from_pdf(pdf_path)
+    
+    print(repr(text_content.encode(encoding='utf-8', errors='ignore')))
+    
+    
+    

@@ -87,12 +87,14 @@ class OCR:
             print(text)
             self.page_data.append(text)
             
-    def ocr_page(self, page):
+    def ocr_page(self, pdf_file, page_num):
         """
         takes in a page, and uses OCR to extract text from the page
         params: page: PdfPage
         returns: text: str
         """
+        page = pdfium.PdfDocument(pdf_file).get_page(page_num)
+        
         image = page.render(
             scale=300 / 72
         ).to_pil()
