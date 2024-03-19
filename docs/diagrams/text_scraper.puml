@@ -47,6 +47,7 @@ package text_scraper {
     OCR --> PipelineFactory
     OCR --> Pipeline
     PipelineFactory --> Pipeline
+    
 
 }
 
