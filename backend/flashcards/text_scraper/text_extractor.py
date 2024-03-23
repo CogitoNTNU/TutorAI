@@ -101,28 +101,20 @@ def extract_text_from_pdf(pdf_path):
 
 
 if __name__=="__main__":
-    # extr=TextExtractor()
-    # extr.extractTextPdf("assets/book-riscv-rev1.pdf")
-    # for page in extr.pages:
-    #     print(page)
-    # print(extr.reader.bookname)
+    extr=TextExtractor()
+    extr.extractTextPdf("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf")
     
-    #print(TextExtractor._pdf_readable("TutorAI/backend/flashcards/text_scraper/assets/example.pdf"))
+    print(TextExtractor._pdf_readable("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf"))
     textExtractor = TextExtractor()
     
-    # page_data = textExtractor.extractText("TutorAI/backend/flashcards/text_scraper/assets/example.pdf")
-    # for page in page_data:
-    #     try:
-    #         print(page.encode( errors='ignore'))
-    #     except:
-    #         pass
+    page_data = textExtractor.extractText("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf")
     
     
-
-    pdf_path = "TutorAI/backend/flashcards/text_scraper/assets/example.pdf"
-    text_content = extract_text_from_pdf(pdf_path)
+    for page in page_data:
+        try:
+            print(page)
+        except:
+            pass
     
-    print(repr(text_content.encode(encoding='utf-8', errors='ignore')))
-    
-    
+    print("Page count: ",len(page_data))
     
