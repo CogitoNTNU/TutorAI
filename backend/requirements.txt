@@ -21,7 +21,7 @@ httpx==0.26.0
 idna==3.6
 inflection==0.5.1
 numpy==1.26.3
-openai==1.6.1
+openai==1.14.3
 packaging==23.2
 pdfminer.six==20231228
 psycopg2==2.9.9
