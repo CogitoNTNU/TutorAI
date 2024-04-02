@@ -2,6 +2,18 @@ from abc import ABC, abstractmethod
 from flashcards.knowledge_base.embeddings import cosine_similarity
 from config import Config
 from pymongo import MongoClient
+from dataclasses import dataclass
+
+@dataclass 
+class Curriculum:
+    text: str
+    page_num: int
+    #paragrap_num: int
+    #embedding: list[float]
+    pdf_name: str
+
+    
+
 
 
 class DatabaseInterface(ABC):
@@ -22,7 +34,7 @@ class DatabaseInterface(ABC):
         )
 
     @abstractmethod
-    def get_curriculum(self, embedding: list[float]) -> list[str]:
+    def get_curriculum(self, embedding: list[float]) -> list[Curriculum]:
         """
         Get the curriculum from the database
 
@@ -48,20 +60,6 @@ class DatabaseInterface(ABC):
         Returns:
             bool: True if the curriculum was posted, False otherwise
         """
-        pass
-
-    @abstractmethod
-    def get_source_reference(self, documents: list[str], curriculum: str) -> dict:
-        '''
-        Get source reference, which includes page number and pdf title
-
-        Args:
-            documents (list[str]): The list of strings that answers the question asked.
-            curriculum (str): The entire curriculum that is posted.
-        Returns:
-            dict: Returns a dictionary with keys, "page number" and "pdf title"
-        
-        '''
         pass
 
 class MongoDB(DatabaseInterface):
@@ -96,18 +94,18 @@ class MongoDB(DatabaseInterface):
         # Convert the documents to a list
         documents = list(documents)
 
+        results = []
+
         # Filter out the documents with low similarity
         for document in documents:
             if (
                 cosine_similarity(embedding, document["embedding"])
-                < self.similarity_threshold
+                > self.similarity_threshold
             ):
-                documents.remove(document)
+                results.append(Curriculum(text = document["text"], page_num = document["page_num"], pdf_name = document["pdf_name"]))
 
-        # Return the text content of the documents and page number
-        documents = [{"text":document["text"],"pagenum":document["pageNum"]} for document in documents]
-        documents[0]["pagenum"]
-        return documents
+        # Returns a list of relevant curriculum (can be 0, 1, 2, 3)
+        return results
 
     def post_curriculum(
         self, curriculum: str, page_num: int, paragraph_num: int, embedding: list[float]
@@ -137,20 +135,4 @@ class MongoDB(DatabaseInterface):
             return True
         except:
             return False
-
-    def get_source_reference(self, documents: list[str], curriculum: str) -> dict:
-        length_documents = sum(len(doc) for doc in documents) 
-        documents_str = ''.join(documents)
-
-        page_number = None
-        pdf_title = None
- 
-        for i in range(len(curriculum) - length_documents + 1):
-            window = curriculum[i:length_documents + i]
-            if window == documents_str:
-                page_number = documents[0]["pagenum"]
-                pdf_title = None #TODO: Endre på denne
-                break
-
-        return {"Page number": page_number, "pdf title": pdf_title}
             
