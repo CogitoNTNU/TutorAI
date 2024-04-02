@@ -1,7 +1,7 @@
 // UploadComponent.tsx
 
 import React, { useState } from 'react';
-import uploadPDF from '../services/uploadService';
+import uploadPDF from '../services/UploadService';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 
@@ -9,7 +9,7 @@ import 'react-pdf/dist/Page/AnnotationLayer.css';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 
-const UploadComponent: React.FC = () => {
+const UploadPDF: React.FC = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [pdfData, setPdfData] = useState<any>(null);
     const [numPages, setNumPages] = useState<number | null>(null);
@@ -66,4 +66,4 @@ const UploadComponent: React.FC = () => {
     );
 };
 
-export default UploadComponent;
+export default UploadPDF;
