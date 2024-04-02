@@ -139,9 +139,18 @@ class MongoDB(DatabaseInterface):
             return False
 
     def get_source_reference(self, documents: list[str], curriculum: str) -> dict:
-        for documents in curriculum:
-            if documents == curriculum:
+        length_documents = sum(len(doc) for doc in documents) 
+        documents_str = ''.join(documents)
+
+        page_number = None
+        pdf_title = None
+ 
+        for i in range(len(curriculum) - length_documents + 1):
+            window = curriculum[i:length_documents + i]
+            if window == documents_str:
                 page_number = documents[0]["pagenum"]
                 pdf_title = None #TODO: Endre på denne
+                break
+
         return {"Page number": page_number, "pdf title": pdf_title}
             
