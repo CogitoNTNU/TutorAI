@@ -84,7 +84,7 @@ class OCR:
         for image in images:
             # TODO: self.preprocess()
             text = pytesseract.image_to_string(image)
-            print(text)
+            
             self.page_data.append(text)
             
     def ocr_page(self, pdf_file, page_num):
@@ -110,11 +110,12 @@ class OCR:
         
     
 if __name__=="__main__":
-    pdf_file = "TutorAI/backend/flashcards/text_scraper/assets/example.pdf"
+    # pdf_file = "TutorAI/backend/flashcards/text_scraper/assets/example.pdf"
     
-    ocr = OCR(pdf_file)
-    ocr.ocr_images(pdf_file)
-    page_data = ocr.get_page_data()
+    # ocr = OCR(pdf_file)
+    # ocr.ocr_images(pdf_file)
+    # page_data = ocr.get_page_data()
     
-    for page in page_data:
-        print(page)
+    # for page in page_data:
+    #     print(page)
+    pass

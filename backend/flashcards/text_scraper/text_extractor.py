@@ -1,5 +1,6 @@
 import random
 from text_reader import TextReader
+from post_processing import PostProcessor
 
 from ocr import OCR
 import PyPDF2
@@ -11,13 +12,14 @@ class TextExtractor:
     def __init__(self):
         self.pages=[]
         self.reader=TextReader()
+        self.post_processor = PostProcessor()
         
     def extractText(self, filename):
         if self.is_readable(filename):
             self.extractTextPdf(filename)
         else:
             self.extractTextImage(filename)
-        return self.pages
+        
 
     def extractTextPdf(self, filename):
         self.reader.read(filename)
@@ -85,6 +87,16 @@ class TextExtractor:
             # If an error occurred, we use ocr
             return False
            
+    def extractParagraphs(self, filename):
+        
+        self.extractText(filename)
+        pdf_name = filename[:filename.find(".pdf")]
+        
+        data = self.post_processor.page_post_processing(self.pages, pdf_name)
+        return data
+     
+
+
         
         
         
@@ -96,25 +108,22 @@ def extract_text_from_pdf(pdf_path):
     return text
 
 
-                
-
 
 
 if __name__=="__main__":
-    extr=TextExtractor()
-    extr.extractTextPdf("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf")
+    #extr=TextExtractor()
+    #extr.extractTextPdf("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf")
     
-    print(TextExtractor._pdf_readable("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf"))
     textExtractor = TextExtractor()
     
-    page_data = textExtractor.extractText("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf")
+    #page_data = textExtractor.extractText("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf")
     
     
-    for page in page_data:
-        try:
-            print(page)
-        except:
-            pass
-    
-    print("Page count: ",len(page_data))
+    paragraph_data = textExtractor.extractParagraphs("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf")
+    for paragraph in paragraph_data:
+        print("================================================")
+        print(paragraph.text)
+        print(paragraph.page_num)
+        print(paragraph.pdf_name)
+        print("\n\n")
     
