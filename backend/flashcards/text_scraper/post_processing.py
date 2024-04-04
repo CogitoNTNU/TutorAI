@@ -51,21 +51,22 @@ class PostProcessor:
         segments = page.split('\n\n')
             
         # Further process each segment
-        for segment in segments:
-            # Clean up the segment by stripping leading/trailing whitespace and replacing multiple newlines with a single space
-            cleaned_segment = ' '.join(segment.strip().split('\n'))
-            cleaned_segment = self.simple_clean(cleaned_segment)
+        # for segment in segments:
+        #     # Clean up the segment by stripping leading/trailing whitespace and replacing multiple newlines with a single space
+        #     cleaned_segment = ' '.join(segment.strip().split('\n'))
+        #     cleaned_segment = self.simple_clean(cleaned_segment)
                 
-            # Ignore empty segments
-            if cleaned_segment:
-                paragraphs.append(cleaned_segment)
+        #     # Ignore empty segments
+        cleaned_segment = self.simple_clean(page)
+        paragraphs.append(cleaned_segment)
         
         return paragraphs
     
     
     
     def simple_clean(self, text, replace_with='?'):
-        return ''.join(char if ord(char) < 128 else replace_with for char in text)
+        
+        return ''.join(char if ord(char) < 255 else replace_with for char in text)
         
     
         

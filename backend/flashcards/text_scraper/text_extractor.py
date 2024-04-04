@@ -35,6 +35,20 @@ class TextExtractor:
     
     def is_readable(self, filename) -> bool:
         
+        """
+        Checks if a PDF file is easily readable by attempting to extract text directly from it.
+
+        This method does not guarantee OCR accuracy but checks if the PDF contains selectable text,
+        which is a good indicator of the document's readability without needing image conversion.
+
+        Args:
+            file: The PDF file to check.
+
+        Returns:
+            True if the file is easily readable (contains a significant amount of selectable text),
+            False otherwise.
+        """
+        
         self.reader.read(filename)
         total_pages1 = len(self.reader.pages) 
         
@@ -57,35 +71,7 @@ class TextExtractor:
             
         
 
-    def _pdf_readable(file: InMemoryUploadedFile) -> bool:
-        """
-        Checks if a PDF file is easily readable by attempting to extract text directly from it.
-
-        This method does not guarantee OCR accuracy but checks if the PDF contains selectable text,
-        which is a good indicator of the document's readability without needing image conversion.
-
-        Args:
-            file: The PDF file to check, wrapped in a Django InMemoryUploadedFile object.
-
-        Returns:
-            True if the file is easily readable (contains a significant amount of selectable text),
-            False otherwise.
-        """
-        try:
-            # Open the PDF file directly from the InMemoryUploadedFile
-            with fitz.open(stream=file.read(), filetype="pdf") as doc:
-                text_length = 0
-                # Iterate through each page and attempt to extract text
-                for page in doc:
-                    text = page.get_text()
-                    text_length += len(text)
-
-                # Consider the PDF easily readable if we extracted a significant amount of text
-                # Adjust the threshold according to your needs
-                return text_length > 100  # Example threshold
-        except Exception as e:
-            # If an error occurred, we use ocr
-            return False
+    
            
     def extractParagraphs(self, filename):
         
@@ -119,7 +105,7 @@ if __name__=="__main__":
     #page_data = textExtractor.extractText("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf")
     
     
-    paragraph_data = textExtractor.extractParagraphs("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf")
+    paragraph_data = textExtractor.extractParagraphs("TutorAI/backend/flashcards/text_scraper/assets/example.pdf")
     for paragraph in paragraph_data:
         print("================================================")
         print(paragraph.text)
