@@ -1,7 +1,5 @@
 import openai
 from config import Config
-from flashcards import text_to_flashcards
-from knowledge_base.db_interface import DatabaseInterface, MongoDB
 
 #Design a function that takes in context, query, chatGPT model & returns an answer that will be outputted to TuturAI in the form of a string
 
