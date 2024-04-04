@@ -60,6 +60,9 @@ const Login = () => {
                 {loginMessage && <p>{loginMessage}</p>}
             </div>
             <button onClick={navigateToSignup}>Go to Signup</button>
+
+            {/* REMOVE THE TEMPORARY BUTTON BELOW */}
+            <button className="m-10" onClick={() => navigate('/pdf-to-flashcards')}>PDF to Flashcard</button>
         </div>
     );
 };
