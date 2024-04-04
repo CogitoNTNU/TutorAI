@@ -69,7 +69,7 @@ class MongoDB(DatabaseInterface):
         self.collection = self.db["test-curriculum-collection"]
         self.similarity_threshold = 0.83
 
-    def get_curriculum(self, embedding: list[float]) -> list[str]:
+    def get_curriculum(self, embedding: list[float]) -> list[Curriculum]:
         # Checking if embedding consists of decimals or "none"
         if not embedding:
             raise ValueError("Embedding cannot be None")
