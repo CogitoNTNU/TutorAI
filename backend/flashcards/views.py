@@ -42,7 +42,10 @@ def create_flashcards(request):
     if serializer.is_valid():
         uploaded_files: list[InMemoryUploadedFile] = serializer.validated_data.get("curriculum")
         flashcards: list[Flashcard] = process_flashcards(uploaded_files)
-        return Response(data=flashcards, status=200)
+        
+        flashcard_dicts = [flashcard.to_dict() for flashcard in flashcards]
+        
+        return Response(data=flashcard_dicts, status=200)
 
     else:
         return Response(serializer.errors, status=400)
