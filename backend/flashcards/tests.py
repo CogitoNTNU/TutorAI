@@ -1,68 +1,37 @@
-from django.test import TestCase, Client
-from django.core.files.uploadedfile import SimpleUploadedFile
-
-from flashcards.convert_pdf_to_txt import convert_pdf_to_txt
-
-import os
-from flashcards.models import Cardset, Flashcard
-
-# Create your tests here.
+from django.test import TestCase
+from flashcards.text_to_flashcards import generate_flashcards, parse_for_anki, generate_template, OpenAIFlashcardGenerator,  Flashcard
+from flashcards.flashcard_service import process_flashcards
+import re
 
 
-base = "/api/"
-
-class ConvertPdfTest(TestCase):
-
+class TextToFlashcardTest(TestCase):
     def setUp(self) -> None:
-        self.pdf_file_path = os.path.join(os.path.dirname(__file__), 'test.pdf')
-
-    def test_convert_pdf(self):
-        # Convert the PDF file to text
-        text = convert_pdf_to_txt(self.pdf_file_path)
-        # Assert that the returned value is a string
-        self.assertIsInstance(text, str)
-
-class GetFlashcardTest(TestCase):
-
-    def setUp(self) -> None:
-        self.client = Client()
-        self.url = base + "generate-mock-flashcard/"
+        self.context = "Revenge of the Sith is set three years after the onset of the Clone Wars as established in Attack of the Clones. The Jedi are spread across the galaxy in a full-scale war against the Separatists. The Jedi Council dispatches Jedi Master Obi-Wan Kenobi on a mission to defeat General Grievous, the head of the Separatist army and Count Dooku's former apprentice, to put an end to the war. Meanwhile, after having visions of his wife Padmé Amidala dying in childbirth, Jedi Knight Anakin Skywalker is tasked by the Council to spy on Palpatine, the Supreme Chancellor of the Galactic Republic and, secretly, a Sith Lord. Palpatine manipulates Anakin into turning to the dark side of the Force and becoming his apprentice, Darth Vader, with wide-ranging consequences for the galaxy."
     
-    def test_get_flashcards(self):
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, 200)
+    def test_openai_flashcard_generator(self):
+        template = generate_template(self.context)
+        response = OpenAIFlashcardGenerator.request_chat_completion("system", message=template)
+        self.assertIsInstance(response, str)
+        self.assertNotEqual(response, "Error: No message provided")
+    
+    def test_generate_flashcards(self):
+        template = generate_template(self.context)
+        flashcards = generate_flashcards(template)
+        self.assertIsInstance(flashcards, list)
+        self.assertIsInstance(flashcards[0], Flashcard)
+    
+    def test_parse_for_anki(self):
+        flashcards = generate_flashcards(self.context)
+        anki_format = parse_for_anki(flashcards)
+        self.assertIsInstance(anki_format, str)
+        self.assertTrue(re.search("(.*:.*\n)*(.*:.*)", anki_format) )
+    
+    def test_process_flashcards(self):
+        flashcards = process_flashcards(None)
+        self.assertFalse(None, flashcards)
 
-    def test_get_flashcards_format(self):
-        response = self.client.get(self.url)
-        self.assertEqual(response['Content-Type'], "application/json")
-        # Check that response is a list
-        self.assertIsInstance(response.json(), list)
-        # Check that response items have the correct keys
-        self.assertIn("front", response.json()[0])
-        self.assertIn("back", response.json()[0])
+
         
-class testPersistantFlashcard(TestCase):
-
-
-    def test_persistant_flashcard(self):
-        self.assertTrue(Flashcard.objects.count() == 0)
-        
-        self.cardset = Cardset.objects.create(name="testcardset", description="testcardset")
-        self.card1 = Flashcard.objects.create(front="testfront", back="testback", cardset=self.cardset)
-        self.card2 = Flashcard.objects.create(front="testfront2", back="testback2", cardset=self.cardset)
-        self.assertTrue(Flashcard.objects.count() == 2)
-
-        self.cardset.delete()
-        self.card1.delete()
-        self.card2.delete()
-
-    def test_get_flashcards_from_cardset(self):
-        self.cardset = Cardset.objects.create(name="testcardset", description="testcardset")
-        self.assertTrue(self.cardset.flashcard_set.all().count() == 0)
-
-        self.card1 = Flashcard.objects.create(front="testfront", back="testback", cardset=self.cardset)
-        self.card2 = Flashcard.objects.create(front="testfront2", back="testback2", cardset=self.cardset)
-        self.assertTrue(self.cardset.flashcard_set.all().count() == 2)
         
 
         
