@@ -28,7 +28,7 @@ class OpenAIEmbedding(EmbeddingsInterface):
 
     def get_embedding(self, text: str) -> list[float]:
         text = text.replace("\n", " ")
-        response = self.client.embeddings.create(input=text)
+        response = self.client.embeddings.create(input=text, model=self.model_name)
         return response.data[0].embedding
 
 
