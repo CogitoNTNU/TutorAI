@@ -1,6 +1,8 @@
 from django.test import TestCase
 from flashcards.text_to_flashcards import generate_flashcards, parse_for_anki, generate_template, OpenAIFlashcardGenerator,  Flashcard
 from flashcards.flashcard_service import process_flashcards
+import re
+
 
 class TextToFlashcardTest(TestCase):
     def setUp(self) -> None:
