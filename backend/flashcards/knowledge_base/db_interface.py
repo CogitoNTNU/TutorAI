@@ -2,6 +2,18 @@ from abc import ABC, abstractmethod
 from flashcards.knowledge_base.embeddings import cosine_similarity
 from config import Config
 from pymongo import MongoClient
+from dataclasses import dataclass
+
+@dataclass 
+class Curriculum:
+    text: str
+    page_num: int
+    #paragrap_num: int
+    #embedding: list[float]
+    pdf_name: str
+
+    
+
 
 
 class DatabaseInterface(ABC):
@@ -22,7 +34,7 @@ class DatabaseInterface(ABC):
         )
 
     @abstractmethod
-    def get_curriculum(self, embedding: list[float]) -> list[str]:
+    def get_curriculum(self, embedding: list[float]) -> list[Curriculum]:
         """
         Get the curriculum from the database
 
@@ -50,7 +62,6 @@ class DatabaseInterface(ABC):
         """
         pass
 
-
 class MongoDB(DatabaseInterface):
     def __init__(self):
         self.client = MongoClient(Config().MONGODB_URI)
@@ -58,7 +69,7 @@ class MongoDB(DatabaseInterface):
         self.collection = self.db["test-curriculum-collection"]
         self.similarity_threshold = 0.83
 
-    def get_curriculum(self, embedding: list[float]) -> list[str]:
+    def get_curriculum(self, embedding: list[float]) -> list[Curriculum]:
         # Checking if embedding consists of decimals or "none"
         if not embedding:
             raise ValueError("Embedding cannot be None")
@@ -83,17 +94,18 @@ class MongoDB(DatabaseInterface):
         # Convert the documents to a list
         documents = list(documents)
 
+        results = []
+
         # Filter out the documents with low similarity
         for document in documents:
             if (
                 cosine_similarity(embedding, document["embedding"])
-                < self.similarity_threshold
+                > self.similarity_threshold
             ):
-                documents.remove(document)
+                results.append(Curriculum(text = document["text"], page_num = document["page_num"], pdf_name = document["pdf_name"]))
 
-        # Return only the text content of the documents
-        documents = [document["text"] for document in documents]
-        return documents
+        # Returns a list of relevant curriculum (can be 0, 1, 2, 3)
+        return results
 
     def post_curriculum(
         self, curriculum: str, page_num: int, paragraph_num: int, embedding: list[float]
@@ -123,3 +135,4 @@ class MongoDB(DatabaseInterface):
             return True
         except:
             return False
+            

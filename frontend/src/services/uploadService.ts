@@ -3,7 +3,7 @@ import apiRoutes from "../routes/routesDefinitions";
 
 const uploadPDF = async (file: File): Promise<Response> => {
   let formData = new FormData();
-  formData.append("pdf", file);
+  formData.append("curriculem", file);
   console.log(formData);
 
   for (let [key, value] of formData.entries()) {

@@ -1,0 +1,81 @@
+@startuml
+
+package text_scraper {
+
+    class TextExtractor {
+        + extractPages(file: File): String / Image
+    }
+
+    class TextReader {
+        + extractText(file: File): String
+    }
+
+    class OCR {
+        + extractText(file: File): String
+    }
+
+
+    class TextPackage{
+    
+    }
+
+
+    
+    package image_preprocessing {
+        class Pipeline {
+            + apply(image: Image): Image
+            + add_filter(self, image_filter: Callable):
+        }
+        note left of Pipeline: Pipe and Filter \n architecture pattern
+
+
+        class PipelineFactory {
+            + createPipeline(info): Pipeline
+        }
+
+        class Filter {
+            + invert_image(): void 
+            + grayscale_image(): void
+            + binarize(): void
+            + remove_noise(): void
+            + thin_font(): void
+            + thick_font(): void
+
+        }
+    }
+    
+    OCR --> PipelineFactory
+    OCR --> Pipeline
+    PipelineFactory --> Pipeline
+    
+
+}
+
+package external_ocr {
+
+    class TesseractOCR {
+        + image_to_string(image: Image): String
+    }
+}
+
+package post_processing {
+
+    class TextPostProcessor {
+        + process(text: String): String
+    }
+
+}
+
+
+    
+
+
+TextExtractor --> OCR
+TextExtractor --> TextReader
+TextExtractor --> TextPostProcessor
+OCR --> TesseractOCR
+Pipeline --> Filter
+TextExtractor -left-> TextPackage
+
+
+@enduml
