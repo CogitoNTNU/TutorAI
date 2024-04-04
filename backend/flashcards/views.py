@@ -5,7 +5,6 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
-
 from .text_to_flashcards import generate_flashcards, parse_flashcard
 from .convert_pdf_to_txt import convert_pdf_to_txt
 
@@ -31,40 +30,19 @@ get_flashcard_success_response = openapi.Response(
 )    
 
 @api_view(["POST"])
+@parser_classes([MultiPartParser])
 def create_flashcards(request):
-    # Check if the request has multipart content type
-    
+    print(f"[INFO] Request received...", flush=True)
 
-    if not request.content_type.startswith('multipart/form-data'):
-        return Response(
-            {"message": "The uploaded file is not in the correct format"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+    serializer = CurriculumSerializer(data=request.data)
+    if serializer.is_valid():
+        uploaded_files: list[InMemoryUploadedFile] = serializer.validated_data.get("curriculum")
+        flashcards: list[Flashcard] = process_flashcards(uploaded_files)
+        return Response(data=flashcards, status=200)
 
-    pdf_file = request.FILES["pdf"]
-    if not pdf_file:
-        print("No PDF file uploaded", flush=True)
-        return Response(
-            {"message": "No PDF file uploaded"},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
-
-    print("PDF file uploaded successfully", flush=True)
-
-    # Convert the pdf file to text
-    text = convert_pdf_to_txt(pdf_file)
-
-    # TODO: split the text into paragraphs before generating flashcards
-    text = text[:100]
-
-    flashcards = generate_flashcards(text)
-    flashcards = parse_flashcard(flashcards)
-
-    if flashcards == "":
-        return Response(
-            {"message": "Error generating flashcards"}, status=status.HTTP_400_BAD_REQUEST
-        )
-    return Response(flashcards, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors, status=400)
+   
 
 
 @swagger_auto_schema(
@@ -80,3 +58,4 @@ def generate_mock_flashcard(request):
     # flashcards = parse_flashcard(flashcards)
     
     return Response(flashcards, status=status.HTTP_200_OK)
+
