@@ -1,11 +1,15 @@
 from django.core.files.storage import default_storage
 from django.http import JsonResponse
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.shortcuts import render
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
-from .text_to_flashcards import generate_flashcards, parse_flashcard
+
+from flashcards.flashcard_service import process_flashcards
+from flashcards.serializer import CurriculumSerializer
+from .text_to_flashcards import Flashcard, generate_flashcards, parse_flashcard
 from .convert_pdf_to_txt import convert_pdf_to_txt
 
 from drf_yasg.utils import swagger_auto_schema
