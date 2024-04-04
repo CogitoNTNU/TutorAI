@@ -1,6 +1,6 @@
 import random
 from text_reader import TextReader
-from post_processing import PostProcessor
+from post_processing import Data, PostProcessor
 
 from ocr import OCR
 import PyPDF2
@@ -73,7 +73,17 @@ class TextExtractor:
 
     
            
-    def extractParagraphs(self, filename):
+    def extractParagraphs(self, filename) -> list[Data]:
+        
+        """Entry point for the text extraction process. This method extracts text from a PDF file and performs post-processing on the extracted text data.
+
+        Returns:
+            @dataclass
+            class Data:
+                text: str
+                page_num: int
+                pdf_name: str
+        """
         
         self.extractText(filename)
         pdf_name = filename[:filename.find(".pdf")]

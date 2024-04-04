@@ -5,31 +5,34 @@ from flashcards.rag_service import post_context
 from flashcards.knowledge_base.factory import create_database
 from flashcards.knowledge_base.factory import create_embeddings_model
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
-import flashcards.text_extractor as text_extractor
+from flashcards.text_scraper.text_extractor import TextExtractor
+from flashcards.text_scraper.post_processing import PostProcessor, Data
+
+from flashcards.knowledge_base.db_interface import DatabaseInterface
+from flashcards.knowledge_base.embeddings import EmbeddingsInterface
 
 def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     """
     Process the files and return the flashcards.
     """
-    print("[INFO] Processing file", flush=True)
+    print("[INFO] Processing file", flush=True)  
+    db: DatabaseInterface = create_database()
+    embeddings: EmbeddingsInterface = create_embeddings_model()
 
     # Extract text from the uploaded file
     # TODO: Use the scraper to extract the text from the uploaded file
-    extractor = text_extractor.TextExtractor()
-    extractor.extractParagraphs(uploaded_file)
+    extractor = TextExtractor()
+    paragraph_data: list[Data] = extractor.extractParagraphs(uploaded_file)
     
-    
-    context: str = "hei"
-
-    page_num = 1
-    paragraph_num = 1
-    db = create_database()
-    embeddings = create_embeddings_model()
+    for index, page in enumerate(paragraph_data):
+        context: str = page.text
+        page_num: int = page.page_num
+        pdf_name: str
+        context_posted: bool = post_context(context, page_num, index, db, embeddings)
 
     # Post the text into knowledge base
     # TODO: Use the rag service to post the text into the knowledge base
     
-    context_posted: bool = post_context(context, page_num, paragraph_num, db, embeddings)
 
     # Generate flashcards from the text
     # TODO: use the FlashcardGenerator to generate flashcards from the text
