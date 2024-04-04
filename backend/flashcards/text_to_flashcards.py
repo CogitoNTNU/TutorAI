@@ -68,6 +68,10 @@ class Flashcard:
     front: str
     back: str
 
+    def to_dict(self):
+        return {"front": self.front, "back": self.back}
+
+
 def parse_flashcard(flashcards_data: list[str]) -> list[Flashcard]:
     """
     Returns a list of the Flashcard dataclass 
