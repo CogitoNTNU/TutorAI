@@ -26,8 +26,8 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     
     for index, page in enumerate(paragraph_data):
         context: str = page.text
-        page_num: int = page.page_num
-        pdf_name: str
+        page_num: int = 1
+        pdf_name: str = page.pdf_name
         context_posted: bool = post_context(context, page_num, index, db, embeddings)
 
     # Post the text into knowledge base
