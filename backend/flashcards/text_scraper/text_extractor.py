@@ -11,8 +11,8 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 class TextExtractor:
     def __init__(self):
         self.pages=[]
-        self.reader=TextReader()
-        self.post_processor = PostProcessor()
+        self.reader: TextReader = TextReader()
+        self.post_processor: PostProcessor = PostProcessor()
         
     def extractText(self, file: InMemoryUploadedFile):
         if self.is_readable(file):
@@ -21,19 +21,19 @@ class TextExtractor:
             self.extractTextImage(file)
         
 
-    def extractTextPdf(self, filename):
-        self.reader.read(filename)
+    def extractTextPdf(self, file):
+        self.reader.read(file)
         self.pages=self.reader.pages
         
         
-    def extractTextImage(self, filename):
+    def extractTextImage(self, file):
         
-        ocr: OCR = OCR(filename)
-        ocr.ocr_images(filename)
+        ocr: OCR = OCR(file)
+        ocr.ocr_images(file)
         page_data = ocr.get_page_data()
         self.pages = page_data
     
-    def is_readable(self, filename: InMemoryUploadedFile) -> bool:
+    def is_readable(self, file: InMemoryUploadedFile) -> bool:
         
         """
         Checks if a PDF file is easily readable by attempting to extract text directly from it.
@@ -49,18 +49,18 @@ class TextExtractor:
             False otherwise.
         """
         
-        self.reader.read(filename)
+        self.reader.read(file)
         total_pages1 = len(self.reader.pages) 
         
         text = ""
         ocr_text = ""
-        ocr = OCR(filename)
+        ocr = OCR(file)
         
         for i in range(3): # TODO: change to 3 with log2(total_pages1)
             page_number = random.randint(0, total_pages1 - 1)
                        
-            text += self.reader.read_page(filename, page_number)
-            ocr_text += ocr.ocr_page(filename, page_number)
+            text += self.reader.read_page(file, page_number)
+            ocr_text += ocr.ocr_page(file, page_number)
             
                 
             
@@ -73,8 +73,7 @@ class TextExtractor:
 
     
            
-    def extractParagraphs(self, filename: InMemoryUploadedFile) -> list[Data]:
-        
+    def extractParagraphs(self, file: InMemoryUploadedFile) -> list[Data]:
         """Entry point for the text extraction process. This method extracts text from a PDF file and performs post-processing on the extracted text data.
 
         Returns:
@@ -85,10 +84,9 @@ class TextExtractor:
                 pdf_name: str
         """
         
-        self.extractText(filename)
-        pdf_name = filename[:filename.find(".pdf")]
+        self.extractText(file)
         
-        data = self.post_processor.page_post_processing(self.pages, pdf_name)
+        data = self.post_processor.page_post_processing(self.pages, "pdf_name")
         return data
      
 
