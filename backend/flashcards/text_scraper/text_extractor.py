@@ -1,8 +1,8 @@
 import random
-from text_reader import TextReader
-from post_processing import Data, PostProcessor
+from flashcards.text_scraper.text_reader import TextReader
+from flashcards.text_scraper.post_processing import Data, PostProcessor
 
-from ocr import OCR
+from flashcards.text_scraper.ocr import OCR
 import PyPDF2
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
