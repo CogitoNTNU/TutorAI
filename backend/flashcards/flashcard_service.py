@@ -28,6 +28,12 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
         context: str = page.text
         page_num: int = 1
         pdf_name: str = page.pdf_name
+        if (page_num == None):
+            raise Exception("Page number is null")
+        if (context == None):
+            continue
+        if (pdf_name == None):
+            raise Exception("PDF name is null")
         context_posted: bool = post_context(context, page_num, index, db, embeddings)
 
     # Post the text into knowledge base
