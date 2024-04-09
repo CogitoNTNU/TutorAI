@@ -14,11 +14,11 @@ class TextExtractor:
         self.reader=TextReader()
         self.post_processor = PostProcessor()
         
-    def extractText(self, filename):
-        if self.is_readable(filename):
-            self.extractTextPdf(filename)
+    def extractText(self, file: InMemoryUploadedFile):
+        if self.is_readable(file):
+            self.extractTextPdf(file)
         else:
-            self.extractTextImage(filename)
+            self.extractTextImage(file)
         
 
     def extractTextPdf(self, filename):
@@ -33,7 +33,7 @@ class TextExtractor:
         page_data = ocr.get_page_data()
         self.pages = page_data
     
-    def is_readable(self, filename) -> bool:
+    def is_readable(self, filename: InMemoryUploadedFile) -> bool:
         
         """
         Checks if a PDF file is easily readable by attempting to extract text directly from it.
@@ -73,7 +73,7 @@ class TextExtractor:
 
     
            
-    def extractParagraphs(self, filename) -> list[Data]:
+    def extractParagraphs(self, filename: InMemoryUploadedFile) -> list[Data]:
         
         """Entry point for the text extraction process. This method extracts text from a PDF file and performs post-processing on the extracted text data.
 

@@ -3,6 +3,7 @@
 
 import pytesseract
 from PIL import Image
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 import pytesseract
 import pypdfium2 as pdfium
@@ -17,8 +18,8 @@ import flashcards.text_scraper.pipeline as piper
 
 
 class OCR:
-    def __init__(self, file):
-        self.file = file
+    def __init__(self, file: InMemoryUploadedFile):
+        self.file: InMemoryUploadedFile = file
         self.image = None
         self.page_data = []
     
@@ -36,7 +37,7 @@ class OCR:
         
         
 
-    def make_pdf_into_image_list(self, file) -> list[Image.Image]:
+    def make_pdf_into_image_list(self, file: InMemoryUploadedFile) -> list[Image.Image]:
         """
         Converts a file into an image
 
@@ -68,12 +69,12 @@ class OCR:
         Finds the preprocessing pipeline for the image
         """
         """
-        TODO: Implement this function
+        TODO: Implement this function. For now, least viable product 
         """
         return 1
     
     
-    def ocr_images(self, file):
+    def ocr_images(self, file: InMemoryUploadedFile):
         """
         take in pdf file, and calls a function that creates a list of images from the pdf file, then uses OCR to extract text from the images
         params: file: InMemoryUploadedFile
