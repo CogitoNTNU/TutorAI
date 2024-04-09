@@ -5,6 +5,12 @@ from flashcards.rag_service import post_context
 from flashcards.knowledge_base.factory import create_database
 from flashcards.knowledge_base.factory import create_embeddings_model
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
+from knowledge_base.db_interface import MongoDB
+from knowledge_base.response_formulation import response_formulation 
+#from flashcards.knowledge_base import 
+
+mongodb = MongoDB()
+
 
 
 def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
@@ -777,12 +783,18 @@ process closes fd or exits.
     embeddings = create_embeddings_model()
 
     # Post the text into knowledge base
-    # TODO: Use the rag service to post the text into the knowledge base
-    
     context_posted: bool = post_context(context, page_num, paragraph_num, db, embeddings)
 
     # Generate flashcards from the text
-    # TODO: use the FlashcardGenerator to generate flashcards from the text
-
     flashcards = generate_flashcards(context)
     return flashcards
+
+
+def process_answer(user_input: str) -> str:
+    #This will answer a query only based on the list of closest correct answers from the data provided:
+
+    embedding = create_embeddings_model()
+    curriculum_list = mongodb.get_curriculum(embedding)
+    answer_GPT = response_formulation(user_input, curriculum_list)
+
+    return answer_GPT
