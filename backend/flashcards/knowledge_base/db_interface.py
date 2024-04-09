@@ -113,10 +113,10 @@ class MongoDB(DatabaseInterface):
         if not curriculum:
             raise ValueError("Curriculum cannot be None")
 
-        if not page_num:
+        if page_num == None:
             raise ValueError("Page number cannot be None")
 
-        if not paragraph_num:
+        if paragraph_num == None:
             raise ValueError("Paragraph number cannot be None")
 
         if not embedding:
