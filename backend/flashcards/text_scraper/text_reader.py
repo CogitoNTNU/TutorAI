@@ -2,7 +2,6 @@ import PyPDF2
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
-
 class TextReader:
     """
     A class for reading text from PDF files.
@@ -43,7 +42,7 @@ class TextReader:
             It also extracts the name of the PDF file (without the .pdf extension) and stores it in 'bookname'.
         """
         # Open the PDF file
-        
+
         pdf_reader = PyPDF2.PdfReader(file)
 
         self.pages = []
@@ -53,10 +52,10 @@ class TextReader:
             # Get the text from the current page
             page = pdf_reader.pages[page_num]
             self.pages.append(page.extract_text())
-            self.book_name = file[: file.find(".pdf")]
+            self.book_name = file.name
 
     def read_page(self, file, page_num):
-        
+
         pdf_reader = PyPDF2.PdfReader(file)
         page = pdf_reader.pages[page_num]
         text = page.extract_text()
