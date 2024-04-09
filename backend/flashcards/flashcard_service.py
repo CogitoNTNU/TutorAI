@@ -34,7 +34,7 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
             continue
         if (pdf_name == None):
             raise Exception("PDF name is null")
-        context_posted: bool = post_context(context, page_num, index, db, embeddings)
+        context_posted: bool = post_context(context, page_num, 1, db, embeddings)
 
     # Post the text into knowledge base
     # TODO: Use the rag service to post the text into the knowledge base
