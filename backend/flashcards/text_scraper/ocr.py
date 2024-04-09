@@ -1,7 +1,6 @@
 
 
-from spire.pdf.common import *
-from spire.pdf import *
+
 import pytesseract
 from PIL import Image
 
@@ -12,7 +11,7 @@ from pypdfium2 import PdfPage
 import pipeline as piper
 
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 
 
