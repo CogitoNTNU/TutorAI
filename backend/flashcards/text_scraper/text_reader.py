@@ -56,8 +56,8 @@ class TextReader:
             self.book_name = file[: file.find(".pdf")]
 
     def read_page(self, file, page_num):
-        with open(file, "rb") as f:
-            pdf_reader = PyPDF2.PdfReader(f)
-            page = pdf_reader.pages[page_num]
-            text = page.extract_text()
-            return text
+        
+        pdf_reader = PyPDF2.PdfReader(file)
+        page = pdf_reader.pages[page_num]
+        text = page.extract_text()
+        return text
