@@ -4,6 +4,9 @@ import PIL.Image as Image
 
 
 class Pipeline:
+    """
+    The pipeline class is responsible for applying a series of filters to an image
+    """
 
     def __init__(self, image, filters):
         self.image = image
@@ -11,8 +14,7 @@ class Pipeline:
 
     def apply_filters(self):
         """
-        loops through each filter and applies it to the image
-
+        Method that applies all the filters in the pipeline to the image
         """
 
         for filter in self.filters:
