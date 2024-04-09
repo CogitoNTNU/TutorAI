@@ -15,7 +15,7 @@ class TextReader:
         Initializes the TextReader object with empty lists for pages and an empty string for bookname.
         """
         self.pages = []
-        self.bookname = ""
+        self.book_name = ""
 
     def __str__(self) -> str:
         """
@@ -24,7 +24,7 @@ class TextReader:
         Returns:
             str: A string containing the bookname followed by the text from all pages.
         """
-        return f"{self.bookname}({' '.join(self.pages)})"
+        return f"{self.book_name}({' '.join(self.pages)})"
 
     def read(self, pdf_file):
         """
@@ -41,7 +41,7 @@ class TextReader:
             It also extracts the name of the PDF file (without the .pdf extension) and stores it in 'bookname'.
         """
         # Open the PDF file
-        with open(pdf_file, 'rb') as f:
+        with open(pdf_file, "rb") as f:
             # Create a PDF reader object
             pdf_reader = PyPDF2.PdfReader(f)
 
@@ -52,12 +52,11 @@ class TextReader:
                 # Get the text from the current page
                 page = pdf_reader.pages[page_num]
                 self.pages.append(page.extract_text())
-            self.bookname = pdf_file[:pdf_file.find(".pdf")]
-            
+            self.book_name = pdf_file[: pdf_file.find(".pdf")]
+
     def read_page(self, pdf_file, page_num):
-        with open(pdf_file, 'rb') as f:
+        with open(pdf_file, "rb") as f:
             pdf_reader = PyPDF2.PdfReader(f)
             page = pdf_reader.pages[page_num]
             text = page.extract_text()
             return text
-            
