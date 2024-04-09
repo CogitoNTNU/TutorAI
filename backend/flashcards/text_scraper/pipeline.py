@@ -1,4 +1,4 @@
-import image_filter as imF
+import flashcards.text_scraper.image_filter as imF
 import cv2
 
 

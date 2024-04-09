@@ -8,7 +8,7 @@ import pytesseract
 import pypdfium2 as pdfium
 from pypdfium2 import PdfPage
 
-import pipeline as piper
+import flashcards.text_scraper.pipeline as piper
 
 
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
