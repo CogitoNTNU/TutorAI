@@ -1,7 +1,8 @@
 from django.test import TestCase
 from flashcards.text_to_flashcards import generate_flashcards, parse_for_anki, generate_template, OpenAIFlashcardGenerator,  Flashcard
-from flashcards.flashcard_service import process_flashcards
+from flashcards.system_integration_service import process_flashcards
 import re
+from flashcards.system_integration_service import process_answer
 
 
 class TextToFlashcardTest(TestCase):
@@ -29,6 +30,10 @@ class TextToFlashcardTest(TestCase):
     def test_process_flashcards(self):
         flashcards = process_flashcards(None)
         self.assertFalse(None, flashcards)
+
+    def process_answer_test(self):
+        user_input = "Give me an example of the use of 'the' in a sentence?"
+        self.assertFalse(None, process_answer(user_input))
 
 
         
