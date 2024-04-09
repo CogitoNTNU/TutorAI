@@ -85,6 +85,7 @@ class OCR:
         page = pdfium.PdfDocument(pdf_file).get_page(page_num)
 
         image = page.render(scale=300 / 72).to_pil()
+        # TODO: add functionality for preprocessing
         # image = self.preprocess(image)
         text = pytesseract.image_to_string(image)
         return text
@@ -92,14 +93,3 @@ class OCR:
     def get_page_data(self):
         return self.page_data
 
-
-if __name__ == "__main__":
-    # pdf_file = "TutorAI/backend/flashcards/text_scraper/assets/example.pdf"
-
-    # ocr = OCR(pdf_file)
-    # ocr.ocr_images(pdf_file)
-    # page_data = ocr.get_page_data()
-
-    # for page in page_data:
-    #     print(page)
-    pass
