@@ -793,8 +793,11 @@ process closes fd or exits.
 def process_answer(user_input: str) -> str:
     #This will answer a query only based on the list of closest correct answers from the data provided:
 
+    #Generate the embedding for the user input
     embedding = create_embeddings_model()
+    #Get a list of answers from the database
     curriculum_list = mongodb.get_curriculum(embedding)
+    #Use this list to generate a response
     answer_GPT = response_formulation(user_input, curriculum_list)
 
     return answer_GPT
