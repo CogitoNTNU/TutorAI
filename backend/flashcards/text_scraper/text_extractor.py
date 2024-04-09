@@ -84,8 +84,8 @@ class TextExtractor:
 from pdfminer.high_level import extract_text
 
 
-def extract_text_from_pdf(pdf_path):
-    text = extract_text(pdf_path)
+def extract_text_from_pdf(file: InMemoryUploadedFile):
+    text = extract_text(file)
     # Here, you could add any post-processing to clean up the text
     return text
 

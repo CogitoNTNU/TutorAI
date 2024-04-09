@@ -28,7 +28,7 @@ class TextReader:
         """
         return f"{self.book_name}({' '.join(self.pages)})"
 
-    def read(self, pdf_file: InMemoryUploadedFile):
+    def read(self, file: InMemoryUploadedFile):
         """
         Reads text from the given PDF file.
 
@@ -44,20 +44,19 @@ class TextReader:
         """
         # Open the PDF file
         
-            # Create a PDF reader object
-            pdf_reader = PyPDF2.PdfReader(f)
+        pdf_reader = PyPDF2.PdfReader(file)
 
-            self.pages = []
+        self.pages = []
 
-            # Iterate through each page of the PDF
-            for page_num in range(len(pdf_reader.pages)):
-                # Get the text from the current page
-                page = pdf_reader.pages[page_num]
-                self.pages.append(page.extract_text())
-            self.book_name = pdf_file[: pdf_file.find(".pdf")]
+        # Iterate through each page of the PDF
+        for page_num in range(len(pdf_reader.pages)):
+            # Get the text from the current page
+            page = pdf_reader.pages[page_num]
+            self.pages.append(page.extract_text())
+            self.book_name = file[: file.find(".pdf")]
 
-    def read_page(self, pdf_file, page_num):
-        with open(pdf_file, "rb") as f:
+    def read_page(self, file, page_num):
+        with open(file, "rb") as f:
             pdf_reader = PyPDF2.PdfReader(f)
             page = pdf_reader.pages[page_num]
             text = page.extract_text()
