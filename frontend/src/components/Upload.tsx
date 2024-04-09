@@ -1,7 +1,5 @@
-// UploadComponent.tsx
-
 import React, { useState } from 'react';
-import uploadPDF from '../services/UploadService';
+import UploadService from '../services/UploadService';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 
@@ -40,7 +38,7 @@ const UploadPDF: React.FC = () => {
         event.preventDefault();
         if (selectedFile) {
             try {
-                const response = await uploadPDF(selectedFile);
+                const response = await UploadService(selectedFile);
                 console.log(response);
                 setSuccessfulUpload(true);
                 // Handle the response data
