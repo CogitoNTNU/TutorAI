@@ -1,4 +1,6 @@
 import PyPDF2
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
 
 
 class TextReader:
@@ -26,7 +28,7 @@ class TextReader:
         """
         return f"{self.book_name}({' '.join(self.pages)})"
 
-    def read(self, pdf_file):
+    def read(self, pdf_file: InMemoryUploadedFile):
         """
         Reads text from the given PDF file.
 
@@ -41,7 +43,7 @@ class TextReader:
             It also extracts the name of the PDF file (without the .pdf extension) and stores it in 'bookname'.
         """
         # Open the PDF file
-        with open(pdf_file, "rb") as f:
+        
             # Create a PDF reader object
             pdf_reader = PyPDF2.PdfReader(f)
 
