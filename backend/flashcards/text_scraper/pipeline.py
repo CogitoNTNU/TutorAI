@@ -1,12 +1,32 @@
 import flashcards.text_scraper.image_filter as imF
 import cv2
+import PIL.Image as Image
+
+
+class Pipeline:
+
+    def __init__(self, image, filters):
+        self.image = image
+        self.filters = filters
+
+    def apply_filters(self):
+        """
+        loops through each filter and applies it to the image
+
+        """
+
+        for filter in self.filters:
+            self.image = filter(self.image)
+
+    def get_image(self):
+        return self.image
 
 
 class PipelineFactory:
     def __init__(self, image):
         self.image = image
 
-    def create_pipeline(self, pipeline_type):
+    def create_pipeline(self, pipeline_type) -> Pipeline:
         """creates pipeline based on what type of pipeline is requested
 
         Args:
@@ -35,27 +55,6 @@ class PipelineFactory:
 
         return Pipeline(self.image, filters)
 
-
-class Pipeline:
-
-    def __init__(self, image, filters):
-        self.image = image
-        self.filters = filters
-
-    def apply_filters(self):
-        """
-        loops through each filter and applies it to the image
-
-        """
-
-        for filter in self.filters:
-            self.image = filter(self.image)
-
-    def get_image(self):
-        return self.image
-
-
-import PIL.Image as Image
 
 if __name__ == "__main__":
     image_file = "TutorAI/backend/flashcards/text_scraper/assets/page_01_rotated.jpg"
