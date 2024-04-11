@@ -4,13 +4,15 @@ from config import Config
 from pymongo import MongoClient
 from dataclasses import dataclass
 
-@dataclass 
+
+@dataclass(frozen=True)
 class Curriculum:
     text: str
     page_num: int
-    #paragrap_num: int
-    #embedding: list[float]
+    # paragrap_num: int
+    embedding: list[float]
     pdf_name: str
+
 
 class DatabaseInterface(ABC):
     """
@@ -24,9 +26,11 @@ class DatabaseInterface(ABC):
     @classmethod
     def __subclasscheck__(cls, subclass: any) -> bool:
         return (
-            hasattr(subclass, "get_curriculum") and callable(subclass.get_curriculum)
+            hasattr(subclass, "get_curriculum") and callable(
+                subclass.get_curriculum)
         ) and (
-            hasattr(subclass, "post_curriculum") and callable(subclass.post_curriculum)
+            hasattr(subclass, "post_curriculum") and callable(
+                subclass.post_curriculum)
         )
 
     @abstractmethod
@@ -40,6 +44,10 @@ class DatabaseInterface(ABC):
         Returns:
             list[str]: The curriculum related to the question
         """
+        pass
+
+    @abstractmethod
+    def get_page_range(self, page_num_start: int, page_num_end: int) -> list[Curriculum]:
         pass
 
     @abstractmethod
@@ -57,6 +65,7 @@ class DatabaseInterface(ABC):
             bool: True if the curriculum was posted, False otherwise
         """
         pass
+
 
 class MongoDB(DatabaseInterface):
     def __init__(self):
@@ -76,7 +85,8 @@ class MongoDB(DatabaseInterface):
                 "index": "embeddings",
                 "path": "embedding",
                 "queryVector": embedding,
-                "numCandidates": 30,  # MongoDB suggests using numCandidates=10*limit or numCandidates=20*limit
+                # MongoDB suggests using numCandidates=10*limit or numCandidates=20*limit
+                "numCandidates": 30,
                 "limit": 3,
             }
         }
@@ -98,7 +108,8 @@ class MongoDB(DatabaseInterface):
                 cosine_similarity(embedding, document["embedding"])
                 > self.similarity_threshold
             ):
-                results.append(Curriculum(text = document["text"], page_num = document["page_num"], pdf_name = document["pdf_name"]))
+                results.append(Curriculum(text=document["text"], page_num=document["page_num"],
+                               embedding=document["embedding"], pdf_name=document["pdf_name"]))
 
         # Returns a list of relevant curriculum (can be 0, 1, 2, 3)
         return results
@@ -131,4 +142,7 @@ class MongoDB(DatabaseInterface):
             return True
         except:
             return False
-            
+
+
+if __name__ == '__main__':
+    db = MongoDB()
