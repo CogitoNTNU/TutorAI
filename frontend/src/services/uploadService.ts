@@ -3,7 +3,7 @@ import apiRoutes from "../routes/routesDefinitions";
 
 const UploadService = async (file: File): Promise<Response> => {
   let formData = new FormData();
-  formData.append("curriculem", file);
+  formData.append("curriculum", file);
   console.log(formData);
 
   for (let [key, value] of formData.entries()) {

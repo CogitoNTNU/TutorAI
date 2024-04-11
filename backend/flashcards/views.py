@@ -38,6 +38,20 @@ get_flashcard_success_response = openapi.Response(
 def create_flashcards(request):
     print(f"[INFO] Request received...", flush=True)
 
+    ################# TODO REMOVE #############
+    
+    flashcard_data = [
+            {"front": "What is the capital of India?", "back": "New Delhi"},
+            {"front": "What is the capital of France?", "back": "Paris"},
+            {"front": "What is the capital of Japan?", "back": "Tokyo"},
+        ]
+    # Test return
+    flashcards: list[Flashcard] = [Flashcard(front=flashcard["front"], back=flashcard["back"]) for flashcard in flashcard_data]
+    
+    return Response(data=flashcards, status=200)
+
+    ###########################################
+
     serializer = CurriculumSerializer(data=request.data)
     if serializer.is_valid():
         uploaded_files: list[InMemoryUploadedFile] = serializer.validated_data.get("curriculum")
@@ -61,8 +75,7 @@ def create_flashcards(request):
 
 @api_view(["GET"])
 def generate_mock_flashcard(request):
-    flashcards = generate_flashcards()
-    # flashcards = parse_flashcard(flashcards)
+    mockstr = "The capital of India is New Delhi. The capital of France is Paris. The capital of Japan is Tokyo."
+    flashcards = generate_flashcards(mockstr)
     
     return Response(flashcards, status=status.HTTP_200_OK)
-
