@@ -2,6 +2,9 @@
 
 from flashcards.knowledge_base.db_interface import DatabaseInterface
 from flashcards.knowledge_base.embeddings import EmbeddingsInterface
+from flashcards.knowledge_base.factory import create_database
+from flashcards.knowledge_base.factory import create_embeddings_model
+
 
 
 def get_context(
@@ -27,8 +30,6 @@ def post_context(
     context: str,
     page_num: int,
     paragraph_num: int,
-    db: DatabaseInterface,
-    embeddings: EmbeddingsInterface,
 ) -> bool:
     """
     Post the context to the database
@@ -43,5 +44,8 @@ def post_context(
     Returns:
         bool: True if the context was posted, False otherwise
     """
+    db: DatabaseInterface = create_database()
+    embeddings: EmbeddingsInterface = create_embeddings_model()
+
     embedding = embeddings.get_embedding(context)
     return db.post_curriculum(context, page_num, paragraph_num, embedding)
