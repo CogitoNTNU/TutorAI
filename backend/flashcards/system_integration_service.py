@@ -7,6 +7,7 @@ from flashcards.knowledge_base.factory import create_embeddings_model
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from knowledge_base.db_interface import MongoDB
 from knowledge_base.response_formulation import response_formulation 
+from knowledge_base.db_interface import MongoDB, get_page_range
 #from flashcards.knowledge_base import 
 
 mongodb = MongoDB()
@@ -781,12 +782,19 @@ process closes fd or exits.
     paragraph_num = 1
     db = create_database()
     embeddings = create_embeddings_model()
+    pdf_name = None
+    page_num_start = 1
+    page_num_end = 5
+
 
     # Post the text into knowledge base
-    context_posted: bool = post_context(context, page_num, paragraph_num, db, embeddings)
+    context_posted: bool = post_context(context, page_num, paragraph_num, db, embeddings, pdf_name)
+
+    #Get the specific context we will use in flashcards (ie. all context from page range)
+    specific_context = get_page_range(pdf_name, page_num_start, page_num_end)
 
     # Generate flashcards from the text
-    flashcards = generate_flashcards(context)
+    flashcards = generate_flashcards(specific_context)
     return flashcards
 
 
