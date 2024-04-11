@@ -11,11 +11,12 @@ from flashcards.text_scraper.post_processing import PostProcessor, Data
 from flashcards.knowledge_base.db_interface import DatabaseInterface
 from flashcards.knowledge_base.embeddings import EmbeddingsInterface
 
+
 def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     """
     Process the files and return the flashcards.
     """
-    print("[INFO] Processing file", flush=True)  
+    print("[INFO] Processing file", flush=True)
     db: DatabaseInterface = create_database()
     embeddings: EmbeddingsInterface = create_embeddings_model()
 
@@ -23,22 +24,20 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     # TODO: Use the scraper to extract the text from the uploaded file
     extractor = TextExtractor()
     paragraph_data: list[Data] = extractor.extractParagraphs(uploaded_file)
-    
     for index, page in enumerate(paragraph_data):
         context: str = page.text
         page_num: int = page.page_num
         pdf_name: str = page.pdf_name
-        if (page_num == None):
+        if page_num == None:
             raise Exception("Page number is null")
-        if (context == None):
+        if context == None:
             continue
-        if (pdf_name == None):
+        if pdf_name == None:
             raise Exception("PDF name is null")
         context_posted: bool = post_context(context, page_num, index, db, embeddings)
 
     # Post the text into knowledge base
     # TODO: Use the rag service to post the text into the knowledge base
-    
 
     # Generate flashcards from the text
     # TODO: use the FlashcardGenerator to generate flashcards from the text
