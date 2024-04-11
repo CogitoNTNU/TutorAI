@@ -55,7 +55,7 @@ class TextExtractor:
         for i in range(3):  # TODO: change to 3 with log2(total_pages1)
             page_number = random.randint(0, total_pages1 - 1)
 
-            text += self.reader.read_page(file, page_number)
+            text += self.reader.read_page(page_number)
             ocr_text += ocr.ocr_page(file, page_number)
 
         if len(ocr_text) == 0:
@@ -79,9 +79,6 @@ class TextExtractor:
 
         data = self.post_processor.page_post_processing(self.pages, "pdf_name")
         return data
-
-
-from pdfminer.high_level import extract_text
 
 
 def extract_text_from_pdf(file: InMemoryUploadedFile):

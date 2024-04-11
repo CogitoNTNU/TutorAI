@@ -1,5 +1,4 @@
-import PyPDF2
-import io
+import fitz
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
@@ -42,22 +41,29 @@ class TextReader:
             This method extracts text from each page of the PDF file and stores it in the 'pages' list.
             It also extracts the name of the PDF file (without the .pdf extension) and stores it in 'bookname'.
         """
-        # Open the PDF file
-        byte_file = io.BytesIO(file)
-        pdf_reader = PyPDF2.PdfReader(byte_file)
+        print(f"Reading text from {file}", flush=True)
+        text = ""
+        file.seek(0)  # Ensure we're reading from the start of the file
+        self.book_name = file.name
+        # extract text from the PDF
+        with fitz.open(stream=file.read(), filetype="pdf") as doc:
+            for page in doc:
+                text += page.get_text()
+                self.pages.append(text)
 
-        self.pages = []
+    def read_page(self, page_number: int) -> str:
+        """
+        Reads text from a specific page of the given PDF file.
 
-        # Iterate through each page of the PDF
-        for page_num in range(len(pdf_reader.pages)):
-            # Get the text from the current page
-            page = pdf_reader.pages[page_num]
-            self.pages.append(page.extract_text())
-            self.book_name = file.name
+        Args:
+            file (str): The path to the PDF file.
+            page_number (int): The page number to read text from.
 
-    def read_page(self, file, page_num):
+        Returns:
+            str: The text content of the specified page.
 
-        pdf_reader = PyPDF2.PdfReader(file)
-        page = pdf_reader.pages[page_num]
-        text = page.extract_text()
-        return text
+        Raises:
+            FileNotFoundError: If the specified PDF file does not exist.
+            ValueError: If the page number is out of range.
+        """
+        return self.pages[page_number - 1]
