@@ -12,10 +12,6 @@ class Curriculum:
     #embedding: list[float]
     pdf_name: str
 
-    
-
-
-
 class DatabaseInterface(ABC):
     """
     Abstract class for Connecting to a Database
