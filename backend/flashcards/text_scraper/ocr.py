@@ -1,3 +1,4 @@
+from multiprocessing import pool
 import pytesseract
 from PIL import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -72,7 +73,8 @@ class OCR:
 
         for image in images:
             # TODO: self.preprocess()
-            text = pytesseract.image_to_string(image)
+            
+            text = pool.ApplyResult(pytesseract.image_to_string(image))
 
             self.page_data.append(text)
 
@@ -92,4 +94,5 @@ class OCR:
 
     def get_page_data(self):
         return self.page_data
-
+    
+    
