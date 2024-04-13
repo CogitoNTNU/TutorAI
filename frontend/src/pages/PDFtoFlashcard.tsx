@@ -42,10 +42,9 @@ const PDFtoFlashcard: React.FC = () => {
                 const response = await UploadService(selectedFile);
                 console.log("Response:", response);
                 setSuccessfulUpload(true);
-                
-                // Get flashcards from the response
-                const flashcards = await response.json();
-                setFlashcards(flashcards);
+                // Set flashcards from response
+                const flashcards = response.data; // This is NOT an actual error
+                setFlashcards(flashcards)
             } catch (error) {
                 console.error('Error uploading file:', error);
             }
