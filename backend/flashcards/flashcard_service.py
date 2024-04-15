@@ -18,9 +18,9 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     pages: list[Page] = extractor.extractData(uploaded_file)
     print("[INFO] Files read")
     flashcards: list[Flashcard] = []
+    print("[INFO] Generating flashcards", flush=True)
     for page in pages:
         # TODO: Parallelize api calls
-        print("[INFO] Generating flashcards", flush=True)
         flashcards_from_page = generate_flashcards(page)
         flashcards.extend(flashcards_from_page)
 
@@ -32,7 +32,7 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
 
 def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     """
-    Process the file and store the pages as curriculem in a database.
+    Process the file and store the pages as curriculum in a database.
     """
     print("[INFO] Processing file", flush=True)
 
@@ -43,5 +43,5 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     for index, page in enumerate(pages):
         # Save content
         context_posted: bool = post_context(page.text, page.page_num, page.pdf_name)
-
+        # TODO: HANDLE FAILURE CASE OF POST CONTEXT
     return context_posted
