@@ -16,20 +16,21 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     # Extract text from the uploaded file
     extractor = TextExtractor()
     pages: list[Page] = extractor.extractData(uploaded_file)
-
+    print("[INFO] Files read")
     flashcards: list[Flashcard] = []
     for page in pages:
         # TODO: Parallelize api calls
         print("[INFO] Generating flashcards", flush=True)
         flashcards_from_page = generate_flashcards(page)
         flashcards.extend(flashcards_from_page)
+
         # Save content
-        print(f"New flashcards {flashcards_from_page}")
-        context_posted: bool = post_context(page.text, page.page_num, page.pdf_name)
+        post_context(page.text, page.page_num, page.pdf_name)
 
     return flashcards
 
-def store_curriculem(uploaded_file: InMemoryUploadedFile) -> bool:
+
+def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     """
     Process the file and store the pages as curriculem in a database.
     """
