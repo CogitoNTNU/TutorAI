@@ -29,7 +29,7 @@ def get_context(
 def post_context(
     context: str,
     page_num: int,
-    paragraph_num: int,
+    pdf_name: str,
 ) -> bool:
     """
     Post the context to the database
@@ -48,4 +48,4 @@ def post_context(
     embeddings: EmbeddingsInterface = create_embeddings_model()
 
     embedding = embeddings.get_embedding(context)
-    return db.post_curriculum(context, page_num, paragraph_num, embedding)
+    return db.post_curriculum(context, page_num, pdf_name, embedding)

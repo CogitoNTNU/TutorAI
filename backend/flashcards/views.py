@@ -10,7 +10,6 @@ from rest_framework import status
 from flashcards.flashcard_service import process_flashcards
 from flashcards.serializer import CurriculumSerializer
 from .text_to_flashcards import Flashcard, generate_flashcards, parse_flashcard
-from .convert_pdf_to_txt import convert_pdf_to_txt
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
