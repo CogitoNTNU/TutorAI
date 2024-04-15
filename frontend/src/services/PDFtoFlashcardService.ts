@@ -1,9 +1,9 @@
 import axios from "axios";
 import apiRoutes from "../routes/routesDefinitions";
 
-const uploadPDF = async (file: File): Promise<Response> => {
+const UploadPDF = async (file: File): Promise<Response> => {
   let formData = new FormData();
-  formData.append("curriculum", file);
+  formData.append("pdf", file);
   console.log(formData);
 
   for (let [key, value] of formData.entries()) {
@@ -22,4 +22,4 @@ const uploadPDF = async (file: File): Promise<Response> => {
   return response;
 };
 
-export default uploadPDF;
+export default UploadPDF;
