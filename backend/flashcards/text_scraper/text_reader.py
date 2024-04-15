@@ -1,63 +1,64 @@
-import PyPDF2
+from flashcards.text_scraper.post_processing import Page
+import fitz
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 class TextReader:
     """
     A class for reading text from PDF files.
-
-    Attributes:
-        pages (list): A list to store text content extracted from each page of the PDF.
-        bookname (str): Name of the PDF file being read.
     """
 
-    def __init__(self) -> None:
-        """
-        Initializes the TextReader object with empty lists for pages and an empty string for bookname.
-        """
-        self.pages = []
-        self.bookname = ""
-
-    def __str__(self) -> str:
-        """
-        Returns a string representation of the TextReader object.
-
-        Returns:
-            str: A string containing the bookname followed by the text from all pages.
-        """
-        return f"{self.bookname}({' '.join(self.pages)})"
-
-    def read(self, pdf_file):
+    def read(self, file: InMemoryUploadedFile) -> list[Page]:
         """
         Reads text from the given PDF file.
 
         Args:
             pdf_file (str): The path to the PDF file.
 
-        Raises:
-            FileNotFoundError: If the specified PDF file does not exist.
-
         Notes:
             This method extracts text from each page of the PDF file and stores it in the 'pages' list.
             It also extracts the name of the PDF file (without the .pdf extension) and stores it in 'bookname'.
         """
-        # Open the PDF file
-        with open(pdf_file, 'rb') as f:
-            # Create a PDF reader object
-            pdf_reader = PyPDF2.PdfReader(f)
+        file.seek(0)  # Ensure we're reading from the start of the file
+        book_name: str = file.name
 
-            self.pages = []
+        # extract text from the PDF
+        pages: list[Page] = []
+        with fitz.open(stream=file.read(), filetype="pdf") as doc:
+            for index, current_page in enumerate(doc):
+                page = Page(current_page.get_text(), index + 1, book_name)
+                pages.append(page)
+        return pages
 
-            # Iterate through each page of the PDF
-            for page_num in range(len(pdf_reader.pages)):
-                # Get the text from the current page
-                page = pdf_reader.pages[page_num]
-                self.pages.append(page.extract_text())
-            self.bookname = pdf_file[:pdf_file.find(".pdf")]
-            
-    def read_page(self, pdf_file, page_num):
-        with open(pdf_file, 'rb') as f:
-            pdf_reader = PyPDF2.PdfReader(f)
-            page = pdf_reader.pages[page_num]
-            text = page.extract_text()
-            return text
-            
+    def read_page(self, file: InMemoryUploadedFile, page_number: int) -> str:
+        """
+        Reads text from a specific page of the given PDF file.
+
+        Args:
+            file (str): The path to the PDF file.
+            page_number (int): The page number to read text from.
+
+        Returns:
+            str: The text content of the specified page.
+        """
+        if page_number >= self.get_amount_of_pages(file):
+            # Page not in file
+            raise ValueError("The file does not contain this page")
+
+        file.seek(0)  # Ensure we're reading from the start of the file
+        # extract text from the PDF
+        with fitz.open(stream=file.read(), filetype="pdf") as doc:
+            for index, current_page in enumerate(doc):
+                if index != page_number:
+                    continue
+                return current_page.get_text()
+
+    def get_amount_of_pages(self, file: InMemoryUploadedFile) -> int:
+        file.seek(0)  # Ensure we're reading from the start of the file
+        # extract text from the PDF
+        pages = 0
+        with fitz.open(stream=file.read(), filetype="pdf") as doc:
+            for page in doc:
+                pages += 1
+
+        return pages
