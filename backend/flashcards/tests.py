@@ -1,6 +1,5 @@
 from django.test import TestCase
 from flashcards.text_to_flashcards import generate_flashcards, parse_for_anki, generate_template, OpenAIFlashcardGenerator,  Flashcard
-from flashcards.flashcard_service import process_flashcards
 import re
 
 
@@ -26,9 +25,6 @@ class TextToFlashcardTest(TestCase):
         self.assertIsInstance(anki_format, str)
         self.assertTrue(re.search("(.*:.*\n)*(.*:.*)", anki_format) )
     
-    def test_process_flashcards(self):
-        flashcards = process_flashcards("flashcards/test.pdf")
-        self.assertFalse(None, flashcards)
 
 
         

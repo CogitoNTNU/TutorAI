@@ -2,14 +2,9 @@
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from flashcards.rag_service import post_context
-from flashcards.knowledge_base.factory import create_database
-from flashcards.knowledge_base.factory import create_embeddings_model
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.text_scraper.post_processing import PostProcessor, Data
-
-from flashcards.knowledge_base.db_interface import DatabaseInterface
-from flashcards.knowledge_base.embeddings import EmbeddingsInterface
 
 
 def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
@@ -17,8 +12,6 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     Process the files and return the flashcards.
     """
     print("[INFO] Processing file", flush=True)
-    db: DatabaseInterface = create_database()
-    embeddings: EmbeddingsInterface = create_embeddings_model()
 
     # Extract text from the uploaded file
     extractor = TextExtractor()
@@ -33,7 +26,8 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
             continue
         if pdf_name == None:
             raise Exception("PDF name is null")
-        context_posted: bool = post_context(context, page_num, index, db, embeddings)
+        context_posted: bool = post_context(context, page_num, index)
+
     print("[INFO] Generating flashcards", flush=True)
     flashcards = generate_flashcards(context)
     return flashcards
