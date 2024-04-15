@@ -9,7 +9,7 @@ from flashcards.text_scraper.post_processing import Page
 
 def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     """
-    Process the files and return the flashcards.
+    Process the file and return the flashcards.
     """
     print("[INFO] Processing file", flush=True)
 
@@ -28,3 +28,19 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
         context_posted: bool = post_context(page.text, page.page_num, index)
 
     return flashcards
+
+def store_curriculem(uploaded_file: InMemoryUploadedFile) -> bool:
+    """
+    Process the file and store the pages as curriculem in a database.
+    """
+    print("[INFO] Processing file", flush=True)
+
+    # Extract text from the uploaded file
+    extractor = TextExtractor()
+    pages: list[Page] = extractor.extractData(uploaded_file)
+
+    for index, page in enumerate(pages):
+        # Save content
+        context_posted: bool = post_context(page.text, page.page_num, index)
+
+    return context_posted
