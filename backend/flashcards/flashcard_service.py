@@ -6,8 +6,6 @@ from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.text_scraper.post_processing import PostProcessor, Data
 
-from flashcards.knowledge_base.db_interface import DatabaseInterface
-from flashcards.knowledge_base.embeddings import EmbeddingsInterface
 
 def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     """
