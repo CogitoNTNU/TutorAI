@@ -1,4 +1,5 @@
 import openai
+from flashcards.text_scraper.post_processing import Page
 from config import Config
 from dataclasses import dataclass
 from abc import ABC, ABCMeta, abstractmethod
@@ -67,12 +68,14 @@ def generate_template(context: str) -> str:
 class Flashcard:
     front: str
     back: str
+    pdf_name: str
+    page_num: int
 
     def to_dict(self):
-        return {"front": self.front, "back": self.back}
+        return {"front": self.front, "back": self.back, "pdf_name": self.pdf_name, "page_num": self.page_num}
 
 
-def parse_flashcard(flashcards_data: list[str]) -> list[Flashcard]:
+def parse_flashcard(flashcards_data: list[str], page: Page ) -> list[Flashcard]:
     """
     Returns a list of the Flashcard dataclass 
 
@@ -90,11 +93,11 @@ def parse_flashcard(flashcards_data: list[str]) -> list[Flashcard]:
     for i in flashcards_data:
         i = i.replace("Front: ", "").replace("Back: ", "")
         i = i.split("-")
-        flashcards.append(Flashcard(front=i[0].strip(), back=i[1].strip()))
+        flashcards.append(Flashcard(front=i[0].strip(), back=i[1].strip(), pdf_name=page.pdf_name, page_num=page.page_num))
     
     return flashcards
 
-def generate_flashcards(context: str) -> list[Flashcard]:
+def generate_flashcards(page: Page) -> list[Flashcard]:
     """
     Returns a flashcard generated from the sample text
 
@@ -104,10 +107,10 @@ def generate_flashcards(context: str) -> list[Flashcard]:
     Returns:
         list: The list of flashcards generated from the sample text
     """
-    template = generate_template(context)
+    template = generate_template(page.text)
     response = OpenAIFlashcardGenerator.request_chat_completion("system", message=template)
     response = response.split("|")
-    return parse_flashcard(response)
+    return parse_flashcard(response, page)
 
 def parse_for_anki(flashcards: list[Flashcard]) -> str:
     """

@@ -21,7 +21,7 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     for page in pages:
         # TODO: Parallelize api calls
         print("[INFO] Generating flashcards", flush=True)
-        flashcards_from_page = generate_flashcards(page.text)
+        flashcards_from_page = generate_flashcards(page)
         flashcards.extend(flashcards_from_page)
         # Save content
         print(f"New flashcards {flashcards_from_page}")
