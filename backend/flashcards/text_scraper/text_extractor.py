@@ -1,36 +1,37 @@
 import random
 from flashcards.text_scraper.text_reader import TextReader
-from flashcards.text_scraper.post_processing import Data, PostProcessor
+from flashcards.text_scraper.post_processing import Page, PostProcessor
 
 from flashcards.text_scraper.ocr import OCR
-import PyPDF2
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 class TextExtractor:
     def __init__(self):
-        self.pages = []
         self.reader: TextReader = TextReader()
         self.post_processor: PostProcessor = PostProcessor()
 
-    def extractText(self, file: InMemoryUploadedFile):
-        if self.is_readable(file):
-            self.extractTextPdf(file)
+    def extractData(self, file: InMemoryUploadedFile) -> list[Page]:
+        pages: list[Page] = []
+        if self._isReadable(file):
+            pages.extend(self._extractTextPdf(file))
         else:
-            self.extractTextImage(file)
+            pages.extend(self._extractTextImage(file))
 
-    def extractTextPdf(self, file):
+        data = self.post_processor.page_post_processing(pages, file.name)
+        return data
+
+    def _extractTextPdf(self, file) -> list[Page]:
         self.reader.read(file)
-        self.pages = self.reader.pages
+        return self.reader.pages
 
-    def extractTextImage(self, file):
-
+    def _extractTextImage(self, file) -> list[Page]:
         ocr: OCR = OCR(file)
         ocr.ocr_images(file)
         page_data = ocr.get_page_data()
-        self.pages = page_data
+        return page_data
 
-    def is_readable(self, file: InMemoryUploadedFile) -> bool:
+    def _isReadable(self, file: InMemoryUploadedFile) -> bool:
         """
         Checks if a PDF file is easily readable by attempting to extract text directly from it.
 
@@ -63,44 +64,3 @@ class TextExtractor:
         if len(text) / len(ocr_text) > 0.88:
             return True
         return False
-
-    def extractParagraphs(self, file: InMemoryUploadedFile) -> list[Data]:
-        """Entry point for the text extraction process. This method extracts text from a PDF file and performs post-processing on the extracted text data.
-
-        Returns:
-            @dataclass
-            class Data:
-                text: str
-                page_num: int
-                pdf_name: str
-        """
-
-        self.extractText(file)
-
-        data = self.post_processor.page_post_processing(self.pages, "pdf_name")
-        return data
-
-
-def extract_text_from_pdf(file: InMemoryUploadedFile):
-    text = extract_text(file)
-    # Here, you could add any post-processing to clean up the text
-    return text
-
-
-if __name__ == "__main__":
-    # extr=TextExtractor()
-    # extr.extractTextPdf("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf")
-
-    textExtractor = TextExtractor()
-
-    # page_data = textExtractor.extractText("TutorAI/backend/flashcards/text_scraper/assets/imageExample.pdf")
-
-    paragraph_data = textExtractor.extractParagraphs(
-        "TutorAI/backend/flashcards/text_scraper/assets/example.pdf"
-    )
-    for paragraph in paragraph_data:
-        print("================================================")
-        print(paragraph.text)
-        print(paragraph.page_num)
-        print(paragraph.pdf_name)
-        print("\n\n")
