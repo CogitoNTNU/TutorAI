@@ -44,19 +44,15 @@ class TextExtractor:
             True if the file is easily readable (contains a significant amount of selectable text),
             False otherwise.
         """
-        print(f"[DEBUG] Check if is readable")
 
         total_pages = self.reader.get_amount_of_pages(file)
-        print(f"toatl pages { total_pages}")
         fast_text = ""
         ocr_text = ""
         ocr = OCR(file)
 
-        #
+        # Look random pages and see if there is a large disparity
         for _ in range(3):  # TODO: change to 3 with log2(total_pages1)
-            print("Find what pages to read")
             page_number = random.randint(0, total_pages - 1)
-            print(f"The pages to read: {page_number}")
             fast_text += self.reader.read_page(file, page_number)
             ocr_text += ocr.ocr_page(file, page_number)
 
