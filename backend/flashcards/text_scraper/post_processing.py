@@ -12,22 +12,15 @@ class Page:
 
 class PostProcessor:
 
-    def __init__(self):
-        pass
-
-    def page_post_processing(self, page_data, pdf_name):
-        data = []
+    def page_post_processing(self, page_data, pdf_name) -> list[Page]:
+        post_processed_pages = []
 
         for i, page in enumerate(page_data):
-            paragraphs = self.extract_paragraphs(page)
+            post_processed_pages.append(self._extract_paragraphs(page))
 
-            for paragraph in paragraphs:
-                page_num = i + 1
-                data.append(Page(text=paragraph, page_num=page_num, pdf_name=pdf_name))
+        return post_processed_pages
 
-        return data
-
-    def extract_paragraphs(self, page):
+    def _extract_paragraphs(self, page: Page) -> Page:
         """
         Extract paragraphs from a list of strings, where each string represents page content from a PDF.
 
@@ -37,10 +30,9 @@ class PostProcessor:
         Returns:
         - A list of paragraphs extracted from the page content.
         """
-        paragraphs = []
 
         # Split the page into segments based on double newline characters
-        segments = page.split("\n\n")
+        # segments = page.split("\n\n")
 
         # Further process each segment
         # for segment in segments:
@@ -49,11 +41,11 @@ class PostProcessor:
         #     cleaned_segment = self.simple_clean(cleaned_segment)
 
         #     # Ignore empty segments
-        cleaned_segment = self.simple_clean(page)
-        paragraphs.append(cleaned_segment)
+        cleaned_segment = self._simple_clean(page.text)
+        page.text = cleaned_segment
 
-        return paragraphs
+        return page
 
-    def simple_clean(self, text, replace_with="?"):
+    def _simple_clean(self, text, replace_with="?"):
 
         return "".join(char if ord(char) < 255 else replace_with for char in text)

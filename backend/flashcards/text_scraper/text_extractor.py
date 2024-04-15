@@ -21,9 +21,8 @@ class TextExtractor:
         data = self.post_processor.page_post_processing(pages, file.name)
         return data
 
-    def _extractTextPdf(self, file) -> list[Page]:
-        self.reader.read(file)
-        return self.reader.pages
+    def _extractTextPdf(self, file: InMemoryUploadedFile) -> list[Page]:
+        return self.reader.read(file)
 
     def _extractTextImage(self, file) -> list[Page]:
         ocr: OCR = OCR(file)
@@ -46,21 +45,20 @@ class TextExtractor:
             False otherwise.
         """
 
-        self.reader.read(file)
-        total_pages1 = len(self.reader.pages)
+        total_pages = self.reader.get_amount_of_pages(file)
 
-        text = ""
+        fast_text = ""
         ocr_text = ""
         ocr = OCR(file)
 
-        for i in range(3):  # TODO: change to 3 with log2(total_pages1)
-            page_number = random.randint(0, total_pages1 - 1)
-
-            text += self.reader.read_page(page_number)
+        for _ in range(3):  # TODO: change to 3 with log2(total_pages1)
+            page_number = random.randint(0, total_pages - 1)
+            print(f"The pages to read: {page_number}")
+            fast_text += self.reader.read_page(file, page_number)
             ocr_text += ocr.ocr_page(file, page_number)
 
         if len(ocr_text) == 0:
             return True  # TODO: lag feilmelding
-        if len(text) / len(ocr_text) > 0.88:
+        if len(fast_text) / len(ocr_text) > 0.88:
             return True
         return False
