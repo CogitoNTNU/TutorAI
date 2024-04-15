@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Flashcards from '../components/Flashcards';
 import { FlashcardProps } from '../components/Flashcard';
-import UploadService from '../services/UploadService';
+import UploadService from '../services/stoopiderror';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 
