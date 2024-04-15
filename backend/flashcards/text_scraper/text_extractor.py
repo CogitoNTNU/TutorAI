@@ -44,6 +44,7 @@ class TextExtractor:
             True if the file is easily readable (contains a significant amount of selectable text),
             False otherwise.
         """
+        print(f"[DEBUG] Check if is readable")
 
         total_pages = self.reader.get_amount_of_pages(file)
         print(f"toatl pages { total_pages}")
@@ -51,6 +52,7 @@ class TextExtractor:
         ocr_text = ""
         ocr = OCR(file)
 
+        #
         for _ in range(3):  # TODO: change to 3 with log2(total_pages1)
             print("Find what pages to read")
             page_number = random.randint(0, total_pages - 1)

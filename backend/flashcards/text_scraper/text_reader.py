@@ -41,7 +41,7 @@ class TextReader:
         Returns:
             str: The text content of the specified page.
         """
-        if page_number > self.get_amount_of_pages(file):
+        if page_number >= self.get_amount_of_pages(file):
             # Page not in file
             raise ValueError("The file does not contain this page")
 
@@ -49,8 +49,7 @@ class TextReader:
         # extract text from the PDF
         with fitz.open(stream=file.read(), filetype="pdf") as doc:
             for index, current_page in enumerate(doc):
-                page = index + 1
-                if page != page_number:
+                if index != page_number:
                     continue
                 return current_page.get_text()
 
