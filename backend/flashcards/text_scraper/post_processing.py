@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Data:
+class Page:
     text: str
     page_num: int
     pdf_name: str
@@ -17,14 +17,13 @@ class PostProcessor:
 
     def page_post_processing(self, page_data, pdf_name):
         data = []
-        i = 0
-        for page in page_data:
 
+        for i, page in enumerate(page_data):
             paragraphs = self.extract_paragraphs(page)
-            for paragraph in paragraphs:
-                data.append(Data(text=paragraph, page_num=i, pdf_name=pdf_name))
 
-            i += 1
+            for paragraph in paragraphs:
+                page_num = i + 1
+                data.append(Page(text=paragraph, page_num=page_num, pdf_name=pdf_name))
 
         return data
 
