@@ -20,6 +20,7 @@ httpcore==1.0.2
 httpx==0.26.0
 idna==3.6
 inflection==0.5.1
+matplotlib==3.8.4
 numpy==1.26.4
 openai==1.6.1
 opencv-python==4.9.0.80
@@ -32,7 +33,10 @@ pydantic==2.5.3
 pydantic_core==2.14.6
 PyJWT==2.8.0
 pymongo==4.6.2
-PyPDF2==1.26.0
+PyPDF2==3.0.1
+PyMuPDF==1.24.1
+PyMuPDFb==1.24.1
+pypdfium2==4.28.0
 pytesseract==0.3.10
 python-dotenv==1.0.0
 pytz==2023.3.post1
