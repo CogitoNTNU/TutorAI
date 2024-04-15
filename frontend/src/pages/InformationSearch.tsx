@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Search from '../components/Search';
+// import Search from '../components/Search';
 
 const InformationSearch: React.FC = () => {
-    const [response, setResponse] = useState<any>(null);
+    // const [response, setResponse] = useState<any>(null);
 
     useEffect(() => {
     }, []);
