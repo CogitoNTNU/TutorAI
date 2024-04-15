@@ -1,5 +1,6 @@
 from django.test import TestCase
 from flashcards.text_to_flashcards import generate_flashcards, parse_for_anki, generate_template, OpenAIFlashcardGenerator,  Flashcard
+from flashcards.text_scraper.post_processing import Page
 import re
 
 
@@ -14,13 +15,14 @@ class TextToFlashcardTest(TestCase):
         self.assertNotEqual(response, "Error: No message provided")
     
     def test_generate_flashcards(self):
-        template = generate_template(self.context)
-        flashcards = generate_flashcards(template)
+        page = Page(self.context, 1, "test.pdf")
+        flashcards = generate_flashcards(page)
         self.assertIsInstance(flashcards, list)
         self.assertIsInstance(flashcards[0], Flashcard)
     
     def test_parse_for_anki(self):
-        flashcards = generate_flashcards(self.context)
+        page = Page(self.context, 1, "test.pdf")
+        flashcards = generate_flashcards(page)
         anki_format = parse_for_anki(flashcards)
         self.assertIsInstance(anki_format, str)
         self.assertTrue(re.search("(.*:.*\n)*(.*:.*)", anki_format) )
