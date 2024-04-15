@@ -12,10 +12,10 @@ class Page:
 
 class PostProcessor:
 
-    def page_post_processing(self, page_data, pdf_name) -> list[Page]:
+    def page_post_processing(self, pages: list[Page]) -> list[Page]:
         post_processed_pages = []
 
-        for i, page in enumerate(page_data):
+        for page in pages:
             post_processed_pages.append(self._extract_paragraphs(page))
 
         return post_processed_pages

@@ -18,7 +18,7 @@ class TextExtractor:
         else:
             pages.extend(self._extractTextImage(file))
 
-        data = self.post_processor.page_post_processing(pages, file.name)
+        data = self.post_processor.page_post_processing(pages)
         return data
 
     def _extractTextPdf(self, file: InMemoryUploadedFile) -> list[Page]:
@@ -46,12 +46,13 @@ class TextExtractor:
         """
 
         total_pages = self.reader.get_amount_of_pages(file)
-
+        print(f"toatl pages { total_pages}")
         fast_text = ""
         ocr_text = ""
         ocr = OCR(file)
 
         for _ in range(3):  # TODO: change to 3 with log2(total_pages1)
+            print("Find what pages to read")
             page_number = random.randint(0, total_pages - 1)
             print(f"The pages to read: {page_number}")
             fast_text += self.reader.read_page(file, page_number)
