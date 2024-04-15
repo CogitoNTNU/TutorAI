@@ -21,7 +21,6 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     embeddings: EmbeddingsInterface = create_embeddings_model()
 
     # Extract text from the uploaded file
-    # TODO: Use the scraper to extract the text from the uploaded file
     extractor = TextExtractor()
     paragraph_data: list[Data] = extractor.extractParagraphs(uploaded_file)
     for index, page in enumerate(paragraph_data):
@@ -35,12 +34,6 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
         if pdf_name == None:
             raise Exception("PDF name is null")
         context_posted: bool = post_context(context, page_num, index, db, embeddings)
-
-    # Post the text into knowledge base
-    # TODO: Use the rag service to post the text into the knowledge base
-
-    # Generate flashcards from the text
-    # TODO: use the FlashcardGenerator to generate flashcards from the text
-
+    print("[INFO] Generating flashcards", flush=True)
     flashcards = generate_flashcards(context)
     return flashcards
