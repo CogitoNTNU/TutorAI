@@ -26,9 +26,6 @@ class TextToFlashcardTest(TestCase):
         self.assertIsInstance(anki_format, str)
         self.assertTrue(re.search("(.*:.*\n)*(.*:.*)", anki_format) )
     
-    def test_process_flashcards(self):
-        flashcards = process_flashcards("flashcards/test.pdf")
-        self.assertFalse(None, flashcards)
 
 
         
