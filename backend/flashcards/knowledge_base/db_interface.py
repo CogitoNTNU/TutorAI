@@ -48,7 +48,7 @@ class DatabaseInterface(ABC):
 
     @abstractmethod
     def post_curriculum(
-        self, curriculum: str, page_num: int, paragraph_num: int, embedding: list[float]
+        self, curriculum: str, page_num: int, pdf_name: str, embedding: list[float]
     ) -> bool:
         """
         Post the curriculum to the database
@@ -108,7 +108,7 @@ class MongoDB(DatabaseInterface):
         return results
 
     def post_curriculum(
-        self, curriculum: str, page_num: int, paragraph_num: int, embedding: list[float]
+        self, curriculum: str, page_num: int, pdf_name: str, embedding: list[float]
     ) -> bool:
         if not curriculum:
             raise ValueError("Curriculum cannot be None")
@@ -116,7 +116,7 @@ class MongoDB(DatabaseInterface):
         if page_num == None:
             raise ValueError("Page number cannot be None")
 
-        if paragraph_num == None:
+        if pdf_name == None:
             raise ValueError("Paragraph number cannot be None")
 
         if not embedding:
@@ -128,7 +128,7 @@ class MongoDB(DatabaseInterface):
                 {
                     "text": curriculum,
                     "pageNum": page_num,
-                    "paragraphNum": paragraph_num,
+                    "pdfName": pdf_name,
                     "embedding": embedding,
                 }
             )
