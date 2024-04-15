@@ -1,9 +1,9 @@
 import random
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
 from flashcards.text_scraper.text_reader import TextReader
 from flashcards.text_scraper.post_processing import Page, PostProcessor
-
 from flashcards.text_scraper.ocr import OCR
-from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
 class TextExtractor:

@@ -40,7 +40,7 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     extractor = TextExtractor()
     pages: list[Page] = extractor.extractData(uploaded_file)
 
-    for index, page in enumerate(pages):
+    for page in pages:
         # Save content
         context_posted: bool = post_context(page.text, page.page_num, page.pdf_name)
         # TODO: HANDLE FAILURE CASE OF POST CONTEXT
