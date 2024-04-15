@@ -18,14 +18,14 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     pages: list[Page] = extractor.extractData(uploaded_file)
 
     flashcards: list[Flashcard] = []
-    for index, page in enumerate(pages):
+    for page in pages:
         # TODO: Parallelize api calls
         print("[INFO] Generating flashcards", flush=True)
         flashcards_from_page = generate_flashcards(page.text)
         flashcards.extend(flashcards_from_page)
         # Save content
         print(f"New flashcards {flashcards_from_page}")
-        context_posted: bool = post_context(page.text, page.page_num, index)
+        context_posted: bool = post_context(page.text, page.page_num, page.pdf_name)
 
     return flashcards
 
@@ -41,6 +41,6 @@ def store_curriculem(uploaded_file: InMemoryUploadedFile) -> bool:
 
     for index, page in enumerate(pages):
         # Save content
-        context_posted: bool = post_context(page.text, page.page_num, index)
+        context_posted: bool = post_context(page.text, page.page_num, page.pdf_name)
 
     return context_posted
