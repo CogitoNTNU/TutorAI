@@ -89,8 +89,10 @@ def parse_flashcard(flashcards_data: list[str], page: Page ) -> list[Flashcard]:
         [Flashcard(front="apple", back="banana"), Flashcard(front="orange", back="grape")]
     """
     flashcards = []
-
+  
     for i in flashcards_data:
+        if "Front: " not in i or "Back: " not in i:
+            continue
         i = i.replace("Front: ", "").replace("Back: ", "")
         i = i.split("-")
         flashcards.append(Flashcard(front=i[0].strip(), back=i[1].strip(), pdf_name=page.pdf_name, page_num=page.page_num))
