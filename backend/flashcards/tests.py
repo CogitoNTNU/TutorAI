@@ -1,4 +1,5 @@
 from django.test import TestCase
+from flashcards.flashcard_service import process_answer
 from flashcards.text_to_flashcards import (
     generate_flashcards,
     parse_for_anki,
@@ -8,7 +9,6 @@ from flashcards.text_to_flashcards import (
 )
 from flashcards.text_scraper.post_processing import Page
 import re
-from flashcards.system_integration_service import process_answer
 
 
 class TextToFlashcardTest(TestCase):

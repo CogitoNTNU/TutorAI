@@ -1,7 +1,8 @@
 """ The service module contains the business logic of the application. """
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from flashcards.rag_service import post_context
+from flashcards.knowledge_base import response_formulation
+from flashcards.rag_service import get_context, post_context
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.text_scraper.post_processing import Page
@@ -45,3 +46,16 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
         context_posted: bool = post_context(page.text, page.page_num, page.pdf_name)
         # TODO: HANDLE FAILURE CASE OF POST CONTEXT
     return context_posted
+
+
+def process_answer(user_input: str) -> str:
+    # This will answer a query only based on the list of closest correct answers from the data provided:
+
+    # Generate the embedding for the user input
+    curriculum = get_context(user_input)
+    # Get a list of answers from the database
+
+    # Use this list to generate a response
+    answer_GPT = response_formulation(user_input, curriculum)
+
+    return answer_GPT
