@@ -16,7 +16,7 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     # Extract text from the uploaded file
     extractor = TextExtractor()
     paragraph_data: list[Data] = extractor.extractParagraphs(uploaded_file)
-    for index, page in enumerate(paragraph_data):
+    for page in paragraph_data:
         context: str = page.text
         page_num: int = page.page_num
         pdf_name: str = page.pdf_name
@@ -26,7 +26,7 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
             continue
         if pdf_name == None:
             raise Exception("PDF name is null")
-        context_posted: bool = post_context(context, page_num, index)
+        context_posted: bool = post_context(context, page_num, pdf_name)
 
     print("[INFO] Generating flashcards", flush=True)
     flashcards = generate_flashcards(context)
