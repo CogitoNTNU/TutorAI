@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Flashcards from '../components/Flashcards';
 import { FlashcardProps } from '../components/Flashcard';
-import UploadService from '../services/stoopiderror';
+import UploadService from '../services/UploadService';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 
@@ -43,7 +43,7 @@ const PDFtoFlashcard: React.FC = () => {
                 console.log("Response:", response);
                 setSuccessfulUpload(true);
                 // Set flashcards from response
-                const flashcards = response.data; // This is NOT an actual error
+                const flashcards = response.data;
                 setFlashcards(flashcards)
             } catch (error) {
                 console.error('Error uploading file:', error);
