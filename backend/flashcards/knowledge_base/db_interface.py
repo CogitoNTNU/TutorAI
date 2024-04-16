@@ -130,8 +130,8 @@ class MongoDB(DatabaseInterface):
         # Get the curriculum from the database
         cursor = self.collection.find(
             {
-                "pdf_name": pdf_name,
-                "page_num": {"$gte": page_num_start, "$lte": page_num_end}
+                "pdfName": pdf_name,
+                "pageNum": {"$gte": page_num_start, "$lte": page_num_end}
             }
         )
 
@@ -140,11 +140,9 @@ class MongoDB(DatabaseInterface):
 
         results = []
 
-
         for document in cursor:
-            print(f"cursors: {document}", flush=True)
-        #results.append(Curriculum(text=document["text"], page_num=document["page_num"],
-                                  #embedding=document["embedding"], pdf_name=document["pdf_name"]))
+            results.append(Curriculum(text=document["text"], page_num=document["pageNum"],
+                                      embedding=document["embedding"], pdf_name=document["pdfName"]))
 
         return results
 
