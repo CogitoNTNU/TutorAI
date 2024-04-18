@@ -1,16 +1,18 @@
 from abc import ABC, abstractmethod
-from flashcards.knowledge_base.embeddings import cosine_similarity
+from .embeddings import OpenAIEmbedding
 from config import Config
 from pymongo import MongoClient
 from dataclasses import dataclass
 
-@dataclass 
+
+@dataclass(frozen=True)
 class Curriculum:
     text: str
     page_num: int
-    #paragrap_num: int
-    #embedding: list[float]
+    # paragrap_num: int
+    embedding: list[float]
     pdf_name: str
+
 
 class DatabaseInterface(ABC):
     """
@@ -24,9 +26,11 @@ class DatabaseInterface(ABC):
     @classmethod
     def __subclasscheck__(cls, subclass: any) -> bool:
         return (
-            hasattr(subclass, "get_curriculum") and callable(subclass.get_curriculum)
+            hasattr(subclass, "get_curriculum") and callable(
+                subclass.get_curriculum)
         ) and (
-            hasattr(subclass, "post_curriculum") and callable(subclass.post_curriculum)
+            hasattr(subclass, "post_curriculum") and callable(
+                subclass.post_curriculum)
         )
 
     @abstractmethod
@@ -39,6 +43,20 @@ class DatabaseInterface(ABC):
 
         Returns:
             list[str]: The curriculum related to the question
+        """
+        pass
+
+    @abstractmethod
+    def get_page_range(self, pdf_name: str, page_num_start: int, page_num_end: int) -> list[Curriculum]:
+        """
+        Retrieves a range of pages from the knowledge base.
+
+        Args:
+            page_num_start (int): The starting page number (inclusive).
+            page_num_end (int): The ending page number (inclusive).
+
+        Returns:
+            list[Curriculum]: A list of Curriculum objects representing pieces of content, like sentences, the specified page range.
         """
         pass
 
@@ -58,12 +76,14 @@ class DatabaseInterface(ABC):
         """
         pass
 
+
 class MongoDB(DatabaseInterface):
     def __init__(self):
         self.client = MongoClient(Config().MONGODB_URI)
         self.db = self.client["test-curriculum-database"]
         self.collection = self.db["test-curriculum-collection"]
         self.similarity_threshold = 0.83
+        self.embeddings = OpenAIEmbedding()
 
     def get_curriculum(self, embedding: list[float]) -> list[Curriculum]:
         # Checking if embedding consists of decimals or "none"
@@ -76,7 +96,8 @@ class MongoDB(DatabaseInterface):
                 "index": "embeddings",
                 "path": "embedding",
                 "queryVector": embedding,
-                "numCandidates": 30,  # MongoDB suggests using numCandidates=10*limit or numCandidates=20*limit
+                # MongoDB suggests using numCandidates=10*limit or numCandidates=20*limit
+                "numCandidates": 30,
                 "limit": 3,
             }
         }
@@ -95,12 +116,34 @@ class MongoDB(DatabaseInterface):
         # Filter out the documents with low similarity
         for document in documents:
             if (
-                cosine_similarity(embedding, document["embedding"])
+                self.embeddings.cosine_similarity(
+                    embedding, document["embedding"])
                 > self.similarity_threshold
             ):
-                results.append(Curriculum(text = document["text"], page_num = document["page_num"], pdf_name = document["pdf_name"]))
+                results.append(Curriculum(text=document["text"], page_num=document["page_num"],
+                               embedding=document["embedding"], pdf_name=document["pdf_name"]))
 
         # Returns a list of relevant curriculum (can be 0, 1, 2, 3)
+        return results
+
+    def get_page_range(self, pdf_name: str, page_num_start: int, page_num_end: int) -> list[Curriculum]:
+        # Get the curriculum from the database
+        cursor = self.collection.find(
+            {
+                "pdfName": pdf_name,
+                "pageNum": {"$gte": page_num_start, "$lte": page_num_end}
+            }
+        )
+
+        if not cursor:
+            raise ValueError("No documents found")
+
+        results = []
+
+        for document in cursor:
+            results.append(Curriculum(text=document["text"], page_num=document["pageNum"],
+                                      embedding=document["embedding"], pdf_name=document["pdfName"]))
+
         return results
 
     def post_curriculum(
@@ -118,6 +161,9 @@ class MongoDB(DatabaseInterface):
         if not embedding:
             raise ValueError("Embedding cannot be None")
 
+        if not pdf_name:
+            raise ValueError("PDF name cannot be None")
+
         try:
             # Insert the curriculum into the database with metadata
             self.collection.insert_one(
@@ -126,9 +172,9 @@ class MongoDB(DatabaseInterface):
                     "pageNum": page_num,
                     "pdfName": pdf_name,
                     "embedding": embedding,
+                    "pdfName": pdf_name,
                 }
             )
             return True
         except:
             return False
-            
