@@ -2,6 +2,25 @@
 from rest_framework import serializers
 
 
+class ChatSerializer(serializers.Serializer):
+    # The name of the pdf file
+    pdf_name = serializers.CharField(
+        help_text="The name of the pdf file",
+    )
+
+    # The user question
+    user_question = serializers.CharField(
+        help_text="The user question",
+    )
+
+    # The chat history
+    chat_history = serializers.ListField(
+        child=serializers.DictField(),
+        help_text="The chat history",
+        required=False,  # Make the field optional
+    )
+
+
 class CurriculumSerializer(serializers.Serializer):
 
     curriculum = serializers.ListField(
