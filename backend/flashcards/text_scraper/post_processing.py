@@ -15,12 +15,30 @@ class PostProcessor:
     def page_post_processing(self, pages: list[Page]) -> list[Page]:
         post_processed_pages = []
 
-        for page in pages:
-            post_processed_pages.append(self._extract_paragraphs(page))
+        for index, page in enumerate(pages):
+            prev_sentence = self.get_last_sentence_in_previous_page(index, pages)
+            next_sentence = self.get_first_sentence_in_next_page(index, pages)
+            post_processed_pages.append(self._extract_paragraphs(page), prev_sentence, next_sentence)
 
         return post_processed_pages
+    
+    def get_last_sentence_in_previous_page(self, page_num, pages):
+        if page_num == 0:
+            return None
+        page =  pages[page_num - 1]
+        text = page.split(".")
+        return text[-1]
+    
+    def get_first_sentence_in_next_page(self, page_num, pages):
+        if page_num == len(pages) - 1:
+            return None
+        page =  pages[page_num + 1]
+        text = page.split(".")
+        return text[0]
+    
+    
 
-    def _extract_paragraphs(self, page: Page) -> Page:
+    def _extract_paragraphs(self, page: Page, prev_sentence: str, next_sentence: str) -> Page:
         """
         Extract paragraphs from a list of strings, where each string represents page content from a PDF.
 
@@ -41,6 +59,8 @@ class PostProcessor:
         #     cleaned_segment = self.simple_clean(cleaned_segment)
 
         #     # Ignore empty segments
+        
+        page.text = (str)(prev_sentence + page.text + next_sentence)
         cleaned_segment = self._simple_clean(page.text)
         page.text = cleaned_segment
 
