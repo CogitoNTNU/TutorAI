@@ -31,10 +31,10 @@ const InformationSearch: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="bg-blue-100">
             <Header />
             
-            <input type="text" value={inputValue} onChange={handleInputChange} />
+            <input className="bg-white-100" type="text" placeholder="Search..." value={inputValue} onChange={handleInputChange} />
             <button onClick={handleSearch}>Search</button>
             <div>{outputValue?.data}</div>
         </div>
