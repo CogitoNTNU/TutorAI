@@ -4,6 +4,7 @@ const apiRoutes = {
   createFlashcards: `${baseAPIUrl}/create-flashcards/`,
   login: `${baseAPIUrl}/login/`,
   signup: `${baseAPIUrl}/create-user/`,
+  search: `${baseAPIUrl}/search/`,
 };
 
 export default apiRoutes;

@@ -12,7 +12,7 @@ const InformationSearch: React.FC = () => {
     useEffect(() => {
     }, []);
     const [inputValue, setInputValue] = useState('');
-    const [outputValue, setOutputValue] = useState<SearchProps>();
+    const [outputValue, setOutputValue] = useState<string>();
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
@@ -21,9 +21,11 @@ const InformationSearch: React.FC = () => {
     const handleSearch = async () => {
         if (inputValue) {
             try {
-                const response = await SearchService(inputValue);
-                console.log("Response:", response);
-                setOutputValue(response.data);
+                // TODO: Integrate with backend
+                // const response = await SearchService(inputValue);
+                // console.log("Response:", response);
+                // setOutputValue(response.data.data);
+                setOutputValue("You searched for: " + inputValue)
             } catch (error) {
                 console.error('Error uploading file:', error);
             }
@@ -36,7 +38,7 @@ const InformationSearch: React.FC = () => {
             
             <input className="bg-white-100" type="text" placeholder="Search..." value={inputValue} onChange={handleInputChange} />
             <button onClick={handleSearch}>Search</button>
-            <div>{outputValue?.data}</div>
+            <div>{outputValue}</div>
         </div>
     );
 };
