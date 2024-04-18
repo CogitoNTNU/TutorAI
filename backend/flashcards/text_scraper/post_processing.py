@@ -25,17 +25,23 @@ class PostProcessor:
     def get_last_sentence_in_previous_page(self, page_num, pages):
         if page_num == 0:
             return ""
-        page =  pages[page_num - 1]
-        text = page.text.split(".")
-        return text[-1]
+    
+        page_text = pages[page_num - 1].text
+        last_period_index = page_text.rfind('.')
+        return page_text[last_period_index + 1:].strip()
     
     def get_first_sentence_in_next_page(self, page_num, pages):
         if page_num == len(pages) - 1:
             return ""
-        page =  pages[page_num + 1]
-        text = page.text.split(".")
-        return text[0]
-    
+
+        page_text = pages[page_num + 1].text
+        first_period_index = page_text.find('.')
+
+        if first_period_index == -1:
+            return page_text
+        else:
+            return page_text[:first_period_index].strip()
+        
     
 
     def _extract_paragraphs(self, page: Page, prev_sentence: str, next_sentence: str) -> Page:
