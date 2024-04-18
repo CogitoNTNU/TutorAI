@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
+import SearchService from '../services/SearchService';
 // import Search from '../components/Search';
 
+interface SearchProps {
+    data: string;
+}
+
 const InformationSearch: React.FC = () => {
-    // const [response, setResponse] = useState<any>(null);
 
     useEffect(() => {
     }, []);
     const [inputValue, setInputValue] = useState('');
-    const [outputValue, setOutputValue] = useState('');
+    const [outputValue, setOutputValue] = useState<SearchProps>();
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(event.target.value);
     };
-    const handleSearch = () => {
-        // Perform search logic here
-        // You can update the outputValue state with the search result
-        setOutputValue(`You searched for: ${inputValue}`);
+
+    const handleSearch = async () => {
+        if (inputValue) {
+            try {
+                const response = await SearchService(inputValue);
+                console.log("Response:", response);
+                setOutputValue(response.data);
+            } catch (error) {
+                console.error('Error uploading file:', error);
+            }
+        }
     };
 
     return (
@@ -25,9 +36,10 @@ const InformationSearch: React.FC = () => {
             
             <input type="text" value={inputValue} onChange={handleInputChange} />
             <button onClick={handleSearch}>Search</button>
-            <div>{outputValue}</div>
+            <div>{outputValue?.data}</div>
         </div>
     );
 };
 
 export default InformationSearch;
+export type { SearchProps };
