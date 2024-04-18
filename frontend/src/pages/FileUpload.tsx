@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import UploadService from '../services/UploadService';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
+import Header from '../components/Header';
 
 // Configure PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -51,6 +52,8 @@ const FileUpload: React.FC = () => {
 
     return (
         <div className="bg-blue-100">
+            <Header />
+            
             <h1 className="my-5 text-4xl">Upload PDF</h1>
 
             <form className="mt-5 bg-blue-200" onSubmit={handleSubmit}>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Header from '../components/Header';
 // import Search from '../components/Search';
 
 const InformationSearch: React.FC = () => {
@@ -20,6 +21,8 @@ const InformationSearch: React.FC = () => {
 
     return (
         <div>
+            <Header />
+            
             <input type="text" value={inputValue} onChange={handleInputChange} />
             <button onClick={handleSearch}>Search</button>
             <div>{outputValue}</div>
