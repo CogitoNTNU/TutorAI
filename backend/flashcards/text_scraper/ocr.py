@@ -2,7 +2,7 @@ from multiprocessing import pool
 import pytesseract
 from PIL import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
-
+from flashcards.text_scraper.post_processing import Page
 import pytesseract
 import pypdfium2 as pdfium
 from pypdfium2 import PdfPage
@@ -14,7 +14,7 @@ class OCR:
     def __init__(self, file: InMemoryUploadedFile):
         self.file: InMemoryUploadedFile = file
         self.image = None
-        self.page_data = []
+        self.page_data: list[Page] = []
 
     def preprocess(self):
         """
@@ -71,12 +71,12 @@ class OCR:
         """
         images: list[Image.Image] = self.make_pdf_into_image_list(file)
 
-        for image in images:
+        for index, image in enumerate(images):
             # TODO: self.preprocess()
 
             text = pytesseract.image_to_string(image)
-
-            self.page_data.append(text)
+            page = Page(text, index + 1, file.name)
+            self.page_data.append(page)
 
     def ocr_page(self, pdf_file, page_num) -> str:
         """
