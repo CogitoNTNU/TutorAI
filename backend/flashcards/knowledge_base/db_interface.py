@@ -3,6 +3,8 @@ from .embeddings import OpenAIEmbedding
 from config import Config
 from pymongo import MongoClient
 from dataclasses import dataclass
+from flashcards.text_scraper.post_processing import Page
+
 
 
 @dataclass(frozen=True)
@@ -34,7 +36,7 @@ class DatabaseInterface(ABC):
         )
 
     @abstractmethod
-    def get_curriculum(self, embedding: list[float]) -> list[Curriculum]:
+    def get_curriculum(self, embedding: list[float]) -> list[Page]:
         """
         Get the curriculum from the database
 
@@ -47,7 +49,7 @@ class DatabaseInterface(ABC):
         pass
 
     @abstractmethod
-    def get_page_range(self, pdf_name: str, page_num_start: int, page_num_end: int) -> list[Curriculum]:
+    def get_page_range(self, pdf_name: str, page_num_start: int, page_num_end: int) -> list[Page]:
         """
         Retrieves a range of pages from the knowledge base.
 
@@ -85,7 +87,7 @@ class MongoDB(DatabaseInterface):
         self.similarity_threshold = 0.83
         self.embeddings = OpenAIEmbedding()
 
-    def get_curriculum(self, embedding: list[float]) -> list[Curriculum]:
+    def get_curriculum(self, embedding: list[float]) -> list[Page]:
         # Checking if embedding consists of decimals or "none"
         if not embedding:
             raise ValueError("Embedding cannot be None")
@@ -120,13 +122,13 @@ class MongoDB(DatabaseInterface):
                     embedding, document["embedding"])
                 > self.similarity_threshold
             ):
-                results.append(Curriculum(text=document["text"], page_num=document["page_num"],
-                               embedding=document["embedding"], pdf_name=document["pdf_name"]))
+                results.append(Page(text=document["text"], page_num=document["page_num"],
+                            pdf_name=document["pdf_name"]))
 
         # Returns a list of relevant curriculum (can be 0, 1, 2, 3)
         return results
 
-    def get_page_range(self, pdf_name: str, page_num_start: int, page_num_end: int) -> list[Curriculum]:
+    def get_page_range(self, pdf_name: str, page_num_start: int, page_num_end: int) -> list[Page]:
         # Get the curriculum from the database
         cursor = self.collection.find(
             {
@@ -141,8 +143,8 @@ class MongoDB(DatabaseInterface):
         results = []
 
         for document in cursor:
-            results.append(Curriculum(text=document["text"], page_num=document["pageNum"],
-                                      embedding=document["embedding"], pdf_name=document["pdfName"]))
+            results.append(Page(text=document["text"], page_num=document["pageNum"],
+                                      pdf_name=document["pdfName"]))
 
         return results
 
