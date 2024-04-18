@@ -12,6 +12,14 @@ class TextExtractor:
         self.post_processor: PostProcessor = PostProcessor()
 
     def extractData(self, file: InMemoryUploadedFile) -> list[Page]:
+        """Decides whether to extract text from a PDF file or an image file, and extracts the text using the appropriate method. Then the extracted text is post-processed.
+
+        Args:
+            file (InMemoryUploadedFile): the file to extract text from.
+
+        Returns:
+            list[Page]: Page: text, page number and book name.
+        """
         pages: list[Page] = []
         if self._isReadable(file):
             pages.extend(self._extractTextPdf(file))
@@ -22,9 +30,25 @@ class TextExtractor:
         return data
 
     def _extractTextPdf(self, file: InMemoryUploadedFile) -> list[Page]:
+        """Extract the text directly from a PDF file. Entrypoint for text reader class.
+
+        Args:
+            file (InMemoryUploadedFile): 
+
+        Returns:
+            list[Page]: Page: text, page number and book name.
+        """
         return self.reader.read(file)
 
     def _extractTextImage(self, file) -> list[Page]:
+        
+        """Extract the text from an image file using optical character recognition with tesseract. Entrypoint for OCR class.
+        args:
+            file (InMemoryUploadedFile):
+        Returns:
+            list[Page]: 
+        """
+        
         ocr: OCR = OCR(file)
         ocr.ocr_images(file)
         page_data = ocr.get_page_data()
