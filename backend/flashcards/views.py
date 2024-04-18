@@ -8,8 +8,9 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from flashcards.flashcard_service import process_flashcards
-from flashcards.serializer import CurriculumSerializer
+from flashcards.serializer import CurriculumSerializer, ChatSerializer
 from .text_to_flashcards import Flashcard, generate_flashcards, parse_flashcard
+from flashcard_service import process_answer
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -70,3 +71,21 @@ def generate_mock_flashcard(request):
     # flashcards = parse_flashcard(flashcards)
 
     return Response(flashcards, status=status.HTTP_200_OK)
+
+
+@api_view(["POST"])
+def create_rag_response(request):
+    # check if request is valid
+    serializer = ChatSerializer(data=request.data)
+    if serializer.is_valid():
+        # handle request
+        pdf_name = serializer.validated_data.get("pdf_name")
+        user_question = serializer.validated_data.get("user_question")
+        # Chat history is optional
+        chat_history = serializer.validated_data.get("chat_history", [])
+
+        response = process_answer(pdf_name, user_question, chat_history)
+        return Response(response, status=200)
+
+    else:
+        return Response(serializer.errors, status=400)
