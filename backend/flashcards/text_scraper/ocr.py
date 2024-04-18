@@ -20,7 +20,11 @@ class OCR:
         """
         preprocesses the image without changing it's size or shape,
         returns the preprocessed image
-
+        
+        args: 
+            none
+        returns:
+            Image: the preprocessed image
         """
         chosen_pipeline = self.find_preprocessing_pipeline(self.image)
         pipeline: piper.Pipeline = piper.PipelineFactory(self.image).create_pipeline(
@@ -31,8 +35,6 @@ class OCR:
 
     def make_pdf_into_image_list(self, file: InMemoryUploadedFile) -> list[Image.Image]:
         """
-        Converts a file into an image
-
         Converts a file into an image. The file can be in any format that can be converted into an image.
 
         Args:
