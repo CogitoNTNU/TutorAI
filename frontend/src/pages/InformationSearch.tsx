@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
-import SearchService from '../services/SearchService';
+// import SearchService from '../services/SearchService';
 // import Search from '../components/Search';
 
 interface SearchProps {
