@@ -74,7 +74,7 @@ class OCR:
         for image in images:
             # TODO: self.preprocess()
 
-            text = pool.ApplyResult(pytesseract.image_to_string(image))
+            text = pytesseract.image_to_string(image)
 
             self.page_data.append(text)
 
