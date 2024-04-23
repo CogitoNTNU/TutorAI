@@ -19,7 +19,6 @@ const QuizService = async (
   end_index: number
 ): Promise<Quiz> => {
   const quizRequest = {
-    // TODO: Get documents from the frontend context
     document: document_name,
     start: start_index,
     end: end_index,
