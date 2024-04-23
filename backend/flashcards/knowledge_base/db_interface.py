@@ -61,17 +61,26 @@ class DatabaseInterface(ABC):
 
         Args:
             curriculum (str): The curriculum to be posted
-            embedding (list[float]): The embedding of the question
+            embedding (list[float]): The embedding of the page
 
         Returns:
             bool: True if the curriculum was posted, False otherwise
         """
         pass
 
+    @abstractmethod
+    def delete_all_curriculum(self) -> bool:
+        """
+        Delete all curriculum from the database
+
+        Returns:
+            bool: True if the curriculum was deleted, False otherwise
+        """
+        pass
 
 class MongoDB(DatabaseInterface):
-    def __init__(self):
-        self.client = MongoClient(Config().MONGODB_URI)
+    def __init__(self, uri:str=Config().MONGODB_URI):
+        self.client = MongoClient(uri)
         self.db = self.client["test-curriculum-database"]
         self.collection = self.db["test-curriculum-collection"]
         self.similarity_threshold = 0.7
@@ -96,7 +105,6 @@ class MongoDB(DatabaseInterface):
 
         # Execute the query
         documents = self.collection.aggregate([query])
-
         if not documents:
             raise ValueError("No documents found")
 
@@ -180,4 +188,37 @@ class MongoDB(DatabaseInterface):
             )
             return True
         except:
+            return False
+
+    def delete_all_curriculum(self) -> bool:
+        """
+        Delete all curriculum from the database
+
+        Returns:
+            bool: True if all curriculum were deleted, False otherwise
+        """
+        try:
+            # Deleting all documents from MongoDB collection
+            self.collection.delete_many({})
+            return True
+        except Exception as e:
+            print("Error deleting curriculum:", e)
+            return False
+    
+    def delete_pdf_pages(self, pdf_name: str) -> bool:
+        """
+        Delete all curriculum entries with a specific PDF name from the database
+
+        Args:
+            pdf_name (str): The PDF name to match for deletion
+
+        Returns:
+            bool: True if all matching curriculum entries were deleted, False otherwise
+        """
+        try:
+            # Deleting documents from MongoDB collection based on a condition
+            self.collection.delete_many({"pdfName": pdf_name})
+            return True
+        except Exception as e:
+            print("Error deleting curriculum:", e)
             return False
