@@ -17,22 +17,21 @@ class MongoDBTest(TestCase):
         for key in self.curriculum.keys():
             self.mongo.post_curriculum(self.curriculum[key], 1, key, OpenAIEmbedding().get_embedding(self.curriculum[key]))
         
-    def test_get_curriculum(self):
-        print("Get curriculum")
-        # Test getting curriculum
-        curriculum = self.mongo.get_curriculum("pdf1",OpenAIEmbedding().get_embedding(self.curriculum["pdf1"]))
+    def test_get_curriculum_for_embedding_for_the_same_document_content(self):
+        # Test getting curriculum for from the same text
+        curriculum = self.mongo.get_curriculum("pdf1", OpenAIEmbedding().get_embedding(self.curriculum["pdf1"]))
         self.assertEqual(curriculum[0].text, self.curriculum["pdf1"])
         self.assertEqual(curriculum[0].page_num, 1)
         self.assertEqual(curriculum[0].pdf_name, "pdf1")
 
-        # Test getting curriculum using query
-        curriculum = self.mongo.get_curriculum("pdf3",OpenAIEmbedding().get_embedding("Den romersk-katolske kirken var ikke stor i Texas under revolusjonen. Sam Houston var personlig en protestant"))
+    def test_get_curriculum_for_query_similar_to_pdf(self):
+        # Test getting curriculum using query similar text
+        curriculum = self.mongo.get_curriculum("pdf3", OpenAIEmbedding().get_embedding("Den romersk-katolske kirken var ikke stor i Texas under revolusjonen. Sam Houston var personlig en protestant"))
         self.assertEqual(curriculum[0].text, self.curriculum["pdf3"])
         self.assertEqual(curriculum[0].page_num, 1)
         self.assertEqual(curriculum[0].pdf_name, "pdf3")
 
     def test_delete_pdf_pages(self):
-        print("Delete stuff")
         # Test deleting curriculum entries with specific PDF name
         self.assertTrue(self.mongo.delete_pdf_pages("pdf1"))
 

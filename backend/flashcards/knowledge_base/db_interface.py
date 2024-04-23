@@ -79,7 +79,7 @@ class DatabaseInterface(ABC):
         pass
 
 class MongoDB(DatabaseInterface):
-    def __init__(self, uri=Config().MONGODB_URI):
+    def __init__(self, uri:str=Config().MONGODB_URI):
         self.client = MongoClient(uri)
         self.db = self.client["test-curriculum-database"]
         self.collection = self.db["test-curriculum-collection"]
@@ -105,7 +105,6 @@ class MongoDB(DatabaseInterface):
 
         # Execute the query
         documents = self.collection.aggregate([query])
-        # print(list(documents))
         if not documents:
             raise ValueError("No documents found")
 
