@@ -1,6 +1,8 @@
 """ The service module contains the business logic of the application. """
 
+from dataclasses import dataclass
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from flashcards.knowledge_base.db_interface import Curriculum
 from flashcards.knowledge_base import response_formulation
 from flashcards.rag_service import get_context, post_context
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
@@ -48,14 +50,22 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     return context_posted
 
 
-def process_answer(user_input: str) -> str:
+@dataclass
+class RagAnswer:
+    answer: str
+    citations: list[Curriculum]
+
+
+def process_answer(
+    pdf_name: str, user_question: str, chat_history: list[dict[str, str]]
+) -> RagAnswer:
     # This will answer a query only based on the list of closest correct answers from the data provided:
 
     # Generate the embedding for the user input
-    curriculum = get_context(user_input)
+    curriculum = get_context(pdf_name, user_question)
     # Get a list of answers from the database
 
     # Use this list to generate a response
-    answer_GPT = response_formulation(user_input, curriculum)
+    answer_GPT = response_formulation(user_question, curriculum, chat_history)
 
     return answer_GPT

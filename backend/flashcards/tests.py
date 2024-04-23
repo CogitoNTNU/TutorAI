@@ -10,6 +10,7 @@ from flashcards.text_to_flashcards import (
 from flashcards.text_scraper.post_processing import Page
 import re
 from rest_framework import status
+from knowledge_base.response_formulation import response_formulation
 
 base = "/api/"
 
@@ -51,6 +52,8 @@ class RagAPITest(TestCase):
         self.valid_chat_history = [
             {"user": "What is the capital of India?", "response": "New Delhi"}
         ]
+        self.valid_user_input = "This is a user input."
+        self.valid_context = "The context."
 
     def test_invalid_request(self):
         invalid_payload = {}
@@ -76,3 +79,9 @@ class RagAPITest(TestCase):
         }
         response = self.client.post(self.url, valid_response, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_class(self):
+        valid_response = response_formulation(
+            self.valid_user_input, self.valid_context, self.valid_chat_history
+        )
+        self.assertTrue(isinstance(valid_response, str))

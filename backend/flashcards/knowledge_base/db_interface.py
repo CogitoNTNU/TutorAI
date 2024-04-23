@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from .embeddings import OpenAIEmbedding
+from .embeddings import OpenAIEmbedding, cosine_similarity
 from config import Config
 from pymongo import MongoClient
 from dataclasses import dataclass
@@ -26,20 +26,19 @@ class DatabaseInterface(ABC):
     @classmethod
     def __subclasscheck__(cls, subclass: any) -> bool:
         return (
-            hasattr(subclass, "get_curriculum") and callable(
-                subclass.get_curriculum)
+            hasattr(subclass, "get_curriculum") and callable(subclass.get_curriculum)
         ) and (
-            hasattr(subclass, "post_curriculum") and callable(
-                subclass.post_curriculum)
+            hasattr(subclass, "post_curriculum") and callable(subclass.post_curriculum)
         )
 
     @abstractmethod
-    def get_curriculum(self, embedding: list[float]) -> list[Curriculum]:
+    def get_curriculum(self, pdf_name: str, embedding: list[float]) -> list[Curriculum]:
         """
         Get the curriculum from the database
 
         Args:
             embedding (list[float]): The embedding of the question
+            pdf_name (str): The name of the pdf to use
 
         Returns:
             list[str]: The curriculum related to the question
@@ -47,7 +46,9 @@ class DatabaseInterface(ABC):
         pass
 
     @abstractmethod
-    def get_page_range(self, pdf_name: str, page_num_start: int, page_num_end: int) -> list[Curriculum]:
+    def get_page_range(
+        self, pdf_name: str, page_num_start: int, page_num_end: int
+    ) -> list[Curriculum]:
         """
         Retrieves a range of pages from the knowledge base.
 
@@ -85,7 +86,7 @@ class MongoDB(DatabaseInterface):
         self.similarity_threshold = 0.83
         self.embeddings = OpenAIEmbedding()
 
-    def get_curriculum(self, embedding: list[float]) -> list[Curriculum]:
+    def get_curriculum(self, pdf_name: str, embedding: list[float]) -> list[Curriculum]:
         # Checking if embedding consists of decimals or "none"
         if not embedding:
             raise ValueError("Embedding cannot be None")
@@ -115,23 +116,31 @@ class MongoDB(DatabaseInterface):
 
         # Filter out the documents with low similarity
         for document in documents:
+            threshold = self.similarity_threshold
             if (
-                self.embeddings.cosine_similarity(
-                    embedding, document["embedding"])
+                cosine_similarity(embedding, document["embedding"])
                 > self.similarity_threshold
             ):
-                results.append(Curriculum(text=document["text"], page_num=document["page_num"],
-                               embedding=document["embedding"], pdf_name=document["pdf_name"]))
+                results.append(
+                    Curriculum(
+                        text=document["text"],
+                        page_num=document["page_num"],
+                        embedding=document["embedding"],
+                        pdf_name=document["pdf_name"],
+                    )
+                )
 
         # Returns a list of relevant curriculum (can be 0, 1, 2, 3)
         return results
 
-    def get_page_range(self, pdf_name: str, page_num_start: int, page_num_end: int) -> list[Curriculum]:
+    def get_page_range(
+        self, pdf_name: str, page_num_start: int, page_num_end: int
+    ) -> list[Curriculum]:
         # Get the curriculum from the database
         cursor = self.collection.find(
             {
                 "pdfName": pdf_name,
-                "pageNum": {"$gte": page_num_start, "$lte": page_num_end}
+                "pageNum": {"$gte": page_num_start, "$lte": page_num_end},
             }
         )
 
@@ -141,8 +150,14 @@ class MongoDB(DatabaseInterface):
         results = []
 
         for document in cursor:
-            results.append(Curriculum(text=document["text"], page_num=document["pageNum"],
-                                      embedding=document["embedding"], pdf_name=document["pdfName"]))
+            results.append(
+                Curriculum(
+                    text=document["text"],
+                    page_num=document["pageNum"],
+                    embedding=document["embedding"],
+                    pdf_name=document["pdfName"],
+                )
+            )
 
         return results
 

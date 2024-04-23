@@ -10,7 +10,7 @@ db: DatabaseInterface = create_database()
 embeddings: EmbeddingsInterface = create_embeddings_model()
 
 
-def get_context(query: str) -> list[str]:
+def get_context(pdf_name: str, query: str) -> list[str]:
     """
     Get the context of the query
 
@@ -21,7 +21,7 @@ def get_context(query: str) -> list[str]:
         list[str]: The context of the query
     """
     embedding = embeddings.get_embedding(query)
-    context = db.get_curriculum(embedding)
+    context = db.get_curriculum(pdf_name, embedding)
     return context
 
 

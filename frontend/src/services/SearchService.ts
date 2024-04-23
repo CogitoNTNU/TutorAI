@@ -1,9 +1,12 @@
 import axios from 'axios';
 import SearchResponse from '../types/SearchResponse';
+import apiRoutes from '../routes/routesDefinitions';
 
 const SearchService = async(text: string): Promise<SearchResponse> => {
+    const chatRequest = {
+        
     const response = await axios
-        .post('TODO: REPLACE_WITH_SEARCH_URL (e.g., apiRoutes.createFlashcards) (see UploadService.ts for correct implementation)', { text })
+        .post(apiRoutes.search, { text })
         .then((res) => {
             return res;
         })
