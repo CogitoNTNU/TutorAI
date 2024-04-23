@@ -61,21 +61,31 @@ class RagAnswer:
     answer: str
     citations: list[Page]
 
+    def to_dict(self) -> dict:
+        return {
+            "answer": self.answer,
+            "citations": [citation.to_dict() for citation in self.citations],
+        }
+
 
 def process_answer(
-    pdf_name: str, user_question: str, chat_history: list[dict[str, str]]
+    documents: list[str], user_question: str, chat_history: list[dict[str, str]]
 ) -> RagAnswer:
     # This will answer a query only based on the list of closest correct answers from the data provided:
 
     # Generate the embedding for the user input
-    curriculum = get_context(pdf_name, user_question)
+    curriculum = []
+    for document_name in documents:
+        curriculum.extend(get_context(document_name, user_question))
     # Get a list of answers from the database
 
     # Use this list to generate a response
     answer_GPT = response_formulation(user_question, curriculum, chat_history)
+
+    answer = RagAnswer(answer_GPT, curriculum)
     print(f"[INFO] Answer: {answer_GPT}", flush=True)
 
-    return answer_GPT
+    return answer
 
 
 @dataclass

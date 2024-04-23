@@ -14,12 +14,14 @@ def response_formulation(
 ) -> str:
     print("[INFO] Generating response", flush=True)
 
-    context_str = dumps(context, indent=2)
+    if len(context) == 0:
+        return "No context matching the user input was found. Please try again or upload additional documents."
+
 
     # Create template
     template = f"""
     Query: '''{user_input}'''
-    Context: '''{context_str}'''
+    Context: '''{context}'''
     """
 
     print(f"template: {template}", flush=True)
