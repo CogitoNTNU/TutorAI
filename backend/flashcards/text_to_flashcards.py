@@ -7,6 +7,7 @@ from abc import ABC, ABCMeta, abstractmethod
 api_key = Config().API_KEY
 openai.api_key = api_key
 
+
 class FlashcardGenerator(ABC):
     @abstractmethod
     def request_chat_completion(self, role: str, message: str) -> list[str]:
@@ -16,13 +17,13 @@ class FlashcardGenerator(ABC):
         Args:
             role (str, optional): The role of the message. Defaults to "system".
             message (str, optional): The message to be sent. Defaults to "".
-        
+
         Returns:
             response (str): The response from the LLM API
         """
         pass
-    
-    
+
+
 class OpenAIFlashcardGenerator(FlashcardGenerator):
     def request_chat_completion(role: str = "system", message: str = "") -> str:
         """
@@ -40,13 +41,11 @@ class OpenAIFlashcardGenerator(FlashcardGenerator):
             result = "Error: No message provided"
         else:
             response = openai.chat.completions.create(
-                model=Config().GPT_MODEL,
-                messages=[
-                    {"role": role, "content": message}
-                ]
+                model=Config().GPT_MODEL, messages=[{"role": role, "content": message}]
             )
             result = response.choices[0].message.content
         return result
+
 
 def generate_template(context: str) -> str:
     """
@@ -64,6 +63,7 @@ def generate_template(context: str) -> str:
 
     return template
 
+
 @dataclass
 class Flashcard:
     front: str
@@ -72,12 +72,17 @@ class Flashcard:
     page_num: int
 
     def to_dict(self):
-        return {"front": self.front, "back": self.back, "pdf_name": self.pdf_name, "page_num": self.page_num}
+        return {
+            "front": self.front,
+            "back": self.back,
+            "pdf_name": self.pdf_name,
+            "page_num": self.page_num,
+        }
 
 
-def parse_flashcard(flashcards_data: list[str], page: Page ) -> list[Flashcard]:
+def parse_flashcard(flashcards_data: list[str], page: Page) -> list[Flashcard]:
     """
-    Returns a list of the Flashcard dataclass 
+    Returns a list of the Flashcard dataclass
 
     Args:
         flashcards_data (list[str]): The flashcard to be parsed
@@ -89,15 +94,23 @@ def parse_flashcard(flashcards_data: list[str], page: Page ) -> list[Flashcard]:
         [Flashcard(front="apple", back="banana"), Flashcard(front="orange", back="grape")]
     """
     flashcards = []
-  
+
     for i in flashcards_data:
         if "Front: " not in i or "Back: " not in i:
             continue
         i = i.replace("Front: ", "").replace("Back: ", "")
         i = i.split("-")
-        flashcards.append(Flashcard(front=i[0].strip(), back=i[1].strip(), pdf_name=page.pdf_name, page_num=page.page_num))
-    
+        flashcards.append(
+            Flashcard(
+                front=i[0].strip(),
+                back=i[1].strip(),
+                pdf_name=page.pdf_name,
+                page_num=page.page_num,
+            )
+        )
+
     return flashcards
+
 
 def generate_flashcards(page: Page) -> list[Flashcard]:
     """
@@ -110,9 +123,12 @@ def generate_flashcards(page: Page) -> list[Flashcard]:
         list: The list of flashcards generated from the sample text
     """
     template = generate_template(page.text)
-    response = OpenAIFlashcardGenerator.request_chat_completion("system", message=template)
+    response = OpenAIFlashcardGenerator.request_chat_completion(
+        "system", message=template
+    )
     response = response.split("|")
     return parse_flashcard(response, page)
+
 
 def parse_for_anki(flashcards: list[Flashcard]) -> str:
     """
@@ -136,35 +152,5 @@ def parse_for_anki(flashcards: list[Flashcard]) -> str:
         back = flashcards[i].back
 
         text += front + ":" + back + separator
-    
+
     return text
-
-def create_text_file(file_content: str) -> None:
-    """
-    Creates a text file with the given content
-
-    Args:
-        file_content (str): The content to be written to the file
-
-    Returns:
-        None
-    """
-    with open("flashcards.txt", "w") as file:
-        file.write(file_content)
-
-def generate_flashcards_for_anki(context: str) -> None:
-    """
-    Returns a string with the flashcards in the correct format for Anki
-
-    Correct format: front:back
-    Example: "apple:"banana"
-
-    Args:
-        context (str): The sample text to be used
-
-    Returns:
-        str: A string with the flashcards in the correct format for Anki
-    """
-    flashcards = generate_flashcards(context)
-    flashcards = parse_for_anki(flashcards)
-    create_text_file(flashcards)

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Flashcards from '../components/Flashcards';
-import { FlashcardProps } from '../components/Flashcard';
+import React, { useState } from 'react';
 import UploadService from '../services/UploadService';
 import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -9,8 +7,7 @@ import Header from '../components/Header';
 // Configure PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const PDFtoFlashcard: React.FC = () => {
-    const [flashcards, setFlashcards] = React.useState<FlashcardProps[]>([]);
+const FileUpload: React.FC = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [pdfData, setPdfData] = useState<any>(null);
     const [numPages, setNumPages] = useState<number | null>(null);
@@ -43,9 +40,6 @@ const PDFtoFlashcard: React.FC = () => {
                 const response = await UploadService(selectedFile);
                 console.log("Response:", response);
                 setSuccessfulUpload(true);
-                // Set flashcards from response
-                const flashcards = response.data;
-                setFlashcards(flashcards)
             } catch (error) {
                 console.error('Error uploading file:', error);
             }
@@ -55,15 +49,6 @@ const PDFtoFlashcard: React.FC = () => {
     const handleToggleDocument = () => {
         setShowDocument(!showDocument);
     };
-
-    useEffect(() => {
-        // Test flashcards by hardcoding them
-        setFlashcards([
-            { front: "What is Lionel Messi's nationality?", back: "Argentinian" },
-            { front: "How many Ballon d'Or awards has Messi won?", back: "7" },
-            { front: "Which club did Messi play for most of his career?", back: "FC Barcelona" }
-        ]);
-    }, []);
 
     return (
         <div className="bg-blue-100">
@@ -95,10 +80,8 @@ const PDFtoFlashcard: React.FC = () => {
             {showDocument && pdfData && numPages && (
                 <p>Page {pageNumber} of {numPages}</p>
             )}
-
-            <Flashcards flashcards={flashcards} />
         </div>
     );
 };
 
-export default PDFtoFlashcard;
+export default FileUpload;

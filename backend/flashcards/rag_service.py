@@ -1,5 +1,6 @@
 """ Retrieval Augmented Generation Service """
 
+from flashcards.text_scraper.post_processing import Page
 from flashcards.knowledge_base.db_interface import DatabaseInterface
 from flashcards.knowledge_base.embeddings import EmbeddingsInterface
 from flashcards.knowledge_base.factory import create_database
@@ -10,7 +11,7 @@ db: DatabaseInterface = create_database()
 embeddings: EmbeddingsInterface = create_embeddings_model()
 
 
-def get_context(query: str) -> list[str]:
+def get_context(pdf_name: str, query: str) -> list[Page]:
     """
     Get the context of the query
 
@@ -21,8 +22,25 @@ def get_context(query: str) -> list[str]:
         list[str]: The context of the query
     """
     embedding = embeddings.get_embedding(query)
-    context = db.get_curriculum(embedding)
+    context = db.get_curriculum(pdf_name, embedding)
     return context
+
+
+def get_page_range(
+    pdf_name: str,
+    page_num_start: int,
+    page_num_end: int,
+) -> list[str]:
+    """
+    Get the context of the query
+
+    Args:
+        query (str): The query to get the context of
+
+    Returns:
+        list[str]: The context of the query
+    """
+    return db.get_page_range(pdf_name, page_num_start, page_num_end)
 
 
 def post_context(

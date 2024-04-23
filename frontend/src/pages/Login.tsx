@@ -1,6 +1,7 @@
 import { useState } from "react";
 import postLoginAttempt from "../services/LoginService";
 import { useNavigate } from "react-router-dom";
+import Header from "../components/Header";
 
 const Login = () => {
     const [username, setUsername] = useState("");
@@ -37,6 +38,8 @@ const Login = () => {
 
     return (
         <div>
+            <Header />
+
             <h1>This is the login page</h1>
             <div>
                 {/* Login with username and password */}
