@@ -103,6 +103,14 @@ class Quiz:
 
 
 def generate_quiz(document: str, start: int, end: int) -> Quiz:
+    """
+    Generates a quiz for the document
+    """
+    if start > end:
+        raise ValueError(
+            "The start index of the document can not be after then the end index!"
+        )
+
     # Generate the quiz
     questions: list[QuestionAnswer] = []
     pages: list[Page] = get_page_range(document, start, end)
