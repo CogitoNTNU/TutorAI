@@ -56,12 +56,14 @@ class RagAnswer:
 
 
 def process_answer(
-    pdf_name: str, user_question: str, chat_history: list[dict[str, str]]
+    documents: list[str], user_question: str, chat_history: list[dict[str, str]]
 ) -> RagAnswer:
     # This will answer a query only based on the list of closest correct answers from the data provided:
 
     # Generate the embedding for the user input
-    curriculum = get_context(pdf_name, user_question)
+    curriculum = []
+    for document_name in documents:
+        curriculum.extend(get_context(document_name, user_question))
     # Get a list of answers from the database
 
     # Use this list to generate a response
