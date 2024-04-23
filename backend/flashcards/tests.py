@@ -10,7 +10,6 @@ from flashcards.text_to_flashcards import (
 from flashcards.text_scraper.post_processing import Page
 import re
 from rest_framework import status
-from knowledge_base.response_formulation import response_formulation
 
 base = "/api/"
 
@@ -50,7 +49,8 @@ class RagAPITest(TestCase):
         self.valid_pdf_name = "test.pdf"
         self.invalid_pdf_name = "invalid.pdf"
         self.valid_chat_history = [
-            {"user": "What is the capital of India?", "response": "New Delhi"}
+            {"role": "user", "response": "What is the capital of India?"},
+            {"role": "assistant", "response": "New Delhi"},
         ]
         self.valid_user_input = "This is a user input."
         self.valid_context = "The context."
@@ -80,8 +80,34 @@ class RagAPITest(TestCase):
         response = self.client.post(self.url, valid_response, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_class(self):
-        valid_response = response_formulation(
-            self.valid_user_input, self.valid_context, self.valid_chat_history
-        )
-        self.assertTrue(isinstance(valid_response, str))
+
+class QuizGenerationTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.url = f"{base}quiz/"
+        self.valid_pdf_name = "test.pdf"
+        self.invalid_pdf_name = "invalid.pdf"
+
+    def test_invalid_request(self):
+        invalid_payload = {}
+        response = self.client.post(self.url, invalid_payload, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_valid_request(self):
+        valid_response = {
+            "document": self.valid_pdf_name,
+            "start": 0,
+            "end": 1,
+        }
+        response = self.client.post(self.url, valid_response, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data)
+
+    def test_invalid_end_start_index(self):
+        invalid_response = {
+            "document": self.valid_pdf_name,
+            "start": 1,
+            "end": 0,
+        }
+        response = self.client.post(self.url, invalid_response, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
