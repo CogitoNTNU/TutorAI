@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from flashcards.knowledge_base import response_formulation
+from flashcards.knowledge_base.response_formulation import response_formulation
 from flashcards.rag_service import get_context, post_context
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
@@ -66,5 +66,6 @@ def process_answer(
 
     # Use this list to generate a response
     answer_GPT = response_formulation(user_question, curriculum, chat_history)
+    print(f"[INFO] Answer: {answer_GPT}", flush=True)
 
     return answer_GPT
