@@ -90,8 +90,8 @@ def create_rag_response(request):
         # Chat history is optional
         chat_history = serializer.validated_data.get("chat_history", [])
 
-        response: RagAnswer = process_answer(pdf_names, user_question, chat_history)
-
+        rag_answer: RagAnswer = process_answer(pdf_names, user_question, chat_history)
+        response = rag_answer.to_dict()
         return Response(response, status=200)
 
     else:

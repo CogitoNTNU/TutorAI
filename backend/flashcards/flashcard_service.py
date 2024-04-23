@@ -54,6 +54,12 @@ class RagAnswer:
     answer: str
     citations: list[Page]
 
+    def to_dict(self) -> dict:
+        return {
+            "answer": self.answer,
+            "citations": [citation.to_dict() for citation in self.citations],
+        }
+
 
 def process_answer(
     documents: list[str], user_question: str, chat_history: list[dict[str, str]]
@@ -68,9 +74,11 @@ def process_answer(
 
     # Use this list to generate a response
     answer_GPT = response_formulation(user_question, curriculum, chat_history)
+
+    answer = RagAnswer(answer_GPT, curriculum)
     print(f"[INFO] Answer: {answer_GPT}", flush=True)
 
-    return answer_GPT
+    return answer
 
 
 @dataclass
