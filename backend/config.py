@@ -15,5 +15,6 @@ class Config():
         load_dotenv(dotenv_path=path)
         self.API_KEY = os.getenv('OPENAI_API_KEY')
         self.MONGODB_URI = os.getenv('MONGODB_URI')
+        self.MONGODB_TEST_URI = os.getenv('MONGODB_TEST_URI')
     
         

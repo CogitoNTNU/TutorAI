@@ -58,7 +58,7 @@ class DatabaseInterface(ABC):
         """
         pass
 
-    @abstarctmethod
+    @abstractmethod
     def delete_all_curriculum(self) -> bool:
         """
         Delete all curriculum from the database
@@ -71,8 +71,8 @@ class DatabaseInterface(ABC):
 
 
 class MongoDB(DatabaseInterface):
-    def __init__(self):
-        self.client = MongoClient(Config().MONGODB_URI)
+    def __init__(self, uri=Config().MONGODB_URI):
+        self.client = MongoClient(uri)
         self.db = self.client["test-curriculum-database"]
         self.collection = self.db["test-curriculum-collection"]
         self.similarity_threshold = 0.83
