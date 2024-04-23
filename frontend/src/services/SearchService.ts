@@ -3,8 +3,9 @@ import SearchResponse from "../types/SearchResponse";
 import apiRoutes from "../routes/routesDefinitions";
 
 const SearchService = async (text: string): Promise<SearchResponse> => {
+  // Get documents from the frontend context
   const chatRequest = {
-    pdf_name: "PLACEHOLDER",
+    documents: ["PLACEHOLDER"],
     user_question: text,
   };
 

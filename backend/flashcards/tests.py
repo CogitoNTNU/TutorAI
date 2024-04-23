@@ -65,7 +65,7 @@ class RagAPITest(TestCase):
 
     def test_valid_request_without_chat_history(self):
         valid_response = {
-            "pdf_name": self.valid_pdf_name,
+            "documents": [self.valid_pdf_name],
             "user_question": "What is the capital of India?",
         }
         response = self.client.post(self.url, valid_response, format="json")
@@ -73,7 +73,7 @@ class RagAPITest(TestCase):
 
     def test_valid_request_with_chat_history(self):
         valid_response = {
-            "pdf_name": self.valid_pdf_name,
+            "documents": [self.valid_pdf_name],
             "user_question": "What is the capital of India?",
             "chat_history": self.valid_chat_history,
         }

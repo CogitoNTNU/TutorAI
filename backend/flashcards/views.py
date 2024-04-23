@@ -80,12 +80,12 @@ def create_rag_response(request):
     serializer = ChatSerializer(data=request.data)
     if serializer.is_valid():
         # handle request
-        pdf_name = serializer.validated_data.get("pdf_name")
+        pdf_names = serializer.validated_data.get("documents")
         user_question = serializer.validated_data.get("user_question")
         # Chat history is optional
         chat_history = serializer.validated_data.get("chat_history", [])
 
-        response: RagAnswer = process_answer(pdf_name, user_question, chat_history)
+        response: RagAnswer = process_answer(pdf_names, user_question, chat_history)
 
         return Response(response, status=200)
 

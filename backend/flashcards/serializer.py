@@ -4,8 +4,11 @@ from rest_framework import serializers
 
 class ChatSerializer(serializers.Serializer):
     # The name of the pdf file
-    pdf_name = serializers.CharField(
-        help_text="The name of the pdf file",
+    documents = serializers.ListField(
+        child=serializers.CharField(
+            help_text="The name of the document file",
+        ),
+        help_text="The names of the documents",
     )
 
     # The user question
