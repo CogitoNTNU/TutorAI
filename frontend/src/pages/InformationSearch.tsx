@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
+import SearchService from '../services/SearchService';
 // import SearchService from '../services/SearchService';
 // import Search from '../components/Search';
 
@@ -21,10 +22,10 @@ const InformationSearch: React.FC = () => {
     const handleSearch = async () => {
         if (inputValue) {
             try {
-                // TODO: Integrate with backend
-                // const response = await SearchService(inputValue);
-                // console.log("Response:", response);
-                // setOutputValue(response.data.data);
+                
+                const response = await SearchService(inputValue);
+                console.log("Response:", response);
+                setOutputValue(response.data.data);
                 setOutputValue("You searched for: " + inputValue)
             } catch (error) {
                 console.error('Error uploading file:', error);
