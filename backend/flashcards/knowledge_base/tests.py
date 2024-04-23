@@ -20,15 +20,13 @@ class MongoDBTest(TestCase):
     def test_get_curriculum(self):
         print("Get curriculum")
         # Test getting curriculum
-        curriculum = self.mongo.get_curriculum(OpenAIEmbedding().get_embedding(self.curriculum["pdf1"]))
-        self.assertEqual(len(curriculum), 1)
+        curriculum = self.mongo.get_curriculum("pdf1",OpenAIEmbedding().get_embedding(self.curriculum["pdf1"]))
         self.assertEqual(curriculum[0].text, self.curriculum["pdf1"])
         self.assertEqual(curriculum[0].page_num, 1)
         self.assertEqual(curriculum[0].pdf_name, "pdf1")
 
         # Test getting curriculum using query
-        curriculum = self.mongo.get_curriculum(OpenAIEmbedding().get_embedding("Den romersk-katolske kirken var ikke stor i Texas under revolusjonen. Sam Houston var personlig en protestant"))
-        self.assertEqual(len(curriculum), 1)
+        curriculum = self.mongo.get_curriculum("pdf3",OpenAIEmbedding().get_embedding("Den romersk-katolske kirken var ikke stor i Texas under revolusjonen. Sam Houston var personlig en protestant"))
         self.assertEqual(curriculum[0].text, self.curriculum["pdf3"])
         self.assertEqual(curriculum[0].page_num, 1)
         self.assertEqual(curriculum[0].pdf_name, "pdf3")
@@ -39,7 +37,7 @@ class MongoDBTest(TestCase):
         self.assertTrue(self.mongo.delete_pdf_pages("pdf1"))
 
         # Check if curriculum entries with pdfName="pdf1" were deleted
-        curriculum = self.mongo.get_curriculum(OpenAIEmbedding().get_embedding(self.curriculum["pdf1"]))
+        curriculum = self.mongo.get_curriculum("pdf1",OpenAIEmbedding().get_embedding(self.curriculum["pdf1"]))
 
         self.assertEqual(curriculum[0].pdf_name, "pdf2")
 
