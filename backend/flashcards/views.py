@@ -7,8 +7,8 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
 
-from flashcards.flashcard_service import process_flashcards
-from flashcards.serializer import CurriculumSerializer, ChatSerializer
+from flashcards.flashcard_service import generate_quiz, process_flashcards
+from flashcards.serializer import CurriculumSerializer, ChatSerializer, QuizSerializer
 from .text_to_flashcards import Flashcard, generate_flashcards, parse_flashcard
 from flashcards.flashcard_service import RagAnswer, process_answer
 
@@ -90,4 +90,21 @@ def create_rag_response(request):
         return Response(response, status=200)
 
     else:
+        print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
         return Response(serializer.errors, status=400)
+
+
+@api_view(["POST"])
+def create_quiz(request):
+
+    serializer = QuizSerializer(data=request.data)
+    if serializer.is_valid():
+        document = serializer.validated_data.get("document")
+        start = serializer.validated_data.get("start")
+        end = serializer.validated_data.get("end")
+        quiz = generate_quiz(document, start, end)
+        response = quiz.to_dict()
+        return Response(response, status=200)
+    else:
+        print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
+        return Response(status=400)

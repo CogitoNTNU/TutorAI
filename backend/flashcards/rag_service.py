@@ -25,6 +25,23 @@ def get_context(pdf_name: str, query: str) -> list[str]:
     return context
 
 
+def get_page_range(
+    pdf_name: str,
+    page_num_start: int,
+    page_num_end: int,
+) -> list[str]:
+    """
+    Get the context of the query
+
+    Args:
+        query (str): The query to get the context of
+
+    Returns:
+        list[str]: The context of the query
+    """
+    return db.get_page_range(pdf_name, page_num_start, page_num_end)
+
+
 def post_context(
     context: str,
     page_num: int,

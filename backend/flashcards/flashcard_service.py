@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from flashcards.knowledge_base.response_formulation import response_formulation
-from flashcards.rag_service import get_context, post_context
+from flashcards.rag_service import get_context, get_page_range, post_context
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.text_scraper.post_processing import Page
@@ -69,3 +69,45 @@ def process_answer(
     print(f"[INFO] Answer: {answer_GPT}", flush=True)
 
     return answer_GPT
+
+
+@dataclass
+class QuestionAnswer:
+    question: str
+    answer: str
+
+    def to_dict(self) -> dict:
+        return {
+            "question": self.question,
+            "answer": self.answer,
+        }
+
+
+@dataclass
+class Quiz:
+    # Metadata
+    document: str
+    start: int
+    end: int
+
+    # The list of questions
+    questions: list[QuestionAnswer]
+
+    def to_dict(self) -> dict:
+        return {
+            "document": self.document,
+            "start": self.start,
+            "end": self.end,
+            "questions": [question.to_dict() for question in self.questions],
+        }
+
+
+def generate_quiz(document: str, start: int, end: int) -> Quiz:
+    # Generate the quiz
+    questions: list[QuestionAnswer] = []
+    pages: list[Page] = get_page_range(document, start, end)
+    for i in range(start, end):
+        # TODO: use the text from the pages to generate questions
+        questions.append(QuestionAnswer(f"Question {i}", f"Answer {i}"))
+
+    return Quiz(document, start, end, questions)
