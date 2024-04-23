@@ -95,7 +95,7 @@ class MongoDB(DatabaseInterface):
 
         # Execute the query
         documents = self.collection.aggregate([query])
-
+        # print(list(documents))
         if not documents:
             raise ValueError("No documents found")
 
@@ -110,7 +110,7 @@ class MongoDB(DatabaseInterface):
                 cosine_similarity(embedding, document["embedding"])
                 > self.similarity_threshold
             ):
-                results.append(Curriculum(text = document["text"], page_num = document["page_num"], pdf_name = document["pdf_name"]))
+                results.append(Curriculum(text = document["text"], page_num = document["pageNum"], pdf_name = document["pdfName"]))
 
         # Returns a list of relevant curriculum (can be 0, 1, 2, 3)
         return results

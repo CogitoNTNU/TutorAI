@@ -18,6 +18,7 @@ class MongoDBTest(TestCase):
             self.mongo.post_curriculum(self.curriculum[key], 1, key, OpenAIEmbedding().get_embedding(self.curriculum[key]))
         
     def test_get_curriculum(self):
+        print("Get curriculum")
         # Test getting curriculum
         curriculum = self.mongo.get_curriculum(OpenAIEmbedding().get_embedding(self.curriculum["pdf1"]))
         self.assertEqual(len(curriculum), 1)
@@ -33,11 +34,14 @@ class MongoDBTest(TestCase):
         self.assertEqual(curriculum[0].pdf_name, "pdf3")
 
     def test_delete_pdf_pages(self):
+        print("Delete stuff")
         # Test deleting curriculum entries with specific PDF name
         self.assertTrue(self.mongo.delete_pdf_pages("pdf1"))
 
         # Check if curriculum entries with pdfName="pdf1" were deleted
-        self.assertRaises(ValueError("No documents found"),self.mongo.get_curriculum(OpenAIEmbedding().get_embedding(self.curriculum["pdf1"])))
+        curriculum = self.mongo.get_curriculum(OpenAIEmbedding().get_embedding(self.curriculum["pdf1"]))
+
+        self.assertEqual(curriculum[0].pdf_name, "pdf2")
 
     def tearDown(self):
         # Clean up test data
