@@ -2,7 +2,6 @@
 
 from dataclasses import dataclass
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from flashcards.knowledge_base.db_interface import Curriculum
 from flashcards.knowledge_base import response_formulation
 from flashcards.rag_service import get_context, post_context
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
@@ -53,7 +52,7 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
 @dataclass
 class RagAnswer:
     answer: str
-    citations: list[Curriculum]
+    citations: list[Page]
 
 
 def process_answer(

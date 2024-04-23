@@ -113,15 +113,13 @@ class MongoDB(DatabaseInterface):
                 > self.similarity_threshold
             ):
                 results.append(
-                    Curriculum(
+                    Page(
                         text=document["text"],
                         page_num=document["page_num"],
-                        embedding=document["embedding"],
                         pdf_name=document["pdf_name"],
                     )
                 )
 
-        # Returns a list of relevant curriculum (can be 0, 1, 2, 3)
         return results
 
     def get_page_range(
@@ -142,10 +140,9 @@ class MongoDB(DatabaseInterface):
 
         for document in cursor:
             results.append(
-                Curriculum(
+                Page(
                     text=document["text"],
                     page_num=document["pageNum"],
-                    embedding=document["embedding"],
                     pdf_name=document["pdfName"],
                 )
             )
