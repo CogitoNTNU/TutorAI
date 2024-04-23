@@ -1,8 +1,9 @@
 """ The service module contains the business logic of the application. """
 
+from dataclasses import dataclass
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from flashcards.knowledge_base import response_formulation
-from flashcards.rag_service import get_context, post_context
+from flashcards.knowledge_base.response_formulation import response_formulation
+from flashcards.rag_service import get_context, get_page_range, post_context
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.text_scraper.post_processing import Page
@@ -48,14 +49,83 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     return context_posted
 
 
-def process_answer(user_input: str) -> str:
+@dataclass
+class RagAnswer:
+    answer: str
+    citations: list[Page]
+
+    def to_dict(self) -> dict:
+        return {
+            "answer": self.answer,
+            "citations": [citation.to_dict() for citation in self.citations],
+        }
+
+
+def process_answer(
+    documents: list[str], user_question: str, chat_history: list[dict[str, str]]
+) -> RagAnswer:
     # This will answer a query only based on the list of closest correct answers from the data provided:
 
     # Generate the embedding for the user input
-    curriculum = get_context(user_input)
+    curriculum = []
+    for document_name in documents:
+        curriculum.extend(get_context(document_name, user_question))
     # Get a list of answers from the database
 
     # Use this list to generate a response
-    answer_GPT = response_formulation(user_input, curriculum)
+    answer_GPT = response_formulation(user_question, curriculum, chat_history)
 
-    return answer_GPT
+    answer = RagAnswer(answer_GPT, curriculum)
+    print(f"[INFO] Answer: {answer_GPT}", flush=True)
+
+    return answer
+
+
+@dataclass
+class QuestionAnswer:
+    question: str
+    answer: str
+
+    def to_dict(self) -> dict:
+        return {
+            "question": self.question,
+            "answer": self.answer,
+        }
+
+
+@dataclass
+class Quiz:
+    # Metadata
+    document: str
+    start: int
+    end: int
+
+    # The list of questions
+    questions: list[QuestionAnswer]
+
+    def to_dict(self) -> dict:
+        return {
+            "document": self.document,
+            "start": self.start,
+            "end": self.end,
+            "questions": [question.to_dict() for question in self.questions],
+        }
+
+
+def generate_quiz(document: str, start: int, end: int) -> Quiz:
+    """
+    Generates a quiz for the document
+    """
+    if start > end:
+        raise ValueError(
+            "The start index of the document can not be after then the end index!"
+        )
+
+    # Generate the quiz
+    questions: list[QuestionAnswer] = []
+    pages: list[Page] = get_page_range(document, start, end)
+    for i in range(start, end):
+        # TODO: use the text from the pages to generate questions
+        questions.append(QuestionAnswer(f"Question {i}", f"Answer {i}"))
+
+    return Quiz(document, start, end, questions)

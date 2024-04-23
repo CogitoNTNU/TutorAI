@@ -3,6 +3,7 @@ import postSignupAttempt from "../services/SignupService";
 import { useNavigate } from "react-router-dom";
 import postLoginAttempt from "../services/LoginService";
 import { LoginResponse } from "../types/User";
+import Header from "../components/Header";
 
 const Signup = () => {
     const [username, setUsername] = useState("");
@@ -59,6 +60,8 @@ const Signup = () => {
 
     return (
         <div>
+            <Header />
+            
             <h1>This is the signup page</h1>
             <div>
                 {/* Signup with username, password, and confirm password */}

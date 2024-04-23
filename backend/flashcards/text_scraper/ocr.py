@@ -2,7 +2,7 @@ from multiprocessing import pool
 import pytesseract
 from PIL import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
-
+from flashcards.text_scraper.post_processing import Page
 import pytesseract
 import pypdfium2 as pdfium
 from pypdfium2 import PdfPage
@@ -14,13 +14,17 @@ class OCR:
     def __init__(self, file: InMemoryUploadedFile):
         self.file: InMemoryUploadedFile = file
         self.image = None
-        self.page_data = []
+        self.page_data: list[Page] = []
 
     def preprocess(self):
         """
         preprocesses the image without changing it's size or shape,
         returns the preprocessed image
-
+        
+        args: 
+            none
+        returns:
+            Image: the preprocessed image
         """
         chosen_pipeline = self.find_preprocessing_pipeline(self.image)
         pipeline: piper.Pipeline = piper.PipelineFactory(self.image).create_pipeline(
@@ -31,8 +35,6 @@ class OCR:
 
     def make_pdf_into_image_list(self, file: InMemoryUploadedFile) -> list[Image.Image]:
         """
-        Converts a file into an image
-
         Converts a file into an image. The file can be in any format that can be converted into an image.
 
         Args:
@@ -71,12 +73,12 @@ class OCR:
         """
         images: list[Image.Image] = self.make_pdf_into_image_list(file)
 
-        for image in images:
+        for index, image in enumerate(images):
             # TODO: self.preprocess()
 
-            text = pool.ApplyResult(pytesseract.image_to_string(image))
-
-            self.page_data.append(text)
+            text = pytesseract.image_to_string(image)
+            page = Page(text, index + 1, file.name)
+            self.page_data.append(page)
 
     def ocr_page(self, pdf_file, page_num) -> str:
         """
