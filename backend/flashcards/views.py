@@ -75,6 +75,7 @@ def generate_mock_flashcard(request):
 
 @api_view(["POST"])
 def create_rag_response(request):
+    print(f"[INFO] RAG Response Request received... {request}", flush=True)
     # check if request is valid
     serializer = ChatSerializer(data=request.data)
     if serializer.is_valid():
