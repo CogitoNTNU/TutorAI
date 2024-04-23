@@ -14,6 +14,9 @@ class TextReader:
 
         Args:
             pdf_file (str): The path to the PDF file.
+        
+        returns:
+            list[Page]: a list of Page objects containing the text content of each page.
 
         Notes:
             This method extracts text from each page of the PDF file and stores it in the 'pages' list.
@@ -54,6 +57,13 @@ class TextReader:
                 return current_page.get_text()
 
     def get_amount_of_pages(self, file: InMemoryUploadedFile) -> int:
+        
+        """get the amount of pages in a PDF file.
+
+        Returns:
+            int: the amput of pages.
+        """
+        
         file.seek(0)  # Ensure we're reading from the start of the file
         # extract text from the PDF
         pages = 0

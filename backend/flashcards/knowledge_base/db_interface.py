@@ -2,16 +2,7 @@ from abc import ABC, abstractmethod
 from .embeddings import OpenAIEmbedding, cosine_similarity
 from config import Config
 from pymongo import MongoClient
-from dataclasses import dataclass
-
-
-@dataclass(frozen=True)
-class Curriculum:
-    text: str
-    page_num: int
-    # paragrap_num: int
-    embedding: list[float]
-    pdf_name: str
+from flashcards.text_scraper.post_processing import Page
 
 
 class DatabaseInterface(ABC):
@@ -32,7 +23,7 @@ class DatabaseInterface(ABC):
         )
 
     @abstractmethod
-    def get_curriculum(self, pdf_name: str, embedding: list[float]) -> list[Curriculum]:
+    def get_curriculum(self, pdf_name: str, embedding: list[float]) -> list[Page]:
         """
         Get the curriculum from the database
 
@@ -48,7 +39,7 @@ class DatabaseInterface(ABC):
     @abstractmethod
     def get_page_range(
         self, pdf_name: str, page_num_start: int, page_num_end: int
-    ) -> list[Curriculum]:
+    ) -> list[Page]:
         """
         Retrieves a range of pages from the knowledge base.
 
@@ -86,7 +77,7 @@ class MongoDB(DatabaseInterface):
         self.similarity_threshold = 0.83
         self.embeddings = OpenAIEmbedding()
 
-    def get_curriculum(self, pdf_name: str, embedding: list[float]) -> list[Curriculum]:
+    def get_curriculum(self, pdf_name: str, embedding: list[float]) -> list[Page]:
         # Checking if embedding consists of decimals or "none"
         if not embedding:
             raise ValueError("Embedding cannot be None")
@@ -135,7 +126,7 @@ class MongoDB(DatabaseInterface):
 
     def get_page_range(
         self, pdf_name: str, page_num_start: int, page_num_end: int
-    ) -> list[Curriculum]:
+    ) -> list[Page]:
         # Get the curriculum from the database
         cursor = self.collection.find(
             {

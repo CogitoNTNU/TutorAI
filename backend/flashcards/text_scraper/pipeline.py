@@ -9,7 +9,7 @@ class Pipeline:
     """
 
     def __init__(self, image, filters):
-        self.image = image
+        self.image: Image = image
         self.filters = filters
 
     def apply_filters(self):
@@ -20,7 +20,7 @@ class Pipeline:
         for filter in self.filters:
             self.image = filter(self.image)
 
-    def get_image(self):
+    def get_image(self) -> Image:
         return self.image
 
 
