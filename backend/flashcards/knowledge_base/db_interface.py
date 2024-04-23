@@ -74,7 +74,7 @@ class MongoDB(DatabaseInterface):
         self.client = MongoClient(Config().MONGODB_URI)
         self.db = self.client["test-curriculum-database"]
         self.collection = self.db["test-curriculum-collection"]
-        self.similarity_threshold = 0.83
+        self.similarity_threshold = 0.7
         self.embeddings = OpenAIEmbedding()
 
     def get_curriculum(self, pdf_name: str, embedding: list[float]) -> list[Page]:
@@ -115,8 +115,8 @@ class MongoDB(DatabaseInterface):
                 results.append(
                     Page(
                         text=document["text"],
-                        page_num=document["page_num"],
-                        pdf_name=document["pdf_name"],
+                        page_num=document["pageNum"],
+                        pdf_name=document["pdfName"],
                     )
                 )
 
