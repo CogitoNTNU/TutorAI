@@ -1,13 +1,14 @@
 """ The service module contains the business logic of the application. """
 
 from dataclasses import dataclass
+import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from flashcards.knowledge_base.response_formulation import response_formulation
 from flashcards.rag_service import get_context, get_page_range, post_context
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.text_scraper.post_processing import Page
-
+import comtypes.client
 
 def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     """
@@ -32,6 +33,11 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     return flashcards
 
 
+        
+
+
+
+
 def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     """
     Process the file and store the pages as curriculum in a database.
@@ -39,6 +45,7 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     print("[INFO] Processing file", flush=True)
 
     # Extract text from the uploaded file
+    
     extractor = TextExtractor()
     pages: list[Page] = extractor.extractData(uploaded_file)
 
