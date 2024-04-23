@@ -9,7 +9,12 @@ from rest_framework import status
 
 from flashcards.flashcard_service import generate_quiz, process_flashcards
 from flashcards.serializer import CurriculumSerializer, ChatSerializer, QuizSerializer
-from .text_to_flashcards import Flashcard, generate_flashcards, parse_flashcard
+from .text_to_flashcards import (
+    Flashcard,
+    generate_flashcards,
+    parse_flashcard,
+    parse_for_anki,
+)
 from flashcards.flashcard_service import RagAnswer, process_answer
 
 from drf_yasg.utils import swagger_auto_schema
@@ -50,7 +55,7 @@ def create_flashcards(request):
         flashcards: list[Flashcard] = []
         for file in uploaded_files:
             flashcards.extend(process_flashcards(file))
-
+        exportable_flashcard = parse_for_anki(flashcards)
         flashcard_dicts = [flashcard.to_dict() for flashcard in flashcards]
 
         return Response(data=flashcard_dicts, status=200)
@@ -96,7 +101,7 @@ def create_rag_response(request):
 
 @api_view(["POST"])
 def create_quiz(request):
-
+    print("[INFO] Create Quiz Request received... {request}")
     serializer = QuizSerializer(data=request.data)
     if serializer.is_valid():
         document = serializer.validated_data.get("document")
