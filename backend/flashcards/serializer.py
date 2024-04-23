@@ -24,6 +24,31 @@ class ChatSerializer(serializers.Serializer):
     )
 
 
+class QuizSerializer(serializers.Serializer):
+    # The name of the pdf file
+    document = serializers.CharField(
+        help_text="The name of the document file",
+    )
+
+    # The start index
+    start = serializers.IntegerField(
+        help_text="The start index",
+    )
+
+    # The end index
+    end = serializers.IntegerField(
+        help_text="The end index",
+    )
+
+    # Check if the start index is less than the end index
+    def validate(self, data):
+        if data["start"] >= data["end"]:
+            raise serializers.ValidationError(
+                "The start index must be less than the end index"
+            )
+        return data
+
+
 class CurriculumSerializer(serializers.Serializer):
 
     curriculum = serializers.ListField(
