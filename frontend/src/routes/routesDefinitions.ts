@@ -5,6 +5,7 @@ const apiRoutes = {
   login: `${baseAPIUrl}/login/`,
   signup: `${baseAPIUrl}/create-user/`,
   search: `${baseAPIUrl}/search/`,
+  quiz: `${baseAPIUrl}/quiz/`,
 };
 
 export default apiRoutes;

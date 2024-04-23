@@ -25,7 +25,7 @@ const QuizService = async (
   };
 
   const response = await axios
-    .post(apiRoutes.search, quizRequest)
+    .post(apiRoutes.quiz, quizRequest)
     .then((res) => {
       return res;
     })
