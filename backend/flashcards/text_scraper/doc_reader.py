@@ -1,6 +1,6 @@
 import os
 from docx import Document
-from post_processing import Page, PostProcessor
+from flashcards.text_scraper.post_processing import Page, PostProcessor
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import win32com.client as win32
 
