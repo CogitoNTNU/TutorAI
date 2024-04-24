@@ -1,6 +1,7 @@
 import random
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
+from TutorAI.backend.flashcards.text_scraper.doc_reader import DocReader
 from flashcards.text_scraper.text_reader import TextReader
 from flashcards.text_scraper.post_processing import Page, PostProcessor
 from flashcards.text_scraper.ocr import OCR
@@ -21,6 +22,15 @@ class TextExtractor:
             list[Page]: Page: text, page number and book name.
         """
         pages: list[Page] = []
+        
+        #checks the file type and extracts if docs or docx file
+        file_extension = file.name.split(".")[-1].lower()
+        if file_extension in ["doc", "docx"]:
+            doc_reader = DocReader()
+            pages = doc_reader.get_text_from_doc_or_docx(file)
+        elif file_extension not in ["pdf", "png", "jpg", "jpeg", "ppm", "tiff", "bmp"]:
+                raise NotImplementedError(f"Unsupported file format: {file_extension}")
+            
         if self._isReadable(file):
             pages.extend(self._extractTextPdf(file))
         else:
@@ -85,3 +95,6 @@ class TextExtractor:
         if len(fast_text) / len(ocr_text) > 0.88:
             return True
         return False
+    
+    
+    
