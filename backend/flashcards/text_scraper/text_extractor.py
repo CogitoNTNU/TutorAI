@@ -22,15 +22,15 @@ class TextExtractor:
             list[Page]: Page: text, page number and book name.
         """
         pages: list[Page] = []
-        
-        #checks the file type and extracts if docs or docx file
+
+        # checks the file type and extracts if docs or docx file
         file_extension = file.name.split(".")[-1].lower()
         if file_extension in ["doc", "docx"]:
             doc_reader = DocReader()
             pages = doc_reader.get_text_from_doc_or_docx(file)
         elif file_extension not in ["pdf", "png", "jpg", "jpeg", "ppm", "tiff", "bmp"]:
-                raise NotImplementedError(f"Unsupported file format: {file_extension}")
-            
+            raise NotImplementedError(f"Unsupported file format: {file_extension}")
+
         if self._isReadable(file):
             pages.extend(self._extractTextPdf(file))
         else:
@@ -43,7 +43,7 @@ class TextExtractor:
         """Extract the text directly from a PDF file. Entrypoint for text reader class.
 
         Args:
-            file (InMemoryUploadedFile): 
+            file (InMemoryUploadedFile):
 
         Returns:
             list[Page]: Page: text, page number and book name.
@@ -51,14 +51,13 @@ class TextExtractor:
         return self.reader.read(file)
 
     def _extractTextImage(self, file) -> list[Page]:
-        
         """Extract the text from an image file using optical character recognition with tesseract. Entrypoint for OCR class.
         args:
             file (InMemoryUploadedFile):
         Returns:
-            list[Page]: 
+            list[Page]:
         """
-        
+
         ocr: OCR = OCR(file)
         ocr.ocr_images(file)
         page_data = ocr.get_page_data()
@@ -95,6 +94,3 @@ class TextExtractor:
         if len(fast_text) / len(ocr_text) > 0.88:
             return True
         return False
-    
-    
-    
