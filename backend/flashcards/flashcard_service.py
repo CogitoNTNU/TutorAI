@@ -9,7 +9,7 @@ from flashcards.rag_service import get_context, post_context
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.text_scraper.post_processing import Page
-import comtypes.client
+
 
 def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     """
