@@ -3,7 +3,8 @@
 from dataclasses import dataclass
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from flashcards.knowledge_base.response_formulation import response_formulation
-from flashcards.rag_service import get_context, get_page_range, post_context
+from flashcards.knowledge_base.db_interface import MongoDB
+from flashcards.rag_service import get_context, post_context
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.text_scraper.post_processing import Page
@@ -48,6 +49,19 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
         # TODO: HANDLE FAILURE CASE OF POST CONTEXT
     return context_posted
 
+def request_flashcards_by_page_range(pdf_name: str, page_num_start: int, page_num_end) -> list[Flashcard]:
+    """
+    Request flashcards for a specific page range and pdf from the database
+    """
+    # Get the flashcards from the database
+    db = MongoDB()
+    pages: list[Page] = db.get_page_range(pdf_name, page_num_start, page_num_end)
+    flashcards: list[Flashcard] = []
+    for page in pages:
+        flashcards_from_page = generate_flashcards(page)
+        flashcards.extend(flashcards_from_page)
+    
+    return flashcards
 
 @dataclass
 class RagAnswer:
@@ -123,7 +137,8 @@ def generate_quiz(document: str, start: int, end: int) -> Quiz:
 
     # Generate the quiz
     questions: list[QuestionAnswer] = []
-    pages: list[Page] = get_page_range(document, start, end)
+    db = MongoDB()
+    pages: list[Page] = db.get_page_range(document, start, end)
     for i in range(start, end):
         # TODO: use the text from the pages to generate questions
         questions.append(QuestionAnswer(f"Question {i}", f"Answer {i}"))
