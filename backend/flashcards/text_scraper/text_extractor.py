@@ -1,7 +1,7 @@
 import random
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from TutorAI.backend.flashcards.text_scraper.doc_reader import DocReader
+from flashcards.text_scraper.doc_reader import DocReader
 from flashcards.text_scraper.text_reader import TextReader
 from flashcards.text_scraper.post_processing import Page, PostProcessor
 from flashcards.text_scraper.ocr import OCR
