@@ -5,13 +5,14 @@ from flashcards.text_scraper.post_processing import Page
 
 class DocReader:
 
+
     def get_text_from_docx(self, file):
         """Extract text from a DOCX file."""
         print("Extracting text from DOCX file")
         document = Document(file)
         pages: list[Page] = []
         for i, para in enumerate(document.paragraphs):
-            pages.append({"text": para.text, "page_num": i, "pdf_name": os.path.basename(file.name)})
+            pages.append(Page(text=para.text, page_num=i, pdf_name=os.path.basename(file.name)))
         return pages
 
     def get_text_from_doc(self, file):
@@ -27,7 +28,8 @@ class DocReader:
             document = Document(uploaded_file)
             pages: list[Page] = []
             for i, para in enumerate(document.paragraphs):
-                pages.append({"text": para.text, "page_num": i, "pdf_name": os.path.basename(uploaded_file.name)})
+                pages.append(Page(text=para.text, page_num=i, pdf_name=os.path.basename(file.name)))
+
             return pages
         else:
             return "This file is not a valid DOCX file."
