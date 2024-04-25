@@ -6,6 +6,13 @@ package text_scraper {
         + extractPages(file: File): List[Data]
     }
 
+    class Page{
+        + text: String
+        + page_number: Int
+        + title: String
+
+    }
+
     class TextReader {
         + extractText(file: File): List[Data]
     }
@@ -18,9 +25,7 @@ package text_scraper {
     }
 
 
-    class TextPackage{
     
-    }
 
 
     
@@ -62,12 +67,7 @@ package external_ocr {
 }
 
 package post_processing {
-    class Page{
-        + text: String
-        + page_number: Int
-        + title: String
-
-    }
+    
 
 
     class TextPostProcessor {
@@ -86,7 +86,7 @@ TextExtractor --> TextReader
 TextExtractor --> TextPostProcessor
 OCR --> TesseractOCR
 Pipeline --> Filter
-TextExtractor -left-> TextPackage
+TextExtractor --> Page
 
 
 @enduml
