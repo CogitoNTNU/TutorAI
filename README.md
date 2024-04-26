@@ -227,17 +227,17 @@ There are currently no tests for the frontend.
             <sub><b>Olav Selnes Lorentzen</b></sub>
         </a>
     </td>
-    <td>
-      <td align="center">
-        <a href="https://github.com/Parleenb">
-            <img src="https://github.com/Parleenb.png?size=100" width="100px;"/><br />
-            <sub><b>Parleen Brar</b></sub>
-        </a>
-      <td align="center">
-        <a href="https://github.com/sandviklee">
-            <img src="https://github.com/sandviklee.png?size=100" width="100px;"/><br />
-            <sub><b>Simon Sandvik Lee</b></sub>
-        </a>
+    <td align="center">
+      <a href="https://github.com/Parleenb">
+          <img src="https://github.com/Parleenb.png?size=100" width="100px;"/><br />
+          <sub><b>Parleen Brar</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/sandviklee">
+          <img src="https://github.com/sandviklee.png?size=100" width="100px;"/><br />
+          <sub><b>Simon Sandvik Lee</b></sub>
+      </a>
     </td>
     <td align="center">
         <a href="https://github.com/LockedInTheSkage">
@@ -251,12 +251,11 @@ There are currently no tests for the frontend.
             <sub><b>Sverre Nystad</b></sub>
         </a>
     </td>
-    <td>
-      <td align="center">
-        <a href="https://github.com/tobiasfremming">
-            <img src="https://github.com/tobiasfremming.png?size=100" width="100px;"/><br />
-            <sub><b>Tobias Fremming</b></sub>
-        </a>
+    <td align="center">
+      <a href="https://github.com/tobiasfremming">
+          <img src="https://github.com/tobiasfremming.png?size=100" width="100px;"/><br />
+          <sub><b>Tobias Fremming</b></sub>
+      </a>
     </td>
   </tr>
 </table>
