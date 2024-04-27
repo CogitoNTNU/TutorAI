@@ -23,6 +23,19 @@ class ChatSerializer(serializers.Serializer):
         required=False,  # Make the field optional
     )
 
+    # Validate the chat history
+    def validate_chat_history(self, value):
+        if len(value) % 2 != 0:
+            raise serializers.ValidationError(
+                "The chat history must have an even number of elements"
+            )
+        for message in value:
+            if "role" not in message or "content" not in message:
+                raise serializers.ValidationError(
+                    "Each message in the chat history must have a role and a content"
+                )
+        return value
+
 
 class DocumentSerializer(serializers.Serializer):
     # The name of the pdf file
