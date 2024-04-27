@@ -5,22 +5,19 @@ import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from flashcards.knowledge_base.response_formulation import response_formulation
 from flashcards.knowledge_base.db_interface import MongoDB
-from flashcards.rag_service import get_context, post_context
+from flashcards.rag_service import get_context, get_page_range, post_context
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.text_scraper.post_processing import Page
 
 
-def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
+def process_flashcards(document_name: str, start: int, end: int) -> list[Flashcard]:
     """
-    Process the file and return the flashcards.
+    Generate flashcards for a specific page range and file
     """
-    print("[INFO] Processing file", flush=True)
-
     # Extract text from the uploaded file
-    extractor = TextExtractor()
-    pages: list[Page] = extractor.extractData(uploaded_file)
-    print("[INFO] Files read")
+    print("[INFO] Trying to find relevant document", flush=True)
+    pages = get_page_range(document_name, start, end)
     flashcards: list[Flashcard] = []
     print("[INFO] Generating flashcards", flush=True)
     for page in pages:
@@ -34,11 +31,6 @@ def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
     return flashcards
 
 
-        
-
-
-
-
 def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     """
     Process the file and store the pages as curriculum in a database.
@@ -46,7 +38,7 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     print("[INFO] Processing file", flush=True)
 
     # Extract text from the uploaded file
-    
+
     extractor = TextExtractor()
     pages: list[Page] = extractor.extractData(uploaded_file)
 
@@ -56,7 +48,10 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
         # TODO: HANDLE FAILURE CASE OF POST CONTEXT
     return context_posted
 
-def request_flashcards_by_page_range(pdf_name: str, page_num_start: int, page_num_end) -> list[Flashcard]:
+
+def request_flashcards_by_page_range(
+    pdf_name: str, page_num_start: int, page_num_end
+) -> list[Flashcard]:
     """
     Request flashcards for a specific page range and pdf from the database
     """
@@ -67,8 +62,9 @@ def request_flashcards_by_page_range(pdf_name: str, page_num_start: int, page_nu
     for page in pages:
         flashcards_from_page = generate_flashcards(page)
         flashcards.extend(flashcards_from_page)
-    
+
     return flashcards
+
 
 @dataclass
 class RagAnswer:
