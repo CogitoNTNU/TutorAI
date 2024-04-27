@@ -56,8 +56,7 @@ def request_flashcards_by_page_range(
     Request flashcards for a specific page range and pdf from the database
     """
     # Get the flashcards from the database
-    db = MongoDB()
-    pages: list[Page] = db.get_page_range(pdf_name, page_num_start, page_num_end)
+    pages: list[Page] = get_page_range(pdf_name, page_num_start, page_num_end)
     flashcards: list[Flashcard] = []
     for page in pages:
         flashcards_from_page = generate_flashcards(page)
