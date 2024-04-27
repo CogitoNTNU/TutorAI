@@ -31,11 +31,6 @@ def process_flashcards(document_name: str, start: int, end: int) -> list[Flashca
     return flashcards
 
 
-        
-
-
-
-
 def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     """
     Process the file and store the pages as curriculum in a database.
@@ -43,7 +38,7 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     print("[INFO] Processing file", flush=True)
 
     # Extract text from the uploaded file
-    
+
     extractor = TextExtractor()
     pages: list[Page] = extractor.extractData(uploaded_file)
 
@@ -53,7 +48,10 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
         # TODO: HANDLE FAILURE CASE OF POST CONTEXT
     return context_posted
 
-def request_flashcards_by_page_range(pdf_name: str, page_num_start: int, page_num_end) -> list[Flashcard]:
+
+def request_flashcards_by_page_range(
+    pdf_name: str, page_num_start: int, page_num_end
+) -> list[Flashcard]:
     """
     Request flashcards for a specific page range and pdf from the database
     """
@@ -64,8 +62,9 @@ def request_flashcards_by_page_range(pdf_name: str, page_num_start: int, page_nu
     for page in pages:
         flashcards_from_page = generate_flashcards(page)
         flashcards.extend(flashcards_from_page)
-    
+
     return flashcards
+
 
 @dataclass
 class RagAnswer:
