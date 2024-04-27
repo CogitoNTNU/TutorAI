@@ -1,17 +1,20 @@
 from django.urls import path
 
+
 from .views import health_check
 from flashcards.views import (
     create_flashcards,
     create_quiz,
     generate_mock_flashcard,
     create_rag_response,
+    post_curriculum,
 )
 
 urlpatterns = [
     # path("create-user/", register_user, name="create-user"),
     # path("login/", login, name="login"),
     path("health-check/", health_check, name="Health_check"),
+    path("store-curriculum/", post_curriculum, name="store-curriculum"),
     path("create-flashcards/", create_flashcards, name="create-flashcards"),
     path(
         "generate-mock-flashcard/",

@@ -7,7 +7,11 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
 
-from flashcards.flashcard_service import generate_quiz, process_flashcards
+from flashcards.flashcard_service import (
+    generate_quiz,
+    process_flashcards,
+    store_curriculum,
+)
 from flashcards.serializer import CurriculumSerializer, ChatSerializer, QuizSerializer
 from .text_to_flashcards import (
     Flashcard,
@@ -34,6 +38,24 @@ get_flashcard_success_response = openapi.Response(
         ]
     },
 )
+
+
+@api_view(["POST"])
+def post_curriculum(request):
+    print(f"[INFO] Request received...", flush=True)
+    print(f"request.data: {request.data}", flush=True)
+    serializer = CurriculumSerializer(data=request.data)
+    if serializer.is_valid():
+        uploaded_files: list[InMemoryUploadedFile] = serializer.validated_data.get(
+            "curriculum"
+        )
+        flashcards: list[Flashcard] = []
+        for file in uploaded_files:
+            wasUploaded = store_curriculum(file)
+
+        return Response(status=200)
+    else:
+        return Response(serializer.errors, status=400)
 
 
 @swagger_auto_schema(
