@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import UploadService from '../services/UploadService';
-import { pdfjs } from 'react-pdf';
+import { Document, Page, pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
+import Header from '../components/Header';
 
 // Configure PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -11,6 +12,7 @@ const FileUpload: React.FC = () => {
     const [pdfData, setPdfData] = useState<any>(null);
     const [numPages, setNumPages] = useState<number | null>(null);
     const [pageNumber, setPageNumber] = useState<number>(1);
+    const [showDocument, setShowDocument] = useState<boolean>(false);
     const [successfulUpload, setSuccessfulUpload] = useState<boolean>(false);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +38,7 @@ const FileUpload: React.FC = () => {
         if (selectedFile) {
             try {
                 const response = await UploadService(selectedFile);
-                console.log('Response:', response);
+                console.log("Response:", response);
                 setSuccessfulUpload(true);
             } catch (error) {
                 console.error('Error uploading file:', error);
@@ -44,11 +46,41 @@ const FileUpload: React.FC = () => {
         }
     };
 
+    const handleToggleDocument = () => {
+        setShowDocument(!showDocument);
+    };
+
     return (
-        <form className='' onSubmit={handleSubmit}>
-            <input className='' type='file' accept='.pdf' onChange={handleFileChange} />
-            <button className='' type='submit'>Upload PDF</button>
-        </form>
+        <div className="bg-blue-100">
+            <Header />
+            
+            <h1 className="my-5 text-4xl">Upload PDF</h1>
+
+            <form className="mt-5 bg-blue-200" onSubmit={handleSubmit}>
+                <input className="bg-white text-black py-2 px-4 rounded-md" type="file" accept=".pdf" onChange={handleFileChange} />
+                <button className="bg-blue-700 text-white py-2 px-4 rounded-md" type="submit">Upload PDF</button>
+            </form>
+
+            {successfulUpload && <p className="m-2 text-green-700">File uploaded successfully!</p>}
+
+            {pdfData && (
+            <button className="bg-blue-700 text-white py-2 px-4 rounded-md" onClick={handleToggleDocument}>
+                {showDocument ? 'Hide Document' : 'Show Document'}
+            </button>
+            )}
+
+            {showDocument && pdfData && (
+                <div className="flex justify-center">
+                    <Document file={pdfData} onLoadSuccess={onDocumentLoadSuccess}>
+                        <Page pageNumber={pageNumber} />
+                    </Document>
+                </div>
+            )}
+
+            {showDocument && pdfData && numPages && (
+                <p>Page {pageNumber} of {numPages}</p>
+            )}
+        </div>
     );
 };
 
