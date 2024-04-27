@@ -1,8 +1,7 @@
 import axios from "axios";
 import apiRoutes from "../routes/routesDefinitions";
-import FileUploadResponse from "../types/FileUploadResponse";
 
-const FileUploadService = async (file: File): Promise<FileUploadResponse> => {
+const FileUploadService = async (file: File): Promise<Response> => {
   let formData = new FormData();
   formData.append("curriculum", file);
   console.log(formData);

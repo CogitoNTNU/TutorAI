@@ -11,7 +11,6 @@ const SideBar: React.FC = () => {
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            setFiles([...files, file.name]);
 
             // Convert file to a data URL for react-pdf
             const reader = new FileReader();
@@ -21,6 +20,10 @@ const SideBar: React.FC = () => {
             try {
                 const response = await FileUploadService(file);
                 console.log('Response:', response);
+                setFiles([...files, file.name]);
+
+                // Clear the input field
+                e.target.value = '';
             } catch (error) {
                 console.error('Error uploading file:', error);
             }
