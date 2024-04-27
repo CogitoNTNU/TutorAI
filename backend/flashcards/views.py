@@ -45,6 +45,7 @@ get_flashcard_success_response = openapi.Response(
 
 
 @api_view(["POST"])
+@parser_classes([MultiPartParser])
 def post_curriculum(request):
     print(f"[INFO] Request received...", flush=True)
     print(f"request.data: {request.data}", flush=True)
@@ -69,7 +70,6 @@ def post_curriculum(request):
     responses={200: get_flashcard_success_response, 400: get_flashcard_error_response},
 )
 @api_view(["POST"])
-@parser_classes([MultiPartParser])
 def create_flashcards(request):
     print(f"[INFO] Request received...", flush=True)
     print(f"request.data: {request.data}", flush=True)
@@ -80,10 +80,10 @@ def create_flashcards(request):
         end: int = serializer.validated_data.get("end")
 
         # Retrieve the document
-        document = process_flashcards(file_name, start, end)
+        flashcards: list[Flashcard] = process_flashcards(file_name, start, end)
 
         # Generate flashcards
-        flashcards: list[Flashcard] = process_flashcards(document)
+
         exportable_flashcard = parse_for_anki(flashcards)
         flashcard_dicts = [flashcard.to_dict() for flashcard in flashcards]
 
@@ -118,12 +118,14 @@ def create_rag_response(request):
     serializer = ChatSerializer(data=request.data)
     if serializer.is_valid():
         # handle request
-        pdf_names = serializer.validated_data.get("documents")
+        document_names = serializer.validated_data.get("documents")
         user_question = serializer.validated_data.get("user_question")
         # Chat history is optional
         chat_history = serializer.validated_data.get("chat_history", [])
 
-        rag_answer: RagAnswer = process_answer(pdf_names, user_question, chat_history)
+        rag_answer: RagAnswer = process_answer(
+            document_names, user_question, chat_history
+        )
         response = rag_answer.to_dict()
         return Response(response, status=200)
 
