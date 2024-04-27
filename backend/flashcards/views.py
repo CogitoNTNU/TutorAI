@@ -12,7 +12,11 @@ from flashcards.flashcard_service import (
     process_flashcards,
     store_curriculum,
 )
-from flashcards.serializer import CurriculumSerializer, ChatSerializer, QuizSerializer
+from flashcards.serializer import (
+    CurriculumSerializer,
+    ChatSerializer,
+    DocumentSerializer,
+)
 from .text_to_flashcards import (
     Flashcard,
     generate_flashcards,
@@ -69,18 +73,25 @@ def post_curriculum(request):
 def create_flashcards(request):
     print(f"[INFO] Request received...", flush=True)
     print(f"request.data: {request.data}", flush=True)
-    serializer = CurriculumSerializer(data=request.data)
+    serializer = DocumentSerializer(data=request.data)
     if serializer.is_valid():
-        uploaded_files: list[InMemoryUploadedFile] = serializer.validated_data.get(
-            "curriculum"
-        )
-        flashcards: list[Flashcard] = []
-        for file in uploaded_files:
-            flashcards.extend(process_flashcards(file))
+        file_name: list[str] = serializer.validated_data.get("document")
+        start: int = serializer.validated_data.get("start")
+        end: int = serializer.validated_data.get("end")
+
+        # Retrieve the document
+        document = process_flashcards(file_name, start, end)
+
+        # Generate flashcards
+        flashcards: list[Flashcard] = process_flashcards(document)
         exportable_flashcard = parse_for_anki(flashcards)
         flashcard_dicts = [flashcard.to_dict() for flashcard in flashcards]
 
-        return Response(data=flashcard_dicts, status=200)
+        response = {
+            "flashcards": flashcard_dicts,
+            "exportable_flashcards": exportable_flashcard,
+        }
+        return Response(data=response, status=200)
 
     else:
         return Response(serializer.errors, status=400)
