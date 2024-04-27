@@ -24,7 +24,7 @@ class ChatSerializer(serializers.Serializer):
     )
 
 
-class QuizSerializer(serializers.Serializer):
+class DocumentSerializer(serializers.Serializer):
     # The name of the pdf file
     document = serializers.CharField(
         help_text="The name of the document file",

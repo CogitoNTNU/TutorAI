@@ -124,7 +124,7 @@ def create_rag_response(request):
 @api_view(["POST"])
 def create_quiz(request):
     print("[INFO] Create Quiz Request received... {request}")
-    serializer = QuizSerializer(data=request.data)
+    serializer = DocumentSerializer(data=request.data)
     if serializer.is_valid():
         document = serializer.validated_data.get("document")
         start = serializer.validated_data.get("start")
