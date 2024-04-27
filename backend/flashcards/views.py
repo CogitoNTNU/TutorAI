@@ -54,9 +54,12 @@ def post_curriculum(request):
         uploaded_files: list[InMemoryUploadedFile] = serializer.validated_data.get(
             "curriculum"
         )
-        flashcards: list[Flashcard] = []
+
         for file in uploaded_files:
             wasUploaded = store_curriculum(file)
+            # TODO: Handle failure case of store_curriculum
+            if not wasUploaded:
+                print(f"[ERROR] Failed to upload file: {file}", flush=True)
 
         return Response(status=200)
     else:
@@ -83,7 +86,6 @@ def create_flashcards(request):
         flashcards: list[Flashcard] = process_flashcards(file_name, start, end)
 
         # Generate flashcards
-
         exportable_flashcard = parse_for_anki(flashcards)
         flashcard_dicts = [flashcard.to_dict() for flashcard in flashcards]
 
