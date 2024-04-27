@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from flashcards.flashcard_service import (
+    generate_compendium,
     generate_quiz,
     process_flashcards,
     store_curriculum,
@@ -146,6 +147,24 @@ def create_quiz(request):
         end = serializer.validated_data.get("end")
         quiz = generate_quiz(document, start, end)
         response = quiz.to_dict()
+        return Response(response, status=200)
+    else:
+        print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
+        return Response(status=400)
+
+
+@api_view(["POST"])
+def create_compendium(request):
+    print("[INFO] Create Compendium Request received... {request}")
+    serializer = DocumentSerializer(data=request.data)
+    if serializer.is_valid():
+        document = serializer.validated_data.get("document")
+        start = serializer.validated_data.get("start")
+        end = serializer.validated_data.get("end")
+
+        # Generate the compendium
+        compendium = generate_compendium(document, start, end)
+        response = compendium.to_dict()
         return Response(response, status=200)
     else:
         print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)

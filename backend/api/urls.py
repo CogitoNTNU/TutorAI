@@ -3,6 +3,7 @@ from django.urls import path
 
 from .views import health_check
 from flashcards.views import (
+    create_compendium,
     create_flashcards,
     create_quiz,
     generate_mock_flashcard,
@@ -23,4 +24,5 @@ urlpatterns = [
     ),
     path("search/", create_rag_response, name="create-rag-response"),
     path("quiz/", create_quiz, name="create-quiz"),
+    path("compendium/", create_compendium, name="create-compendium"),
 ]

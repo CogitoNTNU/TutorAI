@@ -147,3 +147,38 @@ def generate_quiz(document: str, start: int, end: int) -> Quiz:
         questions.append(QuestionAnswer(f"Question {i}", f"Answer {i}"))
 
     return Quiz(document, start, end, questions)
+
+
+@dataclass
+class Compendium:
+    # Metadata
+    document: str
+    start: int
+    end: int
+
+    # The list of questions
+    pages: list[Page]
+    questions: list[QuestionAnswer]
+
+    def to_dict(self) -> dict:
+        return {
+            "document": self.document,
+            "start": self.start,
+            "end": self.end,
+            "pages": [page.to_dict() for page in self.pages],
+            "questions": [question.to_dict() for question in self.questions],
+        }
+
+
+def generate_compendium(document: str, start: int, end: int) -> Compendium:
+    """
+    Generates a compendium for the document
+    """
+
+    # Retrieve the pages from the database
+    pages: list[Page] = get_page_range(document, start, end)
+
+    # Generate the compendium
+    # TODO: Implement the compendium generation
+
+    return
