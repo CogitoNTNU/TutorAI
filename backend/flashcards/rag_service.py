@@ -35,8 +35,9 @@ def get_page_range(
     Get the context of the query
 
     Args:
-        query (str): The query to get the context of
-
+        pdf_name (str): The name of the pdf
+        page_num_start (int): The start page number
+        page_num_end (int): The end page number
     Returns:
         list[str]: The context of the query
     """
