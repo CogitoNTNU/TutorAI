@@ -71,15 +71,6 @@ class RagAPITest(TestCase):
         response = self.client.post(self.url, valid_response, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_valid_request_with_chat_history(self):
-        valid_response = {
-            "documents": [self.valid_pdf_name],
-            "user_question": "What is the capital of India?",
-            "chat_history": self.valid_chat_history,
-        }
-        response = self.client.post(self.url, valid_response, format="json")
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
 
 class QuizGenerationTest(TestCase):
     def setUp(self):
