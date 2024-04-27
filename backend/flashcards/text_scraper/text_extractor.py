@@ -1,6 +1,7 @@
 import random
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
+from flashcards.text_scraper.doc_reader import DocReader
 from flashcards.text_scraper.text_reader import TextReader
 from flashcards.text_scraper.post_processing import Page, PostProcessor
 from flashcards.text_scraper.ocr import OCR
@@ -12,19 +13,53 @@ class TextExtractor:
         self.post_processor: PostProcessor = PostProcessor()
 
     def extractData(self, file: InMemoryUploadedFile) -> list[Page]:
+        """Decides whether to extract text from a PDF file or an image file, and extracts the text using the appropriate method. Then the extracted text is post-processed.
+
+        Args:
+            file (InMemoryUploadedFile): the file to extract text from.
+
+        Returns:
+            list[Page]: Page: text, page number and book name.
+        """
         pages: list[Page] = []
-        if self._isReadable(file):
-            pages.extend(self._extractTextPdf(file))
+
+        # checks the file type and extracts if docs or docx file
+        file_extension = file.name.split(".")[-1].lower()
+        if file_extension in ["doc", "docx"]:
+            doc_reader = DocReader()
+            pages = doc_reader.get_text_from_doc_or_docx(file)
+          
+        elif file_extension not in ["pdf", "png", "jpg", "jpeg", "ppm", "tiff", "bmp"]:
+            raise NotImplementedError(f"Unsupported file format: {file_extension}")
+
         else:
-            pages.extend(self._extractTextImage(file))
+            if self._isReadable(file):
+                pages.extend(self._extractTextPdf(file))
+            else:
+                pages.extend(self._extractTextImage(file))
 
         data = self.post_processor.page_post_processing(pages)
         return data
 
     def _extractTextPdf(self, file: InMemoryUploadedFile) -> list[Page]:
+        """Extract the text directly from a PDF file. Entrypoint for text reader class.
+
+        Args:
+            file (InMemoryUploadedFile):
+
+        Returns:
+            list[Page]: Page: text, page number and book name.
+        """
         return self.reader.read(file)
 
     def _extractTextImage(self, file) -> list[Page]:
+        """Extract the text from an image file using optical character recognition with tesseract. Entrypoint for OCR class.
+        args:
+            file (InMemoryUploadedFile):
+        Returns:
+            list[Page]:
+        """
+
         ocr: OCR = OCR(file)
         ocr.ocr_images(file)
         page_data = ocr.get_page_data()

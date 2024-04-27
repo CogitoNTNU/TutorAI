@@ -9,36 +9,78 @@ class Page:
     page_num: int
     pdf_name: str
 
+    def to_dict(self) -> dict:
+        return {
+            "text": self.text,
+            "page_num": self.page_num,
+            "pdf_name": self.pdf_name,
+        }
+
 
 class PostProcessor:
 
     def page_post_processing(self, pages: list[Page]) -> list[Page]:
+        """Post processes the extracted text data.
+
+        Args:
+            pages (list[Page]): pages to be processed
+
+        Returns:
+            list[Page]: processed pages
+        """
         post_processed_pages = []
 
         for index, page in enumerate(pages):
             prev_sentence = self.get_last_sentence_in_previous_page(index, pages)
             next_sentence = self.get_first_sentence_in_next_page(index, pages)
-            post_processed_pages.append(self._extract_paragraphs(page), prev_sentence, next_sentence)
+            post_processed_pages.append(
+                self._extract_paragraphs(page, prev_sentence, next_sentence)
+            )
 
         return post_processed_pages
-    
-    def get_last_sentence_in_previous_page(self, page_num, pages):
-        if page_num == 0:
-            return None
-        page =  pages[page_num - 1]
-        text = page.split(".")
-        return text[-1]
-    
-    def get_first_sentence_in_next_page(self, page_num, pages):
-        if page_num == len(pages) - 1:
-            return None
-        page =  pages[page_num + 1]
-        text = page.split(".")
-        return text[0]
-    
-    
 
-    def _extract_paragraphs(self, page: Page, prev_sentence: str, next_sentence: str) -> Page:
+    def get_last_sentence_in_previous_page(self, page_num, pages) -> str:
+        """gets the last sentence in the previous page of the PDF.
+
+        Args:
+            page_num
+            pages
+
+        Returns:
+            str: the last sentence in the previous page of the PDF.
+        """
+        if page_num == 0:
+            return ""
+
+        page_text = pages[page_num - 1].text
+        last_period_index = page_text.rfind(".")
+        return page_text[last_period_index + 1 :].strip()
+
+    def get_first_sentence_in_next_page(self, page_num, pages) -> str:
+        """Gets the first sentence in the next page of the PDF.
+
+        Args:
+            page_num (_type_):
+            pages (_type_):
+
+        Returns:
+            _type_: string
+        """
+
+        if page_num == len(pages) - 1:
+            return ""
+
+        page_text = pages[page_num + 1].text
+        first_period_index = page_text.find(".")
+
+        if first_period_index == -1:
+            return page_text
+        else:
+            return page_text[:first_period_index].strip()
+
+    def _extract_paragraphs(
+        self, page: Page, prev_sentence: str, next_sentence: str
+    ) -> Page:
         """
         Extract paragraphs from a list of strings, where each string represents page content from a PDF.
 
@@ -49,23 +91,21 @@ class PostProcessor:
         - A list of paragraphs extracted from the page content.
         """
 
-        # Split the page into segments based on double newline characters
-        # segments = page.split("\n\n")
-
-        # Further process each segment
-        # for segment in segments:
-        #     # Clean up the segment by stripping leading/trailing whitespace and replacing multiple newlines with a single space
-        #     cleaned_segment = ' '.join(segment.strip().split('\n'))
-        #     cleaned_segment = self.simple_clean(cleaned_segment)
-
-        #     # Ignore empty segments
-        
         page.text = (str)(prev_sentence + page.text + next_sentence)
         cleaned_segment = self._simple_clean(page.text)
         page.text = cleaned_segment
 
         return page
 
-    def _simple_clean(self, text, replace_with="?"):
+    def _simple_clean(self, text, replace_with="�") -> str:
+        """cleans the text by replacing characters with ord > 255 with a specified character.
+
+        Args:
+            text (_type_): _description_
+            replace_with (str, optional): _description_. Defaults to "?".
+
+        Returns:
+            str: _description_
+        """
 
         return "".join(char if ord(char) < 255 else replace_with for char in text)

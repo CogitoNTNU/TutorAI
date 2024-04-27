@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
-// import SearchService from '../services/SearchService';
-// import Search from '../components/Search';
+import SearchService from '../services/SearchService';
 
 interface SearchProps {
-    data: string;
+    ragResponse: string;
+    citations: Citation[];
+}
+
+interface Citation {
+    title: string;
+    content: string;
+    pageNumber: number;
 }
 
 const InformationSearch: React.FC = () => {
@@ -21,10 +27,10 @@ const InformationSearch: React.FC = () => {
     const handleSearch = async () => {
         if (inputValue) {
             try {
-                // TODO: Integrate with backend
-                // const response = await SearchService(inputValue);
-                // console.log("Response:", response);
-                // setOutputValue(response.data.data);
+                
+                const response = await SearchService(inputValue);
+                console.log("Response:", response);
+                setOutputValue(response.data.ragResponse);
                 setOutputValue("You searched for: " + inputValue)
             } catch (error) {
                 console.error('Error uploading file:', error);

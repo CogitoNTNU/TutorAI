@@ -201,6 +201,20 @@ There are currently no tests for the frontend.
 
 <table align="center">
   <tr>
+    <td>
+      <td align="center">
+        <a href="https://github.com/henrik392">
+            <img src="https://github.com/henrik392.png?size=100" width="100px;"/><br />
+            <sub><b>Henrik Halvorsen Kvamme</b></sub>
+        </a>
+    </td>
+    <td>
+      <td align="center">
+        <a href="https://github.com/kaamyashinde">
+            <img src="https://github.com/kaamyashinde.png?size=100" width="100px;"/><br />
+            <sub><b>Kaamya Shinde</b></sub>
+        </a>
+    </td>
     <td align="center">
         <a href="https://github.com/Knolaisen">
             <img src="https://github.com/Knolaisen.png?size=100" width="100px;" alt="Kristoffer Nohr Olaisen"/><br />
@@ -214,23 +228,34 @@ There are currently no tests for the frontend.
         </a>
     </td>
     <td align="center">
+      <a href="https://github.com/Parleenb">
+          <img src="https://github.com/Parleenb.png?size=100" width="100px;"/><br />
+          <sub><b>Parleen Brar</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/sandviklee">
+          <img src="https://github.com/sandviklee.png?size=100" width="100px;"/><br />
+          <sub><b>Simon Sandvik Lee</b></sub>
+      </a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/LockedInTheSkage">
+            <img src="https://github.com/LockedInTheSkage.png?size=100" width="100px;"/><br />
+            <sub><b>Skage  Reistad</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/SverreNystad">
             <img src="https://github.com/SverreNystad.png?size=100" width="100px;"/><br />
             <sub><b>Sverre Nystad</b></sub>
         </a>
     </td>
-      <td align="center">
-        <a href="https://github.com/sandviklee">
-            <img src="https://github.com/sandviklee.png?size=100" width="100px;"/><br />
-            <sub><b>Simon Sandvik Lee</b></sub>
-        </a>
-    </td>
-    </td>
-      <td align="center">
-        <a href="https://github.com/kaamyashinde">
-            <img src="https://github.com/kaamyashinde.png?size=100" width="100px;"/><br />
-            <sub><b>Simon Sandvik Lee</b></sub>
-        </a>
+    <td align="center">
+      <a href="https://github.com/tobiasfremming">
+          <img src="https://github.com/tobiasfremming.png?size=100" width="100px;"/><br />
+          <sub><b>Tobias Fremming</b></sub>
+      </a>
     </td>
   </tr>
 </table>

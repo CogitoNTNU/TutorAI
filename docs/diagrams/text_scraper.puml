@@ -3,21 +3,29 @@
 package text_scraper {
 
     class TextExtractor {
-        + extractPages(file: File): String / Image
+        + extractPages(file: File): List[Data]
+    }
+
+    class Page{
+        + text: String
+        + page_number: Int
+        + title: String
+
     }
 
     class TextReader {
-        + extractText(file: File): String
+        + extractText(file: File): List[Data]
     }
 
     class OCR {
-        + extractText(file: File): String
+        + extractText(file: File): List[Data]
+    }
+    class DocReader {
+        + extractText(file: File): List[Data]
     }
 
 
-    class TextPackage{
     
-    }
 
 
     
@@ -59,9 +67,11 @@ package external_ocr {
 }
 
 package post_processing {
+    
+
 
     class TextPostProcessor {
-        + process(text: String): String
+        + process(List[Data]): List[Data]
     }
 
 }
@@ -71,11 +81,12 @@ package post_processing {
 
 
 TextExtractor --> OCR
+TextExtractor --> DocReader
 TextExtractor --> TextReader
 TextExtractor --> TextPostProcessor
 OCR --> TesseractOCR
 Pipeline --> Filter
-TextExtractor -left-> TextPackage
+TextExtractor --> Page
 
 
 @enduml
