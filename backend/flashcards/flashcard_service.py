@@ -158,7 +158,7 @@ class Compendium:
 
     # The list of questions
     pages: list[Page]
-    questions: list[QuestionAnswer]
+    quiz: Quiz
 
     def to_dict(self) -> dict:
         return {
@@ -166,7 +166,7 @@ class Compendium:
             "start": self.start,
             "end": self.end,
             "pages": [page.to_dict() for page in self.pages],
-            "questions": [question.to_dict() for question in self.questions],
+            "quiz": self.quiz.to_dict(),
         }
 
 
@@ -176,9 +176,21 @@ def generate_compendium(document: str, start: int, end: int) -> Compendium:
     """
 
     # Retrieve the pages from the database
-    pages: list[Page] = get_page_range(document, start, end)
+    context_pages: list[Page] = get_page_range(document, start, end)
 
     # Generate the compendium
     # TODO: Implement the compendium generation
+    # Should contain summaries of chapters
+    summaries = []
 
-    return
+    # Definitions of Terms
+
+    # Equations and Formulas if any
+
+    # Create pages with the content
+    pages = []
+
+    quiz = generate_quiz(document, start, end)
+
+    compendium = Compendium(document, start, end, pages, quiz)
+    return compendium
