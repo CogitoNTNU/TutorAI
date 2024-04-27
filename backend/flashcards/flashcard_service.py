@@ -5,22 +5,19 @@ import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from flashcards.knowledge_base.response_formulation import response_formulation
 from flashcards.knowledge_base.db_interface import MongoDB
-from flashcards.rag_service import get_context, post_context
+from flashcards.rag_service import get_context, get_page_range, post_context
 from flashcards.text_to_flashcards import Flashcard, generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.text_scraper.post_processing import Page
 
 
-def process_flashcards(uploaded_file: InMemoryUploadedFile) -> list[Flashcard]:
+def process_flashcards(document_name: str, start: int, end: int) -> list[Flashcard]:
     """
-    Process the file and return the flashcards.
+    Generate flashcards for a specific page range and file
     """
-    print("[INFO] Processing file", flush=True)
-
     # Extract text from the uploaded file
-    extractor = TextExtractor()
-    pages: list[Page] = extractor.extractData(uploaded_file)
-    print("[INFO] Files read")
+    print("[INFO] Trying to find relevant document", flush=True)
+    pages = get_page_range(document_name, start, end)
     flashcards: list[Flashcard] = []
     print("[INFO] Generating flashcards", flush=True)
     for page in pages:
