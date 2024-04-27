@@ -56,14 +56,14 @@ const PDFtoFlashcard: React.FC = () => {
         setShowDocument(!showDocument);
     };
 
-    useEffect(() => {
-        // Test flashcards by hardcoding them
-        setFlashcards([
-            { front: "What is Lionel Messi's nationality?", back: "Argentinian" },
-            { front: "How many Ballon d'Or awards has Messi won?", back: "7" },
-            { front: "Which club did Messi play for most of his career?", back: "FC Barcelona" }
-        ]);
-    }, []);
+    // useEffect(() => {
+    //     // Test flashcards by hardcoding them
+    //     setFlashcards([
+    //         { front: "What is Lionel Messi's nationality?", back: "Argentinian" },
+    //         { front: "How many Ballon d'Or awards has Messi won?", back: "7" },
+    //         { front: "Which club did Messi play for most of his career?", back: "FC Barcelona" }
+    //     ]);
+    // }, []);
 
     return (
         <div className="bg-blue-100">
