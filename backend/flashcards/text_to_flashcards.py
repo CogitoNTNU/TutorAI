@@ -80,8 +80,9 @@ def parse_flashcard(flashcards_data: list[str], page: Page) -> list[Flashcard]:
     flashcards = []
 
     for i in flashcards_data:
-        if "Front: " not in i or "Back: " not in i:
+        if "Front: " not in i or "Back: " not in i or "-" not in i:
             continue
+
         i = i.replace("Front: ", "").replace("Back: ", "")
         i = i.split("-")
         flashcards.append(
