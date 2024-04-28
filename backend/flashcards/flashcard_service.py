@@ -1,6 +1,8 @@
 """ The service module contains the business logic of the application. """
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from django.core.files.uploadedfile import InMemoryUploadedFile
+
 from flashcards.knowledge_base.response_formulation import (
     create_question_answer_pair,
     response_formulation,
@@ -22,20 +24,27 @@ def process_flashcards(document_name: str, start: int, end: int) -> list[Flashca
     """
     Generate flashcards for a specific page range and file
     """
-    # Extract text from the uploaded file
     print("[INFO] Trying to find relevant document", flush=True)
     pages = get_page_range(document_name, start, end)
     flashcards: list[Flashcard] = []
     print("[INFO] Generating flashcards", flush=True)
-    for page in pages:
-        # TODO: Parallelize api calls
-        flashcards_from_page = generate_flashcards(page)
-        flashcards.extend(flashcards_from_page)
 
-        # Save content
-        post_context(page.text, page.page_num, page.pdf_name)
+    # Use ThreadPoolExecutor to parallelize the API calls
+    with ThreadPoolExecutor() as executor:
+        # Schedule the execution of each page processing and hold the future objects
+        futures = [executor.submit(_process_page, page) for page in pages]
+
+        # As each future completes, gather the results
+        for future in as_completed(futures):
+            flashcards.extend(future.result())
 
     return flashcards
+
+
+def _process_page(page: str) -> list[Flashcard]:
+    flashcards_from_page = generate_flashcards(page)
+    post_context(page.text, page.page_num, page.pdf_name)
+    return flashcards_from_page
 
 
 def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
