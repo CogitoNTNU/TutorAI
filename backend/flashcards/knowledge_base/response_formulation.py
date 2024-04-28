@@ -103,22 +103,16 @@ def create_question_answer_pair(
     page_content: str, learning_goals: list[str]
 ) -> list["QuestionAnswer"]:
     """
-    Create a question-answer pair from the context and learning goals
+    Create question-answer pairs from the context and learning goals
     """
-    print(
-        f"""{{"page_content": "{page_content}", "learning_goals": "{learning_goals}"}}""",
-        flush=True,
-    )
+
     system_prompt = _quiz_question_answer_system_template(page_content, learning_goals)
-    print(f"system_prompt: {system_prompt}", flush=True)
     raw_quiz = _request_chat_completion(
-        message=page_content,
+        message=_quiz_question_answer_generation_template(page_content, learning_goals),
         role="user",
         system_prompt=system_prompt,
     )
-    print(f"raw_quiz: {raw_quiz}", flush=True)
     parsed_quiz = parse_quiz_response(raw_quiz)
-    print(f"parsed_quiz: {parsed_quiz}", flush=True)
     return parsed_quiz
 
 
@@ -140,11 +134,6 @@ def _quiz_question_answer_system_template(
     """
 
     template = f"""
-        The number og questions needed: 5
-        The content of the page in the curriculum: '''{page_content}'''
-        The learning goals for curriculum: '''{learning_goals}'''
-
-        
         # Role and Goal:
         You are a teacher AI making a quiz for some students. You act professionally in the tasks that you give out. 
         The user will be a fellow teacher wanting to construct questions for their students.
@@ -194,13 +183,16 @@ def parse_quiz_response(quiz_response: str) -> list["QuestionAnswer"]:
     Parse the response from the user to create a list of QuestionAnswer objects
     """
     separator = "$"
+    if separator not in quiz_response:
+        return []
     # Split the response into questions and answers
     raw_response_list = quiz_response.split(separator)
     response_list = [response.strip() for response in raw_response_list]
 
     # Create a list of QuestionAnswer objects
     question_answer_pairs = []
-    for i in range(0, len(response_list), 2):
+
+    for i in range(0, len(response_list) - 1, 2):
         question_answer_pairs.append(
             QuestionAnswer(question=response_list[i], answer=response_list[i + 1])
         )

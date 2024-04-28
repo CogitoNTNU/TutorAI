@@ -102,10 +102,13 @@ def process_answer(
     return answer
 
 
-def generate_quiz(document: str, start: int, end: int) -> Quiz:
+def generate_quiz(
+    document: str, start: int, end: int, learning_goals: str = []
+) -> Quiz:
     """
     Generates a quiz for the document
     """
+    print(f"[INFO] Generating quiz for document {document}", flush=True)
     if start > end:
         raise ValueError(
             "The start index of the document can not be after then the end index!"
@@ -119,7 +122,6 @@ Skills. The student has basic technical computational skills that are important 
 
     pages: list[Page] = get_page_range(document, start, end)
     for page in pages:
-        # TODO: use the text from the pages to generate questions
         new_questions = create_question_answer_pair(page.text, [learning_goals])
         questions.extend(new_questions)
 
