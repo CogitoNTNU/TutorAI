@@ -100,20 +100,6 @@ def create_flashcards(request):
         return Response(serializer.errors, status=400)
 
 
-@swagger_auto_schema(
-    method="get",
-    operation_description="Generate flashcards from a predefined text",
-    tags=["Flashcards"],
-    responses={200: get_flashcard_success_response, 400: get_flashcard_error_response},
-)
-@api_view(["GET"])
-def generate_mock_flashcard(request):
-    flashcards = generate_flashcards()
-    # flashcards = parse_flashcard(flashcards)
-
-    return Response(flashcards, status=status.HTTP_200_OK)
-
-
 @api_view(["POST"])
 def create_rag_response(request):
     print(f"[INFO] RAG Response Request received... {request}", flush=True)
