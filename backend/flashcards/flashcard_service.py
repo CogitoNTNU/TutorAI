@@ -1,14 +1,21 @@
 """ The service module contains the business logic of the application. """
 
-from dataclasses import dataclass
-import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from flashcards.knowledge_base.response_formulation import response_formulation
-from flashcards.knowledge_base.db_interface import MongoDB
+from flashcards.knowledge_base.response_formulation import (
+    create_question_answer_pair,
+    response_formulation,
+)
 from flashcards.rag_service import get_context, get_page_range, post_context
-from flashcards.text_to_flashcards import Flashcard, generate_flashcards
+from flashcards.text_to_flashcards import generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
-from flashcards.text_scraper.post_processing import Page
+from flashcards.learning_resources import (
+    Compendium,
+    Page,
+    Flashcard,
+    QuestionAnswer,
+    Quiz,
+    RagAnswer,
+)
 
 
 def process_flashcards(document_name: str, start: int, end: int) -> list[Flashcard]:
@@ -43,6 +50,7 @@ def store_curriculum(uploaded_file: InMemoryUploadedFile) -> bool:
     pages: list[Page] = extractor.extractData(uploaded_file)
 
     for page in pages:
+        print(f"[INFO] Processing page {page.page_num}", flush=True)
         # Save content
         context_posted: bool = post_context(page.text, page.page_num, page.pdf_name)
         # TODO: HANDLE FAILURE CASE OF POST CONTEXT
@@ -65,18 +73,6 @@ def request_flashcards_by_page_range(
     return flashcards
 
 
-@dataclass
-class RagAnswer:
-    answer: str
-    citations: list[Page]
-
-    def to_dict(self) -> dict:
-        return {
-            "answer": self.answer,
-            "citations": [citation.to_dict() for citation in self.citations],
-        }
-
-
 def process_answer(
     documents: list[str], user_question: str, chat_history: list[dict[str, str]]
 ) -> RagAnswer:
@@ -97,37 +93,6 @@ def process_answer(
     return answer
 
 
-@dataclass
-class QuestionAnswer:
-    question: str
-    answer: str
-
-    def to_dict(self) -> dict:
-        return {
-            "question": self.question,
-            "answer": self.answer,
-        }
-
-
-@dataclass
-class Quiz:
-    # Metadata
-    document: str
-    start: int
-    end: int
-
-    # The list of questions
-    questions: list[QuestionAnswer]
-
-    def to_dict(self) -> dict:
-        return {
-            "document": self.document,
-            "start": self.start,
-            "end": self.end,
-            "questions": [question.to_dict() for question in self.questions],
-        }
-
-
 def generate_quiz(document: str, start: int, end: int) -> Quiz:
     """
     Generates a quiz for the document
@@ -137,36 +102,19 @@ def generate_quiz(document: str, start: int, end: int) -> Quiz:
             "The start index of the document can not be after then the end index!"
         )
 
+    learning_goals = """Knowledge. The student has knowledge about basic concepts within complex function theory. The student knows about Fourier series and the use of these in the study of partial differential equations. The student knows basic theory of partial differential equations. The student has a solid foundation for further studies of complex analysis and differential equations. The student has knowledge of the requirements for stringency in mathematical analysis.
+Skills. The student has basic technical computational skills that are important in complex analysis and differential equations. The student can understand mathematical reasoning that combines different concepts and results from the course content. The student is able to derive simple results that are based on the academic content of the course."""
+
     # Generate the quiz
     questions: list[QuestionAnswer] = []
-    db = MongoDB()
-    pages: list[Page] = db.get_page_range(document, start, end)
-    for i in range(start, end):
+
+    pages: list[Page] = get_page_range(document, start, end)
+    for page in pages:
         # TODO: use the text from the pages to generate questions
-        questions.append(QuestionAnswer(f"Question {i}", f"Answer {i}"))
+        new_questions = create_question_answer_pair(page.text, [learning_goals])
+        questions.extend(new_questions)
 
     return Quiz(document, start, end, questions)
-
-
-@dataclass
-class Compendium:
-    # Metadata
-    document: str
-    start: int
-    end: int
-
-    # The list of questions
-    pages: list[Page]
-    quiz: Quiz
-
-    def to_dict(self) -> dict:
-        return {
-            "document": self.document,
-            "start": self.start,
-            "end": self.end,
-            "pages": [page.to_dict() for page in self.pages],
-            "quiz": self.quiz.to_dict(),
-        }
 
 
 def generate_compendium(document: str, start: int, end: int) -> Compendium:

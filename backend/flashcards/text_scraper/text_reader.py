@@ -1,6 +1,7 @@
-from flashcards.text_scraper.post_processing import Page
 import fitz
 from django.core.files.uploadedfile import InMemoryUploadedFile
+
+from flashcards.learning_resources import Page
 
 
 class TextReader:
@@ -14,7 +15,7 @@ class TextReader:
 
         Args:
             pdf_file (str): The path to the PDF file.
-        
+
         returns:
             list[Page]: a list of Page objects containing the text content of each page.
 
@@ -57,13 +58,12 @@ class TextReader:
                 return current_page.get_text()
 
     def get_amount_of_pages(self, file: InMemoryUploadedFile) -> int:
-        
         """get the amount of pages in a PDF file.
 
         Returns:
             int: the amput of pages.
         """
-        
+
         file.seek(0)  # Ensure we're reading from the start of the file
         # extract text from the PDF
         pages = 0

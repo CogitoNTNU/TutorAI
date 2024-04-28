@@ -7,6 +7,7 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
 
+from flashcards.learning_resources import Flashcard, RagAnswer
 from flashcards.flashcard_service import (
     generate_compendium,
     generate_quiz,
@@ -18,13 +19,12 @@ from flashcards.serializer import (
     ChatSerializer,
     DocumentSerializer,
 )
-from .text_to_flashcards import (
-    Flashcard,
+from flashcards.text_to_flashcards import (
     generate_flashcards,
     parse_flashcard,
     parse_for_anki,
 )
-from flashcards.flashcard_service import RagAnswer, process_answer
+from flashcards.flashcard_service import process_answer
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -151,6 +151,13 @@ def create_quiz(request):
     else:
         print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
         return Response(status=400)
+
+
+@api_view(["POST"])
+def grade_quiz_answer(request):
+    print("[INFO] Correct Quiz Answer Request received... {request}")
+    # TODO: Implement this endpoint
+    pass
 
 
 @api_view(["POST"])

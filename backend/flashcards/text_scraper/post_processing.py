@@ -2,19 +2,7 @@
 
 from dataclasses import dataclass
 
-
-@dataclass
-class Page:
-    text: str
-    page_num: int
-    pdf_name: str
-
-    def to_dict(self) -> dict:
-        return {
-            "text": self.text,
-            "page_num": self.page_num,
-            "pdf_name": self.pdf_name,
-        }
+from flashcards.learning_resources import Page
 
 
 class PostProcessor:

@@ -2,7 +2,7 @@ from multiprocessing import pool
 import pytesseract
 from PIL import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from flashcards.text_scraper.post_processing import Page
+from flashcards.learning_resources import Page
 import pytesseract
 import pypdfium2 as pdfium
 from pypdfium2 import PdfPage
@@ -20,8 +20,8 @@ class OCR:
         """
         preprocesses the image without changing it's size or shape,
         returns the preprocessed image
-        
-        args: 
+
+        args:
             none
         returns:
             Image: the preprocessed image

@@ -1,6 +1,6 @@
 """ Retrieval Augmented Generation Service """
 
-from flashcards.text_scraper.post_processing import Page
+from flashcards.learning_resources import Page
 from flashcards.knowledge_base.db_interface import DatabaseInterface
 from flashcards.knowledge_base.embeddings import EmbeddingsInterface
 from flashcards.knowledge_base.factory import create_database

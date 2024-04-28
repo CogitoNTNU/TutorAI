@@ -1,9 +1,10 @@
 import random
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
+from flashcards.learning_resources import Page
 from flashcards.text_scraper.doc_reader import DocReader
 from flashcards.text_scraper.text_reader import TextReader
-from flashcards.text_scraper.post_processing import Page, PostProcessor
+from flashcards.text_scraper.post_processing import PostProcessor
 from flashcards.text_scraper.ocr import OCR
 
 
@@ -28,7 +29,7 @@ class TextExtractor:
         if file_extension in ["doc", "docx"]:
             doc_reader = DocReader()
             pages = doc_reader.get_text_from_doc_or_docx(file)
-          
+
         elif file_extension not in ["pdf", "png", "jpg", "jpeg", "ppm", "tiff", "bmp"]:
             raise NotImplementedError(f"Unsupported file format: {file_extension}")
 
