@@ -1,7 +1,7 @@
 import { FlashcardProps } from '../components/Flashcard';
 
 type FlashcardResponse = {
-    data: FlashcardProps[];
+    flashcards: FlashcardProps[];
 };
 
 export default FlashcardResponse;

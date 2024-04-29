@@ -8,7 +8,7 @@ export default async function postLoginAttempt(
 ): Promise<LoginResponse | null> {
   const loginAttempt: LoginAttempt = {
     username: username,
-    password: password,
+    password: password
   };
 
   try {
@@ -18,6 +18,8 @@ export default async function postLoginAttempt(
       const user: User = {
         username: username,
         password: password,
+        files: [],
+        sets: [],
       };
       const loginResponse: LoginResponse = {
         user: user,

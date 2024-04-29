@@ -5,6 +5,11 @@ interface FlashcardProps {
     back: string;
 }
 
+interface FlashcardsProps {
+    name: string;
+    flashcards: FlashcardProps[];
+}
+
 const Flashcard: React.FC<FlashcardProps> = ({ front, back }) => {
     const [isFrontVisible, setIsFrontVisible] = useState(true);
 
@@ -36,4 +41,4 @@ const Flashcard: React.FC<FlashcardProps> = ({ front, back }) => {
 };
 
 export default Flashcard;
-export type { FlashcardProps };
+export type { FlashcardProps, FlashcardsProps };
