@@ -53,6 +53,13 @@ class DocumentSerializer(serializers.Serializer):
         help_text="The end index",
     )
 
+    # The learning goals
+    learning_goals = serializers.ListField(
+        child=serializers.CharField(),
+        help_text="The learning goals",
+        required=False,  # Make the field optional
+    )
+
     # Check if the start index is less than the end index
     def validate(self, data):
         if data["start"] >= data["end"]:
@@ -60,6 +67,24 @@ class DocumentSerializer(serializers.Serializer):
                 "The start index must be less than the end index"
             )
         return data
+
+
+class QuizStudentAnswer(serializers.Serializer):
+    # Questions: The list of questions
+    questions = serializers.ListField(
+        child=serializers.CharField(),
+        help_text="The list of questions",
+    )
+    # Answers: The list of answers
+    correct_answers = serializers.ListField(
+        child=serializers.CharField(),
+        help_text="The list of correct answers",
+    )
+    # Answers: The list of answers
+    answers = serializers.ListField(
+        child=serializers.CharField(),
+        help_text="The list of answers",
+    )
 
 
 class CurriculumSerializer(serializers.Serializer):
