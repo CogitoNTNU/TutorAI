@@ -45,7 +45,6 @@ def process_flashcards(document_name: str, start: int, end: int) -> list[Flashca
 
 def _process_page(page: str) -> list[Flashcard]:
     flashcards_from_page = generate_flashcards(page)
-    post_context(page.text, page.page_num, page.pdf_name)
     return flashcards_from_page
 
 
