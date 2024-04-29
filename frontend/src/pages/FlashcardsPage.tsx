@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState } from 'react';
 import Flashcards from '../components/Flashcards';
 import { FlashcardsProps } from '../components/Flashcard';
 import { pdfjs } from 'react-pdf';
@@ -19,8 +19,7 @@ const FlashcardsContext = createContext<{
 });
 
 const FlashcardsPage: React.FC = () => {
-    // const value = { activeSets: [], setActiveSets: () => {}}
-    const [activeSets, setActiveSets] = React.useState<FlashcardsProps[]>([]);
+    const [activeSets, setActiveSets] = useState<FlashcardsProps[]>([]);
 
     return (
         <div className="bg-blue-100">

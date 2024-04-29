@@ -2,7 +2,11 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      height: {
+        "chatheight": "calc(100vh - 9rem)",
+      },
+    },
   },
   plugins: [],
 };

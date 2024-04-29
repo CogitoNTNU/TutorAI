@@ -54,7 +54,7 @@ function App() {
   const value = { user, setUser }
 
   return (
-    <div className='bg-blue-50 h-screen'>
+    <div className='flex flex-col h-screen bg-blue-50 max-h-screen'>
       <Router>
         <UserContext.Provider value={value}>
           <Header />
