@@ -122,9 +122,9 @@ class FlashcardGenerationTest(TestCase):
 
     def test_valid_request(self):
         valid_response = {
-            "pdf_name": self.valid_pdf_name,
-            "page_num_start": self.valid_page_num_start,
-            "page_num_end": self.valid_page_num_end,
+            "document": self.valid_pdf_name,
+            "start": self.valid_page_num_start,
+            "end": self.valid_page_num_end,
         }
         response = self.client.post(self.url, valid_response, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -132,9 +132,9 @@ class FlashcardGenerationTest(TestCase):
 
     def test_invalid_end_start_index(self):
         invalid_response = {
-            "pdf_name": self.valid_pdf_name,
-            "page_num_start": 1,
-            "page_num_end": 0,
+            "document": self.valid_pdf_name,
+            "start": 1,
+            "end": 0,
         }
         response = self.client.post(self.url, invalid_response, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
