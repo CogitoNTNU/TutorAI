@@ -10,6 +10,14 @@ const MessageField: React.FC = () => {
     const [message, setMessage] = useState<string>('');
 
     const sendMessage = async () => {
+        setChatHistory([...chatHistory, {role: 'user', content: message}]);
+        setMessage('');
+
+        const chatWindow = document.getElementById('chat-window');
+        if (chatWindow) {
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
         // Construct a ChatData object
         const chatData: ChatData = {
             documents: activeFiles,
@@ -18,13 +26,11 @@ const MessageField: React.FC = () => {
         };
 
         const response = await SearchService(chatData);
-        setMessage('');
 
         // Update the chat history
         setChatHistory([...chatHistory, {role: 'user', content: message}, {role: 'assistant', content: response.data.answer}]);
 
         // Scroll to the bottom of the chat window
-        const chatWindow = document.getElementById('chat-window');
         if (chatWindow) {
             chatWindow.scrollTop = chatWindow.scrollHeight;
         }
