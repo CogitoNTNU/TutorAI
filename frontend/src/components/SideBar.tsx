@@ -4,6 +4,7 @@ import FileUploadService from "../services/FileUploadService";
 import { FlashcardsProps } from "../components/Flashcard";
 import CreateFlashcards from "../services/CreateFlashcardsService";
 import { UserContext } from "../App";
+import { FlashcardsContext } from "../pages/FlashcardsPage";
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -11,6 +12,7 @@ import React from "react";
 
 const SideBar: React.FC = () => {
     const { user, setUser } = useContext(UserContext);
+    const { activeSets, setActiveSets } = useContext(FlashcardsContext);
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(true);
     const [visibleNewSet, setVisibleNewSet] = useState<boolean>(false);
     const [files, setFiles] = useState<string[]>([]);
@@ -67,7 +69,30 @@ const SideBar: React.FC = () => {
         }
     }
 
-
+    const handleSelectedSet = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedSet = e.target.value;
+        console.log('Selected set:', selectedSet)
+        
+        // Check if the name of the set is already in the active sets
+        if (activeSets.find((set) => set.name === selectedSet)) {
+            // If it is, remove it from the active sets
+            const newActiveSets = activeSets.filter((set) => set.name !== selectedSet);
+            console.log('New active sets:', newActiveSets);
+            setActiveSets(newActiveSets);
+            console.log('Active sets:', activeSets);
+            return;
+        } else {
+            const set = user.sets.find((set) => set.name === selectedSet);
+            console.log('Found set:', set);
+            if (!set) {
+                console.error('Set not found:', selectedSet);
+                return;
+            }
+            // If it's not, add it to the active sets
+            setActiveSets([...activeSets, set]);
+            console.log('Active sets:', activeSets);
+        }
+    }
 
     return (
         <div className='absolute w-64'>
@@ -93,7 +118,7 @@ const SideBar: React.FC = () => {
                             </label> */}
                         {files.map((file, index) => (
                             <label key={index} className='m-2 pl-10 w-full flex justify-left items-center text-left'>
-                                <input className='w-5 h-5' type='checkbox' name='selectedFile' value={file} onChange={(e) => setNewSetFile(e.target.value)} />
+                                {/* <input className='w-5 h-5' type='checkbox' name='selectedFile' value={file} onChange={(e) => setNewSetFile(e.target.value)} /> */}
                                 <p className='w-4/5 pl-2 select-none overflow-hidden'>{file}</p>
                             </label>
                         ))}
@@ -111,7 +136,7 @@ const SideBar: React.FC = () => {
                 <SideBarSection className='' title="Sets">
                     {user?.sets.map((set: FlashcardsProps, index) => (
                     <label className='m-2 pl-10 w-full flex justify-left items-center text-left' key={index}>
-                        <input className='w-5 h-5' type='checkbox' name='selectedFile' value={set.name} onChange={(e) => setNewSetFile(e.target.value)} />
+                        <input className='w-5 h-5' type='checkbox' name='selectedFile' value={set.name} onChange={(e) => handleSelectedSet(e)} />
                         <p className='w-4/5 pl-2 select-none overflow-hidden'>{set.name}</p>
                     </label>
                     ))}

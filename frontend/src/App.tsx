@@ -33,21 +33,22 @@ const UserContext = createContext<{
 });
 
 function App() {
-  const mockFlashcards: FlashcardsProps = {
-    name: 'Test Set',
-    flashcards: [
-      {
-        front: 'Front of card',
-        back: 'Back of card'
-      }
-    ]
-  }
+  // const mockFlashcards: FlashcardsProps = {
+  //   name: 'Test Set',
+  //   flashcards: [
+  //     {
+  //       front: 'Front of card',
+  //       back: 'Back of card'
+  //     }
+  //   ]
+  // }
 
   const mockUser: User = {
     username: 'testuser',
     password: 'testpassword',
     files: ['testfile1.pdf', 'testfile2.pdf'],
-    sets: [mockFlashcards]
+    // sets: [mockFlashcards]
+    sets: []
   }
   
   const [user, setUser] = useState<User>(mockUser)
