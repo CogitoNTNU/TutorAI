@@ -62,7 +62,7 @@ class DocumentSerializer(serializers.Serializer):
 
     # Check if the start index is less than the end index
     def validate(self, data):
-        if data["start"] >= data["end"]:
+        if data["start"] > data["end"]:
             raise serializers.ValidationError(
                 "The start index must be less than the end index"
             )

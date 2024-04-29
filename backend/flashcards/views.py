@@ -66,6 +66,7 @@ def post_curriculum(request):
 
         return Response(status=200)
     else:
+        print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
         return Response(serializer.errors, status=400)
 
 

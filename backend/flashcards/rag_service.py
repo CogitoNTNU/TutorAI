@@ -30,7 +30,7 @@ def get_page_range(
     pdf_name: str,
     page_num_start: int,
     page_num_end: int,
-) -> list[str]:
+) -> list[Page]:
     """
     Get the context of the query
 

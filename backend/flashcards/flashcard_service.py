@@ -9,7 +9,7 @@ from flashcards.knowledge_base.response_formulation import (
     response_formulation,
 )
 from flashcards.rag_service import get_context, get_page_range, post_context
-from flashcards.text_to_flashcards import generate_flashcards
+from flashcards.text_to_flashcards import generate_flashcards, OpenAIFlashcardGenerator
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.learning_resources import (
     Compendium,
@@ -137,28 +137,40 @@ def grade_quiz(
         graded_quiz.graded_questions.append(feedback)
     return graded_quiz
 
+def generate_compendium_template(text: str) -> tuple[str, str]:
+    """
+    Generate a compendium template for the text
+    """
 
-def generate_compendium(document: str, start: int, end: int) -> Compendium:
+    key_concepts_format = "France: A large country in westeren Europe | Java Virtual Machine: A microarchitecture that the Java programming language uses | Deforestation: The process in which a forest is destroyed by humans"
+    key_concepts_template = f"Generate a list of key concepts from the given text{text}. Use only the most important concepts. Do not include any unnecessary information. Use only the information that is in the text. Use the following format: {key_concepts_format}"
+
+    summary_template = f"Generate a summary of the given text{text}. Use only the most important information. Do not include any unnecessary information. Use only the information that is in the text."
+
+    return key_concepts_template, summary_template
+
+def generate_compendium(document_name: str, start: int, end: int) -> Compendium:
     """
     Generates a compendium for the document
     """
 
     # Retrieve the pages from the database
-    context_pages: list[Page] = get_page_range(document, start, end)
-
+    context_pages: list[Page] = get_page_range(document_name, start, end)
+    print(f"[INFO] Generating compendium for document {document_name}", flush=True)
     # Generate the compendium
-    # TODO: Implement the compendium generation
-    # Should contain summaries of chapters
-    summaries = []
+    summaries = ""
+    key_concepts = []
 
-    # Definitions of Terms
+    for page in context_pages:
+        # Extract the key concepts and summaries from the page
+        # Append the key concepts and summaries to the lists
+        
+        concept_template, summary_template = generate_compendium_template(page.text)
+        concept = OpenAIFlashcardGenerator.request_chat_completion("system", message=concept_template)
+        summary = OpenAIFlashcardGenerator.request_chat_completion("system", message=summary_template)
+        key_concepts.extend(concept.split("|"))
+        summaries += summary
 
-    # Equations and Formulas if any
 
-    # Create pages with the content
-    pages = []
-
-    quiz = generate_quiz(document, start, end)
-
-    compendium = Compendium(document, start, end, pages, quiz)
+    compendium = Compendium(document_name, start, end, key_concepts, summaries)
     return compendium
