@@ -148,11 +148,11 @@ def grade_quiz_answer(request):
     serializer = QuizStudentAnswer(data=request.data)
     if serializer.is_valid():
         questions = serializer.validated_data.get("questions")
-        student_answer = serializer.validated_data.get("student_answer")
-        correct_answer = serializer.validated_data.get("correct_answer")
+        student_answers = serializer.validated_data.get("student_answers")
+        correct_answers = serializer.validated_data.get("correct_answers")
 
         # Grade the answers
-        graded_answer = grade_quiz(questions, student_answer, correct_answer)
+        graded_answer = grade_quiz(questions, student_answers, correct_answers)
         response = graded_answer.to_dict()
         return Response(response, status=200)
     else:

@@ -130,8 +130,8 @@ class QuizGradingTest(TestCase):
     def test_valid_request(self):
         valid_response = {
             "questions": ["question1", "question2"],
-            "correct_answer": ["correct1", "correct2"],
-            "student_answer": ["answer1", "answer2"],
+            "correct_answers": ["correct1", "correct2"],
+            "student_answers": ["answer1", "answer2"],
         }
         response = self.client.post(self.url, valid_response, format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
