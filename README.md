@@ -28,7 +28,7 @@
 
 TutorAI is a language agent capable of assisting with learning academic subjects. The project revolves around building an application that ingests a textbook in PDF format and facilitates efficient learning of the course material.
 
-### Planned Features
+### Features
 
 TutorAI is designed to be an interactive and comprehensive educational tool aimed at enhancing the learning experience for users of all ages. Below are the planned features that we are excited to introduce:
 
@@ -37,6 +37,8 @@ TutorAI is designed to be an interactive and comprehensive educational tool aime
 - **Learning plans**: These plans will be tailored to the user's learning pace, style, and goals, offering a structured path to mastering the subject.
 - **Flashcards and Memory aids**: Enhance memory retention with our range of digital memory aids, including customizable flashcards. These interactive tools are designed to make study sessions more productive and engaging.
 - **Quiz and test generation**: Automatic generation of quizzes and tests based on the material in the PDF
+- **Quiz and test grading**: Automatic grading of quizzes and tests. This feature will provide instant feedback on performance, allowing users to track their progress and identify areas for improvement.
+- **Compendium**: A comprehensive database of knowledge that can be accessed and searched by users. This feature will provide a wealth of information on a wide range of topics, making learning more accessible and engaging.
 - **Study streaks**: This gamified element aims to motivate users to engage with their learning material regularly, making education a daily habit, and exams passed easily.
 
 ## Setup
@@ -135,11 +137,6 @@ For secure and efficient management of environment-specific variables, TutorAI u
    You will need to add the following environment variables to the `.env` file:
 
    - OPENAI_API_KEY: Your OpenAI API key
-   - POSTGRES_DB: The name of the database
-   - POSTGRES_USER: The username of the database
-   - POSTGRES_PASSWORD: The password of the database
-   - POSTGRES_HOST: The host of the database
-   - POSTGRES_PORT: The port of the database
 
    ```bash
    echo "OPENAI_API_KEY=YOUR_API_KEY" > .env # Remember to change YOUR_API_KEY to your actual API key
