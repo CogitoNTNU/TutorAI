@@ -6,7 +6,7 @@ import CreateFlashcards from "../services/CreateFlashcardsService";
 import { UserContext } from "../App";
 
 const SideBar: React.FC = () => {
-    const user = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(true);
     const [visibleNewSet, setVisibleNewSet] = useState<boolean>(false);
     const [files, setFiles] = useState<string[]>([]);
@@ -42,11 +42,12 @@ const SideBar: React.FC = () => {
             
             const flashcards: FlashcardsProps = {
                 name: e.target.setname.value,
-                flashcards: response.data
+                flashcards: response.data.flashcards
             };
 
             console.log('Response:', response);
-            user.sets.push(flashcards); // Not the same instance as the one in the flashcardspage
+            // Update the context with the new set
+            setUser({...user, sets: [...user.sets, flashcards]});
             setVisibleNewSet(false);
         } catch (error) {
             console.error('Error creating new set:', error);

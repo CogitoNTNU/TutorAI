@@ -10,7 +10,7 @@ import { UserContext } from '../App';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const FlashcardsPage: React.FC = () => {
-    const user = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const [flashcards, setFlashcards] = React.useState<FlashcardProps[]>([]);
 
     useEffect(() => {
@@ -22,11 +22,19 @@ const FlashcardsPage: React.FC = () => {
         console.log('User sets:', user.sets);
         // Iterate through each set of flashcards and add them to the flashcards array
         const cards: FlashcardProps[] = [];
-        user.sets.forEach((set) => {
-            set.flashcards.forEach((card) => {
-                cards.push(card);
-            });
-        });
+        for (const set of user.sets) {
+            console.log('Set:', set);
+            console.log('Flashcards:', set.flashcards)
+            if (Array.isArray(set.flashcards) && set.flashcards.length < 0) {
+                console.log('No flashcards in set:', set.name);
+                continue;
+            }
+
+            for (const card of set.flashcards) {
+                console.log('Card:', card);
+                cards.push({ front: card.front, back: card.back });
+            }
+        }
         setFlashcards(cards);
     }, [user.sets]);
 
