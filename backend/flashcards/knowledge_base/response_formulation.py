@@ -1,6 +1,4 @@
-from json import dumps
 import openai
-
 from config import Config
 
 from flashcards.learning_resources import QuestionAnswer
