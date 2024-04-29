@@ -121,7 +121,7 @@ Skills. The student has basic technical computational skills that are important 
 
 
 def grade_quiz(
-    questions: str, correct_answers: str, student_answers: list[str]
+    questions: list[str], correct_answers: list[str], student_answers: list[str]
 ) -> GradedQuiz:
     """
     Grade the quiz based on the student answers
@@ -137,6 +137,7 @@ def grade_quiz(
         graded_quiz.graded_questions.append(feedback)
     return graded_quiz
 
+
 def generate_compendium_template(text: str) -> tuple[str, str]:
     """
     Generate a compendium template for the text
@@ -148,6 +149,7 @@ def generate_compendium_template(text: str) -> tuple[str, str]:
     summary_template = f"Generate a summary of the given text{text}. Use only the most important information. Do not include any unnecessary information. Use only the information that is in the text."
 
     return key_concepts_template, summary_template
+
 
 def generate_compendium(document_name: str, start: int, end: int) -> Compendium:
     """
@@ -164,13 +166,16 @@ def generate_compendium(document_name: str, start: int, end: int) -> Compendium:
     for page in context_pages:
         # Extract the key concepts and summaries from the page
         # Append the key concepts and summaries to the lists
-        
+
         concept_template, summary_template = generate_compendium_template(page.text)
-        concept = OpenAIFlashcardGenerator.request_chat_completion("system", message=concept_template)
-        summary = OpenAIFlashcardGenerator.request_chat_completion("system", message=summary_template)
+        concept = OpenAIFlashcardGenerator.request_chat_completion(
+            "system", message=concept_template
+        )
+        summary = OpenAIFlashcardGenerator.request_chat_completion(
+            "system", message=summary_template
+        )
         key_concepts.extend(concept.split("|"))
         summaries += summary
-
 
     compendium = Compendium(document_name, start, end, key_concepts, summaries)
     return compendium
