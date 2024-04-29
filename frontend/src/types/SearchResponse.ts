@@ -11,6 +11,17 @@ export interface ChatData {
   chat_history?: ChatMessageData[]; // The chat history, optional
 }
 
+export interface Citation {
+  title: string;
+  content: string;
+  pageNumber: number;
+}
+
+export interface SearchProps {
+  answer: string;
+  citations: Citation[];
+}
+
 export type SearchResponse = {
   data: SearchProps;
 };
