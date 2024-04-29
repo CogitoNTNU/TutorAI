@@ -9,6 +9,7 @@ const apiRoutes = {
   quiz: `${baseAPIUrl}/quiz/`,
   gradeQuizAnswer: `${baseAPIUrl}/graded-quiz/`,
   fileUpload: `${baseAPIUrl}/store-curriculum/`,
+  createCompendium: `${baseAPIUrl}/compendium/`,
 };
 
 export default apiRoutes;
