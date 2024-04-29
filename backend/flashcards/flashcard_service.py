@@ -87,20 +87,16 @@ def request_flashcards_by_page_range(
 def process_answer(
     documents: list[str], user_question: str, chat_history: list[dict[str, str]]
 ) -> RagAnswer:
-    # This will answer a query only based on the list of closest correct answers from the data provided:
 
-    # Generate the embedding for the user input
+    # Get a list of relevant contexts from the database
     curriculum = []
     for document_name in documents:
         curriculum.extend(get_context(document_name, user_question))
-    # Get a list of answers from the database
 
     # Use this list to generate a response
     answer_GPT = response_formulation(user_question, curriculum, chat_history)
 
     answer = RagAnswer(answer_GPT, curriculum)
-    print(f"[INFO] Answer: {answer_GPT}", flush=True)
-
     return answer
 
 
