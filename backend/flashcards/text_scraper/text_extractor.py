@@ -29,9 +29,14 @@ class TextExtractor:
         if file_extension in ["doc", "docx"]:
             doc_reader = DocReader()
             pages = doc_reader.get_text_from_doc_or_docx(file)
+            
+        if file_extension in ["png", "jpg", "jpeg", "ppm", "tiff", "bmp"]:
+            pages.extend(self._extractTextImage(file))
 
         elif file_extension not in ["pdf", "png", "jpg", "jpeg", "ppm", "tiff", "bmp"]:
             raise NotImplementedError(f"Unsupported file format: {file_extension}")
+        
+        
 
         else:
             if self._isReadable(file):
