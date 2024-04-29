@@ -96,6 +96,17 @@ class QuizGenerationTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertTrue(response.data)
 
+    def test_valid_request_with_learning_goals(self):
+        valid_response = {
+            "document": self.valid_pdf_name,
+            "start": 0,
+            "end": 1,
+            "learning_goals": ["goal1", "goal2"],
+        }
+        response = self.client.post(self.url, valid_response, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data)
+
     def test_invalid_end_start_index(self):
         invalid_response = {
             "document": self.valid_pdf_name,
