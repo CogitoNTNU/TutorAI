@@ -40,10 +40,6 @@ class TextToFlashcardTest(TestCase):
         self.assertTrue(re.search("(.*:.*\n)*(.*:.*)", anki_format))
 
 
-#
-#     def process_answer_tapi  self.assertFalse(None, process_answer(user_input))
-
-
 class RagAPITest(TestCase):
     def setUp(self):
         self.client = Client()
@@ -170,3 +166,65 @@ class FlashcardGenerationTest(TestCase):
         }
         response = self.client.post(self.url, invalid_response, format="json")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+class CompendiumAPITest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.url = "/api/compendium/"
+        self.valid_document = "test.pdf"
+        self.start_page = 1
+        self.end_page = 10
+
+    def test_valid_request(self):
+        """Test the create_compendium endpoint with a valid request."""
+        valid_payload = {
+            "document": self.valid_document,
+            "start": self.start_page,
+            "end": self.end_page,
+        }
+        response = self.client.post(
+            self.url, data=valid_payload, content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIsInstance(response.json(), dict)  # Ensuring the response is JSON
+
+    def test_invalid_document(self):
+        """Test the create_compendium endpoint with an invalid document parameter."""
+        invalid_payload = {
+            "document": "nonexistent.pdf",
+            "start": self.start_page,
+            "end": self.end_page,
+        }
+        response = self.client.post(
+            self.url, data=invalid_payload, content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_invalid_page_range(self):
+        """Test the create_compendium endpoint with an invalid page range (start > end)."""
+        invalid_payload = {
+            "document": self.valid_document,
+            "start": 10,
+            "end": 1,
+        }
+        response = self.client.post(
+            self.url, data=invalid_payload, content_type="application/json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_missing_parameters(self):
+        """Test the create_compendium endpoint with missing required parameters."""
+        invalid_payloads = [
+            {
+                "document": self.valid_document,
+                "start": self.start_page,
+            },  # missing 'end'
+            {"document": self.valid_document, "end": self.end_page},  # missing 'start'
+            {"start": self.start_page, "end": self.end_page},  # missing 'document'
+        ]
+        for payload in invalid_payloads:
+            response = self.client.post(
+                self.url, data=payload, content_type="application/json"
+            )
+            self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
