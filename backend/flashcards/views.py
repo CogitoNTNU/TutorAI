@@ -7,8 +7,11 @@ from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework import status
 
+from flashcards.learning_resources import Flashcard, RagAnswer
 from flashcards.flashcard_service import (
+    generate_compendium,
     generate_quiz,
+    grade_quiz,
     process_flashcards,
     store_curriculum,
 )
@@ -16,14 +19,14 @@ from flashcards.serializer import (
     CurriculumSerializer,
     ChatSerializer,
     DocumentSerializer,
+    QuizStudentAnswer,
 )
-from .text_to_flashcards import (
-    Flashcard,
+from flashcards.text_to_flashcards import (
     generate_flashcards,
     parse_flashcard,
     parse_for_anki,
 )
-from flashcards.flashcard_service import RagAnswer, process_answer
+from flashcards.flashcard_service import process_answer
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -54,12 +57,16 @@ def post_curriculum(request):
         uploaded_files: list[InMemoryUploadedFile] = serializer.validated_data.get(
             "curriculum"
         )
-        flashcards: list[Flashcard] = []
+
         for file in uploaded_files:
             wasUploaded = store_curriculum(file)
+            # TODO: Handle failure case of store_curriculum
+            if not wasUploaded:
+                print(f"[ERROR] Failed to upload file: {file}", flush=True)
 
         return Response(status=200)
     else:
+        print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
         return Response(serializer.errors, status=400)
 
 
@@ -83,7 +90,6 @@ def create_flashcards(request):
         flashcards: list[Flashcard] = process_flashcards(file_name, start, end)
 
         # Generate flashcards
-
         exportable_flashcard = parse_for_anki(flashcards)
         flashcard_dicts = [flashcard.to_dict() for flashcard in flashcards]
 
@@ -95,20 +101,6 @@ def create_flashcards(request):
 
     else:
         return Response(serializer.errors, status=400)
-
-
-@swagger_auto_schema(
-    method="get",
-    operation_description="Generate flashcards from a predefined text",
-    tags=["Flashcards"],
-    responses={200: get_flashcard_success_response, 400: get_flashcard_error_response},
-)
-@api_view(["GET"])
-def generate_mock_flashcard(request):
-    flashcards = generate_flashcards()
-    # flashcards = parse_flashcard(flashcards)
-
-    return Response(flashcards, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
@@ -144,6 +136,43 @@ def create_quiz(request):
         end = serializer.validated_data.get("end")
         quiz = generate_quiz(document, start, end)
         response = quiz.to_dict()
+        return Response(response, status=200)
+    else:
+        print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
+        return Response(status=400)
+
+
+@api_view(["POST"])
+def grade_quiz_answer(request):
+    print("[INFO] Correct Quiz Answer Request received... {request}")
+    # TODO: Implement this endpoint
+    serializer = QuizStudentAnswer(data=request.data)
+    if serializer.is_valid():
+        questions = serializer.validated_data.get("questions")
+        student_answers = serializer.validated_data.get("student_answers")
+        correct_answers = serializer.validated_data.get("correct_answers")
+
+        # Grade the answers
+        graded_answer = grade_quiz(questions, correct_answers, student_answers)
+        response = graded_answer.to_dict()
+        return Response(response, status=200)
+    else:
+        print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
+        return Response(serializer.errors, status=400)
+
+
+@api_view(["POST"])
+def create_compendium(request):
+    print("[INFO] Create Compendium Request received... {request}")
+    serializer = DocumentSerializer(data=request.data)
+    if serializer.is_valid():
+        document = serializer.validated_data.get("document")
+        start = serializer.validated_data.get("start")
+        end = serializer.validated_data.get("end")
+
+        # Generate the compendium
+        compendium = generate_compendium(document, start, end)
+        response = compendium.to_dict()
         return Response(response, status=200)
     else:
         print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)

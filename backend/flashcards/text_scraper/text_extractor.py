@@ -1,9 +1,10 @@
 import random
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
+from flashcards.learning_resources import Page
 from flashcards.text_scraper.doc_reader import DocReader
 from flashcards.text_scraper.text_reader import TextReader
-from flashcards.text_scraper.post_processing import Page, PostProcessor
+from flashcards.text_scraper.post_processing import PostProcessor
 from flashcards.text_scraper.ocr import OCR
 
 
@@ -22,24 +23,38 @@ class TextExtractor:
             list[Page]: Page: text, page number and book name.
         """
         pages: list[Page] = []
-
-        # checks the file type and extracts if docs or docx file
         file_extension = file.name.split(".")[-1].lower()
-        if file_extension in ["doc", "docx"]:
-            doc_reader = DocReader()
-            pages = doc_reader.get_text_from_doc_or_docx(file)
-          
-        elif file_extension not in ["pdf", "png", "jpg", "jpeg", "ppm", "tiff", "bmp"]:
-            raise NotImplementedError(f"Unsupported file format: {file_extension}")
 
-        else:
-            if self._isReadable(file):
-                pages.extend(self._extractTextPdf(file))
-            else:
+        match file_extension:
+            case "pdf":
+                print("Extracting text from PDF file")
+                if self._isReadable(file):
+                    pages.extend(self._extractTextPdf(file))
+                else:
+                    pages.extend(self._extractTextImage(file))
+                    
+                data = self.post_processor.page_post_processing(pages)
+                return data
+                    
+            case "doc" | "docx":
+                print("Extracting text from Word document")
+                doc_reader = DocReader()
+                pages = doc_reader.get_text_from_doc_or_docx(file)
+                
+                data = self.post_processor.page_post_processing(pages)
+                return data
+            
+            case "png" | "jpg" | "jpeg" | "ppm" | "tiff" | "bmp":
+                print("Extracting text from image file")
                 pages.extend(self._extractTextImage(file))
+                
+                data = self.post_processor.page_post_processing(pages)
+                return data
+    
+            case _:
+                raise NotImplementedError(f"Unsupported file format: {file_extension}")
 
-        data = self.post_processor.page_post_processing(pages)
-        return data
+        
 
     def _extractTextPdf(self, file: InMemoryUploadedFile) -> list[Page]:
         """Extract the text directly from a PDF file. Entrypoint for text reader class.
@@ -63,6 +78,8 @@ class TextExtractor:
         ocr: OCR = OCR(file)
         ocr.ocr_images(file)
         page_data = ocr.get_page_data()
+        print(page_data)
+        
         return page_data
 
     def _isReadable(self, file: InMemoryUploadedFile) -> bool:

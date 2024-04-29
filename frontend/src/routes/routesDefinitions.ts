@@ -7,6 +7,7 @@ const apiRoutes = {
   search: `${baseAPIUrl}/search/`,
   fileupload: `${baseAPIUrl}/store-curriculum/`,
   quiz: `${baseAPIUrl}/quiz/`,
+  fileUpload: `${baseAPIUrl}/store-curriculum/`,
 };
 
 export default apiRoutes;

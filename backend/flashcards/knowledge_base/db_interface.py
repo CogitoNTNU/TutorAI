@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from .embeddings import OpenAIEmbedding, cosine_similarity
 from config import Config
 from pymongo import MongoClient
-from flashcards.text_scraper.post_processing import Page
+from flashcards.learning_resources import Page
 
 
 class DatabaseInterface(ABC):
@@ -108,6 +108,9 @@ class MongoDB(DatabaseInterface):
         # Filter out the documents with low similarity
         for document in documents:
             threshold = self.similarity_threshold
+            if document["pdfName"] != pdf_name:
+                continue
+
             if (
                 cosine_similarity(embedding, document["embedding"])
                 > self.similarity_threshold

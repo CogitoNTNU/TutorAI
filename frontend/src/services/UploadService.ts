@@ -10,9 +10,8 @@ const UploadService = async (file: File): Promise<FlashcardResponse> => {
   for (let [key, value] of formData.entries()) {
     console.log(key, value);
   }
-  console.log(apiRoutes.createFlashcards)
   const response = await axios
-    .post(apiRoutes.createFlashcards, formData)
+    .post(apiRoutes.fileUpload, formData)
     .then((res) => {
       return res;
     })

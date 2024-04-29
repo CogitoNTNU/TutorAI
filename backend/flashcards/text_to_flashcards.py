@@ -1,5 +1,5 @@
 import openai
-from flashcards.text_scraper.post_processing import Page
+from flashcards.learning_resources import Flashcard, Page
 from config import Config
 from dataclasses import dataclass
 from abc import ABC, ABCMeta, abstractmethod
@@ -64,22 +64,6 @@ def generate_template(context: str) -> str:
     return template
 
 
-@dataclass
-class Flashcard:
-    front: str
-    back: str
-    pdf_name: str
-    page_num: int
-
-    def to_dict(self):
-        return {
-            "front": self.front,
-            "back": self.back,
-            "pdf_name": self.pdf_name,
-            "page_num": self.page_num,
-        }
-
-
 def parse_flashcard(flashcards_data: list[str], page: Page) -> list[Flashcard]:
     """
     Returns a list of the Flashcard dataclass
@@ -96,8 +80,9 @@ def parse_flashcard(flashcards_data: list[str], page: Page) -> list[Flashcard]:
     flashcards = []
 
     for i in flashcards_data:
-        if "Front: " not in i or "Back: " not in i:
+        if "Front: " not in i or "Back: " not in i or "-" not in i:
             continue
+
         i = i.replace("Front: ", "").replace("Back: ", "")
         i = i.split("-")
         flashcards.append(

@@ -20,6 +20,7 @@ services:
       - DATABASE_USER=tutoraiuser
       - DATABASE_PASSWORD=tutoraipassword
       - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - MONGODB_URI=${MONGODB_URI}
 
   db:
     image: postgres:13
