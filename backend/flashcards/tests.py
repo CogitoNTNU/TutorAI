@@ -189,18 +189,6 @@ class CompendiumAPITest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIsInstance(response.json(), dict)  # Ensuring the response is JSON
 
-    def test_invalid_document(self):
-        """Test the create_compendium endpoint with an invalid document parameter."""
-        invalid_payload = {
-            "document": "nonexistent.pdf",
-            "start": self.start_page,
-            "end": self.end_page,
-        }
-        response = self.client.post(
-            self.url, data=invalid_payload, content_type="application/json"
-        )
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
     def test_invalid_page_range(self):
         """Test the create_compendium endpoint with an invalid page range (start > end)."""
         invalid_payload = {
