@@ -112,7 +112,7 @@ def create_question_answer_pair(
         role="user",
         system_prompt=system_prompt,
     )
-    parsed_quiz = parse_quiz_response(raw_quiz)
+    parsed_quiz = _parse_quiz_response(raw_quiz)
     return parsed_quiz
 
 
@@ -178,7 +178,7 @@ def _quiz_question_answer_system_template(
     return template
 
 
-def parse_quiz_response(quiz_response: str) -> list["QuestionAnswer"]:
+def _parse_quiz_response(quiz_response: str) -> list[QuestionAnswer]:
     """
     Parse the response from the user to create a list of QuestionAnswer objects
     """
