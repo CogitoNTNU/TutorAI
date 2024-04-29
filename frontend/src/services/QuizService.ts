@@ -15,7 +15,6 @@ export const createQuiz = async (data: DocumentData): Promise<Quiz> => {
   try {
     const response = await axios.post(apiRoutes.quiz, data);
     if (response.status === 200) {
-      console.log("Quiz created successfully", response.data);
       return response.data;
     } else {
       throw new Error("Failed to create quiz");

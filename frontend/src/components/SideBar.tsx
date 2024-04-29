@@ -26,12 +26,10 @@ const SideBar: React.FC = () => {
 
             // Convert file to a data URL for react-pdf
             const reader = new FileReader();
-            reader.onload = (e) => console.log(e.target?.result);
             reader.readAsDataURL(file);
 
             try {
-                const response = await FileUploadService(file);
-                console.log('Response:', response);
+                await FileUploadService(file);
                 setFiles([...files, file.name]);
 
                 // Clear the input field
@@ -73,26 +71,20 @@ const SideBar: React.FC = () => {
 
     const handleSelectedSet = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedSet = e.target.value;
-        console.log('Selected set:', selectedSet)
         
         // Check if the name of the set is already in the active sets
         if (activeSets.find((set) => set.name === selectedSet)) {
             // If it is, remove it from the active sets
             const newActiveSets = activeSets.filter((set) => set.name !== selectedSet);
-            console.log('New active sets:', newActiveSets);
             setActiveSets(newActiveSets);
-            console.log('Active sets:', activeSets);
             return;
         } else {
             const set = user.sets.find((set) => set.name === selectedSet);
-            console.log('Found set:', set);
             if (!set) {
-                console.error('Set not found:', selectedSet);
                 return;
             }
             // If it's not, add it to the active sets
             setActiveSets([...activeSets, set]);
-            console.log('Active sets:', activeSets);
         }
     }
 

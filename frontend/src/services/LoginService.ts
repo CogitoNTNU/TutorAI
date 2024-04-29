@@ -26,7 +26,6 @@ export default async function postLoginAttempt(
         refreshToken: res.data.refresh,
         accessToken: res.data.access,
       };
-      console.log(loginResponse);
 
       return loginResponse;
     } else {

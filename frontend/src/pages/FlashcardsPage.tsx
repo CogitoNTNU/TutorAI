@@ -13,9 +13,7 @@ const FlashcardsContext = createContext<{
     setActiveSets: (flashcardsProps: FlashcardsProps[]) => void;
 }>({
     activeSets: [],
-    setActiveSets: (flashcardsProps: FlashcardsProps[]) => {
-        console.log('Setting flashcards:', flashcardsProps);
-    }
+    setActiveSets: () => {}
 });
 
 const FlashcardsPage: React.FC = () => {

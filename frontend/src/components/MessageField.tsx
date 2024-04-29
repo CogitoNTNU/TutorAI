@@ -10,7 +10,6 @@ const MessageField: React.FC = () => {
     const [message, setMessage] = useState<string>('');
 
     const sendMessage = async () => {
-        console.log('Sending message:', message);
         // Construct a ChatData object
         const chatData: ChatData = {
             documents: activeFiles,
