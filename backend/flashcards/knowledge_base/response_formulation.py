@@ -198,3 +198,43 @@ def parse_quiz_response(quiz_response: str) -> list["QuestionAnswer"]:
         )
 
     return question_answer_pairs
+
+
+def grade_question_answer_pair(
+    question_answer_pair: QuestionAnswer, user_response: str
+) -> str:
+    """
+    Grade the user response to the question-answer pair
+    """
+
+    system_prompt = _grade_question_answer_system_template()
+
+    raw_grade = _request_chat_completion(
+        message=_grade_question_answer_template(
+            question_answer_pair.question, question_answer_pair.answer, user_response
+        ),
+        role="user",
+        system_prompt=system_prompt,
+    )
+
+    return raw_grade
+
+
+def _grade_question_answer_system_template() -> str:
+    """
+    Create a question-answer template for the quiz
+    """
+
+    template = f"""
+        """
+    return template
+
+
+def _grade_question_answer_template(
+    question: str, solution: str, user_response: str
+) -> str:
+    return f"""
+        The question: '''{question}'''
+        The solution: '''{solution}'''
+        The user response: '''{user_response}'''
+    """
