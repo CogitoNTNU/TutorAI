@@ -42,7 +42,7 @@ const SideBar: React.FC = () => {
             
             const flashcards: FlashcardsProps = {
                 name: e.target.setname.value,
-                flashcards: response.data.flashcards
+                flashcards: response.flashcards
             };
 
             console.log('Response:', response);
