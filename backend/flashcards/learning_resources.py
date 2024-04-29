@@ -60,7 +60,7 @@ class Compendium:
             "document": self.document_name,
             "start": self.start,
             "end": self.end,
-            "key_concepts": self.key_conceptrs,
+            "key_concepts": self.key_concepts,
         }
 
 
