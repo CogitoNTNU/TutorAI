@@ -12,6 +12,7 @@ from flashcards.text_to_flashcards import generate_flashcards
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.learning_resources import (
     Compendium,
+    GradedQuiz,
     Page,
     Flashcard,
     QuestionAnswer,
@@ -126,6 +127,20 @@ Skills. The student has basic technical computational skills that are important 
         questions.extend(new_questions)
 
     return Quiz(document, start, end, questions)
+
+
+def grade_quiz(
+    questionAnswerPairs: list[QuestionAnswer], student_answers: list[str]
+) -> GradedQuiz:
+    """
+    Grade the quiz based on the student answers
+    """
+    graded_quiz = GradedQuiz()
+    for questionAnswerPair, student_answer in zip(questionAnswerPairs, student_answers):
+        # TODO: Grade the answer
+
+        pass
+    return graded_quiz
 
 
 def generate_compendium(document: str, start: int, end: int) -> Compendium:
