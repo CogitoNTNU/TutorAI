@@ -1,7 +1,5 @@
 """ This is the post-processing module for the text scraper. It contains a class that performs post-processing on the extracted text data. The post-processing class is responsible for cleaning up the extracted text data and extracting paragraphs from the page content. The extracted paragraphs are then stored in a data class object for further processing."""
 
-from dataclasses import dataclass
-
 from flashcards.learning_resources import Page
 
 
