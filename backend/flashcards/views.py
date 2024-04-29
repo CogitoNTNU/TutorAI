@@ -18,6 +18,7 @@ from flashcards.serializer import (
     CurriculumSerializer,
     ChatSerializer,
     DocumentSerializer,
+    QuizStudentAnswer,
 )
 from flashcards.text_to_flashcards import (
     generate_flashcards,
@@ -143,7 +144,18 @@ def create_quiz(request):
 def grade_quiz_answer(request):
     print("[INFO] Correct Quiz Answer Request received... {request}")
     # TODO: Implement this endpoint
-    pass
+    serializer = QuizStudentAnswer(data=request.data)
+    if serializer.is_valid():
+        questions = serializer.validated_data.get("questions")
+        student_answer = serializer.validated_data.get("student_answer")
+        correct_answer = serializer.validated_data.get("correct_answer")
+
+        # Grade the answer
+
+        return Response(status=200)
+    else:
+        print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
+        return Response(serializer.errors, status=400)
 
 
 @api_view(["POST"])
