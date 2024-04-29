@@ -11,6 +11,7 @@ from flashcards.learning_resources import Flashcard, RagAnswer
 from flashcards.flashcard_service import (
     generate_compendium,
     generate_quiz,
+    grade_quiz,
     process_flashcards,
     store_curriculum,
 )
@@ -150,9 +151,10 @@ def grade_quiz_answer(request):
         student_answer = serializer.validated_data.get("student_answer")
         correct_answer = serializer.validated_data.get("correct_answer")
 
-        # Grade the answer
-
-        return Response(status=200)
+        # Grade the answers
+        graded_answer = grade_quiz(questions, student_answer, correct_answer)
+        response = graded_answer.to_dict()
+        return Response(response, status=200)
     else:
         print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
         return Response(serializer.errors, status=400)
