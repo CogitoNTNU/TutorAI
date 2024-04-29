@@ -3,9 +3,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useState } from 'react';
 
 const SideBarSection: React.FC<{ className: string, title: string, children: React.ReactNode[] }> = ({ className, title, children }) => {
-    const [visibleSection, setVisibleSection] = useState<boolean>(true);
-    
-
+    const [visibleSection, setVisibleSection] = useState<boolean>(false);
 
     return (
         <div className={'w-full' + ' ' + className}>

@@ -13,7 +13,7 @@ import React from "react";
 const SideBar: React.FC = () => {
     const { user, setUser } = useContext(UserContext);
     const { activeSets, setActiveSets } = useContext(FlashcardsContext);
-    const [visibleSidebar, setVisibleSidebar] = useState<boolean>(true);
+    const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
     const [visibleNewSet, setVisibleNewSet] = useState<boolean>(false);
     const [files, setFiles] = useState<string[]>([]);
     const [newSetFile, setNewSetFile] = useState<string>('');
@@ -112,15 +112,11 @@ const SideBar: React.FC = () => {
                 </div>
                 <SideBarSection className='' title='Files'>
                     <div className="flex flex-col">
-                            {/* <label className='m-2 pl-10 w-full flex justify-left items-center text-left'>
-                                <input className='w-5 h-5' type='checkbox' name='selectedFile' onChange={(e) => setNewSetFile(e.target.value)} />
-                                <p className='w-4/5 pl-2 select-none overflow-hidden'>Sample filezzzzzzzzzzzzzzzzzzzzzzzzzzzzzz</p>
-                            </label> */}
                         {files.map((file, index) => (
-                            <label key={index} className='m-2 pl-10 w-full flex justify-left items-center text-left'>
-                                {/* <input className='w-5 h-5' type='checkbox' name='selectedFile' value={file} onChange={(e) => setNewSetFile(e.target.value)} /> */}
-                                <p className='w-4/5 pl-2 select-none overflow-hidden'>{file}</p>
-                            </label>
+                        <label key={index} className='m-2 pl-10 w-full flex justify-left items-center text-left'>
+                            {/* <input className='w-5 h-5' type='checkbox' name='selectedFile' value={file} onChange={(e) => setNewSetFile(e.target.value)} /> */}
+                            <p className='w-4/5 pl-2 select-none overflow-hidden'>{file}</p>
+                        </label>
                         ))}
                     </div>
                     <div className='relative'>
