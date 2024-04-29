@@ -127,12 +127,17 @@ Skills. The student has basic technical computational skills that are important 
 
 
 def grade_quiz(
-    questionAnswerPairs: list[QuestionAnswer], student_answers: list[str]
+    questions: str, correct_answers: str, student_answers: list[str]
 ) -> GradedQuiz:
     """
     Grade the quiz based on the student answers
     """
-    graded_quiz = GradedQuiz()
+    questionAnswerPairs = [
+        QuestionAnswer(question, correct_answer)
+        for question, correct_answer in zip(questions, correct_answers)
+    ]
+
+    graded_quiz = GradedQuiz([])
     for questionAnswerPair, student_answer in zip(questionAnswerPairs, student_answers):
         feedback = grade_question_answer_pair(questionAnswerPair, student_answer)
         graded_quiz.graded_questions.append(feedback)

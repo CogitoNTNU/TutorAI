@@ -102,6 +102,11 @@ class Quiz:
 class GradedQuiz:
     graded_questions: list[str]
 
+    def to_dict(self) -> dict:
+        return {
+            "graded_questions": self.graded_questions,
+        }
+
 
 @dataclass
 class RagAnswer:
