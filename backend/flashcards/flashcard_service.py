@@ -5,6 +5,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from flashcards.knowledge_base.response_formulation import (
     create_question_answer_pair,
+    grade_question_answer_pair,
     response_formulation,
 )
 from flashcards.rag_service import get_context, get_page_range, post_context
@@ -137,9 +138,8 @@ def grade_quiz(
     """
     graded_quiz = GradedQuiz()
     for questionAnswerPair, student_answer in zip(questionAnswerPairs, student_answers):
-        # TODO: Grade the answer
-
-        pass
+        feedback = grade_question_answer_pair(questionAnswerPair, student_answer)
+        graded_quiz.graded_questions.append(feedback)
     return graded_quiz
 
 
