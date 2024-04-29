@@ -6,8 +6,7 @@ const Flashcards: React.FC<{ flashcards: FlashcardProps[] }> = ({ flashcards }) 
 
     return (
         <div>
-            <h1 className="mt-10 text-4xl">Your Flashcards</h1>
-            <div className="flex justify-center mt-5">
+            <div className="flex justify-center">
                 {flashcards.length > 0 && (
                     <Flashcard
                         key={flashcardIndex}
