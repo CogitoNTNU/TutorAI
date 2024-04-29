@@ -1,6 +1,10 @@
+import { FlashcardsProps } from "../components/Flashcard";
+
 type User = {
   username: string;
   password: string;
+  files: string[];
+  sets: FlashcardsProps[];
 };
 
 type LoginAttempt = {

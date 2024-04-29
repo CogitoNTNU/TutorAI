@@ -24,6 +24,8 @@ export default async function postSignupAttempt(
       const user: User = {
         username: username,
         password: password,
+        files: [],
+        sets: [],
       };
       const signupResponse: SignupResponse = {
         user: user,

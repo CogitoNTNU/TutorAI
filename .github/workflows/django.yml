@@ -16,6 +16,7 @@ jobs:
       - name: Build docker image and run tests
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
           cd backend
           docker compose build
