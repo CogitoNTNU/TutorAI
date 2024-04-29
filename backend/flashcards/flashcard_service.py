@@ -131,10 +131,13 @@ def grade_quiz(
         for question, correct_answer in zip(questions, correct_answers)
     ]
 
-    graded_quiz = GradedQuiz([])
+    graded_quiz = GradedQuiz([], [])
     for questionAnswerPair, student_answer in zip(questionAnswerPairs, student_answers):
-        feedback = grade_question_answer_pair(questionAnswerPair, student_answer)
-        graded_quiz.graded_questions.append(feedback)
+        isCorrect, feedback = grade_question_answer_pair(
+            questionAnswerPair, student_answer
+        )
+        graded_quiz.feedback.append(feedback)
+        graded_quiz.answers_was_correct.append(isCorrect)
     return graded_quiz
 
 
