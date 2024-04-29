@@ -117,6 +117,27 @@ class QuizGenerationTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
+class QuizGradingTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.url = f"{base}graded-quiz/"
+
+    def test_invalid_request(self):
+        invalid_payload = {}
+        response = self.client.post(self.url, invalid_payload, format="json")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_valid_request(self):
+        valid_response = {
+            "questions": ["question1", "question2"],
+            "correct_answer": ["correct1", "correct2"],
+            "student_answer": ["answer1", "answer2"],
+        }
+        response = self.client.post(self.url, valid_response, format="json")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertTrue(response.data)
+
+
 class FlashcardGenerationTest(TestCase):
     def setUp(self):
         self.client = Client()
