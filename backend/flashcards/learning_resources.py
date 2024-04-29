@@ -53,9 +53,8 @@ class Compendium:
     start: int
     end: int
 
-    # The list of questions
+    # The list of pages
     pages: list[Page]
-    quiz: Quiz
 
     def to_dict(self) -> dict:
         return {
@@ -63,7 +62,6 @@ class Compendium:
             "start": self.start,
             "end": self.end,
             "pages": [page.to_dict() for page in self.pages],
-            "quiz": self.quiz.to_dict(),
         }
 
 
