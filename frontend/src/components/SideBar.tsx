@@ -4,6 +4,10 @@ import FileUploadService from "../services/FileUploadService";
 import { FlashcardsProps } from "../components/Flashcard";
 import CreateFlashcards from "../services/CreateFlashcardsService";
 import { UserContext } from "../App";
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
+import React from "react";
 
 const SideBar: React.FC = () => {
     const { user, setUser } = useContext(UserContext);
@@ -34,6 +38,15 @@ const SideBar: React.FC = () => {
         }
     }
 
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+    // Function to simulate clicking on the actual file input
+    const handleButtonClick = () => {
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
+    };
+
     const handleNewSet = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -54,43 +67,68 @@ const SideBar: React.FC = () => {
         }
     }
 
+
+
     return (
-        <>
+        <div className='absolute w-64'>
             {!visibleSidebar && (
-            <button className='bg-blue-500 text-white px-4 py-2 rounded' onClick={() => setVisibleSidebar(true)}>Open Sidebar</button>
+            <button className='text-black px-4 py-2 rounded' onClick={() => setVisibleSidebar(true)}>
+                <MenuIcon fill='none' />
+            </button>
             )}
             
             {visibleSidebar && (
-            <div className={`bg-blue-200 w-1/5 ${visibleSidebar ? '' : 'hidden'}`}>
+            <div className={`bg-blue-200 w-full ${visibleSidebar ? '' : 'hidden'}`}>
                 <div className='p-2 w-full bg-blue-300 flex justify-between items-center'>
                     <h1 className=''>SideBar</h1>
-                    <button className='' onClick={() => setVisibleSidebar(false)}>Close Sidebar</button>
+                    <button className='' onClick={() => setVisibleSidebar(false)}>
+                        <CloseIcon />
+                    </button>
                 </div>
                 <SideBarSection className='' title='Files'>
-                    {files.map((file, index) => (
-                        <label key={index} className='pl-10 w-full text-left'>
-                            <input type='radio' name='selectedFile' value={file} onChange={(e) => setNewSetFile(e.target.value)} />
-                            {file}
-                        </label>
-                    ))}
+                    <div className="flex flex-col">
+                            {/* <label className='m-2 pl-10 w-full flex justify-left items-center text-left'>
+                                <input className='w-5 h-5' type='checkbox' name='selectedFile' onChange={(e) => setNewSetFile(e.target.value)} />
+                                <p className='w-4/5 pl-2 select-none overflow-hidden'>Sample filezzzzzzzzzzzzzzzzzzzzzzzzzzzzzz</p>
+                            </label> */}
+                        {files.map((file, index) => (
+                            <label key={index} className='m-2 pl-10 w-full flex justify-left items-center text-left'>
+                                <input className='w-5 h-5' type='checkbox' name='selectedFile' value={file} onChange={(e) => setNewSetFile(e.target.value)} />
+                                <p className='w-4/5 pl-2 select-none overflow-hidden'>{file}</p>
+                            </label>
+                        ))}
+                    </div>
+                    <div className='relative'>
+                        {/* Hidden file input */}
+                        <input className="hidden" ref={fileInputRef} type="file" accept=".pdf" onChange={handleFileUpload} />
 
-                    <input className='' type='file' accept='.pdf' onChange={handleFileUpload} />
+                        {/* Visible button */}
+                        <button className="ml-auto mr-2 my-2 flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 hover:bg-blue-600 text-white" onClick={handleButtonClick} aria-label="Add new file">
+                            <AddIcon />
+                        </button>
+                    </div>
                 </SideBarSection>
                 <SideBarSection className='' title="Sets">
                     {user?.sets.map((set: FlashcardsProps, index) => (
-                        <div key={index} className='pl-10'>
-                            <button>{set.name}</button>
-                        </div>
+                    <label className='m-2 pl-10 w-full flex justify-left items-center text-left' key={index}>
+                        <input className='w-5 h-5' type='checkbox' name='selectedFile' value={set.name} onChange={(e) => setNewSetFile(e.target.value)} />
+                        <p className='w-4/5 pl-2 select-none overflow-hidden'>{set.name}</p>
+                    </label>
                     ))}
-
                     <button className='pl-10 w-full text-left' onClick={() => setVisibleNewSet(true)}>+ New set...</button>
                 </SideBarSection>
             </div>
             )}
 
             {visibleNewSet && (
-            <form className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-lg shadow-lg' onSubmit={handleNewSet}>
-                <input className='' name='setname' type='text' placeholder='Set name...' />
+            <form className='absolute top-1/2 left-1/2 transform -translate-1/2 bg-white p-4 rounded-lg shadow-lg' onSubmit={handleNewSet}>
+                <div className='p-2 w-full bg-blue-300 flex justify-between items-center'>
+                    <input className='' name='setname' type='text' placeholder='Set name...' />
+                    <button className='' onClick={() => setVisibleNewSet(false)}>
+                        <CloseIcon />
+                    </button>
+                </div>
+                <label className=''>Select a file:</label>
                 <ul>
                     {files.map((file, index) => (
                     <li key={index} className='pl-10 w-full text-left'>
@@ -106,7 +144,7 @@ const SideBar: React.FC = () => {
                 <button className='' type='submit'>Create</button>
             </form>
             )}
-        </>
+        </div>
     )
 };
 
