@@ -97,11 +97,13 @@ class Quiz:
 
 @dataclass
 class GradedQuiz:
-    graded_questions: list[str]
+    answers_was_correct: list[bool]
+    feedback: list[str]
 
     def to_dict(self) -> dict:
         return {
-            "graded_questions": self.graded_questions,
+            "answers_was_correct": self.answers_was_correct,
+            "feedback": self.feedback,
         }
 
 
