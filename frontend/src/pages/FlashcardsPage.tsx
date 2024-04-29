@@ -10,7 +10,7 @@ import { UserContext } from '../App';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const FlashcardsPage: React.FC = () => {
-    const { user, setUser } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [flashcards, setFlashcards] = React.useState<FlashcardProps[]>([]);
 
     useEffect(() => {
