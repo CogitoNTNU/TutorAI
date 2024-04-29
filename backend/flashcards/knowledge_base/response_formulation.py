@@ -200,10 +200,12 @@ def _parse_quiz_response(quiz_response: str) -> list[QuestionAnswer]:
 
 def grade_question_answer_pair(
     question_answer_pair: QuestionAnswer, user_response: str
-) -> str:
+) -> tuple[str, str]:
     """
     Grade the user response to the question-answer pair
     """
+    if user_response == "":
+        return False, "No response was provided"
 
     system_prompt = _grade_question_answer_system_template()
 
@@ -215,7 +217,7 @@ def grade_question_answer_pair(
         system_prompt=system_prompt,
     )
 
-    return raw_grade
+    return _parse_grade_response(raw_grade)
 
 
 def _grade_question_answer_system_template() -> str:
@@ -224,6 +226,19 @@ def _grade_question_answer_system_template() -> str:
     """
 
     template = f"""
+        # Role and Goal:
+        You are a teacher AI grading a student's answer to a question. You act professionally in the tasks that you give out.
+        The user will be a student who has answered a question and you will be grading their answer.
+        # Constraints:
+        The user will provide you with the question and the answer that they have given.
+        You will be given the solution to the question as was not provided by the student.
+        With this information, you will grade the student's answer.
+
+        Respond with the grade and feedback in this format:
+        IsCorrect | Feedback
+
+        For example:
+        False | The student did not provide the correct answer. The correct answer is 'The capital of India is New Delhi.'
         """
     return template
 
@@ -236,3 +251,23 @@ def _grade_question_answer_template(
         The solution: '''{solution}'''
         The user response: '''{user_response}'''
     """
+
+
+def _parse_grade_response(grade_response: str) -> tuple[bool, str]:
+    """
+    Parse the response from the user to create a tuple of the grade and feedback
+    """
+    separator = " | "
+    if separator not in grade_response:
+        return False, ""
+    # Split the response into grade and feedback
+    raw_response_list = grade_response.split(separator)
+    response_list = [response.strip() for response in raw_response_list]
+
+    # Parse the grade
+    is_correct = response_list[0].lower() == "true"
+
+    # Parse the feedback
+    feedback = response_list[1]
+
+    return is_correct, feedback
