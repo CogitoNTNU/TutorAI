@@ -108,6 +108,9 @@ class MongoDB(DatabaseInterface):
         # Filter out the documents with low similarity
         for document in documents:
             threshold = self.similarity_threshold
+            if document["pdfName"] != pdf_name:
+                continue
+
             if (
                 cosine_similarity(embedding, document["embedding"])
                 > self.similarity_threshold
