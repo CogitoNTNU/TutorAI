@@ -42,6 +42,7 @@ class OCR:
         Returns:
             List of image names for the given files' pages
         """
+        
         pdf = pdfium.PdfDocument(file)
 
         n_pages = len(pdf)
@@ -57,6 +58,23 @@ class OCR:
             pages_as_images.append(pil_image)
         return pages_as_images
 
+    def make_pillow_image(self, file: InMemoryUploadedFile) -> list[Image.Image]:
+        """
+        Converts a file into an image. The file can be in any format that can be converted into an image.
+
+        Args:
+            file: The file to convert into an image
+        """
+        images: list[Image.Image] = []
+        for chunk in file.chunks():
+            image = Image.open(file)
+            images.append(image)
+        return images
+    
+        
+
+
+
     def find_preprocessing_pipeline(self, image):
         """
         Finds the preprocessing pipeline for the image
@@ -65,20 +83,27 @@ class OCR:
         TODO: Implement this function. For now, least viable product 
         """
         return 1
+    
+    
+    
 
     def ocr_images(self, file: InMemoryUploadedFile):
         """
         take in pdf file, and calls a function that creates a list of images from the pdf file, then uses OCR to extract text from the images
         params: file: InMemoryUploadedFile
         """
-        images: list[Image.Image] = self.make_pdf_into_image_list(file)
-
+        if file.name.endswith(".pdf"):
+            images: list[Image.Image] = self.make_pdf_into_image_list(file)
+        else:
+            images: list[Image.Image] = self.make_pillow_image(file)
+        print("number of images: ", len(images), flush=True)
         for index, image in enumerate(images):
             # TODO: self.preprocess()
-
+            print("OCR-ing image-------------------------------------")
             text = pytesseract.image_to_string(image)
             page = Page(text, index + 1, file.name)
             self.page_data.append(page)
+            print(page.text)
 
     def ocr_page(self, pdf_file, page_num) -> str:
         """
