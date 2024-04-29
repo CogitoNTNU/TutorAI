@@ -49,19 +49,18 @@ class Quiz:
 @dataclass
 class Compendium:
     # Metadata
-    document: str
+    document_name: str
     start: int
     end: int
-
-    # The list of pages
-    pages: list[Page]
+    key_concepts: list[str]
+    summary: str
 
     def to_dict(self) -> dict:
         return {
-            "document": self.document,
+            "document": self.document_name,
             "start": self.start,
             "end": self.end,
-            "pages": [page.to_dict() for page in self.pages],
+            "key_concepts": self.key_conceptrs,
         }
 
 

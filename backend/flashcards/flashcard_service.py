@@ -154,35 +154,28 @@ def generate_compendium_template(text: str) -> tuple[str, str]:
 
     return key_concepts_template, summary_template
 
-def generate_compendium(document: str, start: int, end: int) -> Compendium:
+def generate_compendium(document_name: str, start: int, end: int) -> Compendium:
     """
     Generates a compendium for the document
     """
 
     # Retrieve the pages from the database
-    context_pages: list[Page] = get_page_range(document, start, end)
-    print(f"[INFO] Generating compendium for document {document}", flush=True)
+    context_pages: list[Page] = get_page_range(document_name, start, end)
+    print(f"[INFO] Generating compendium for document {document_name}", flush=True)
     # Generate the compendium
-    summaries = []
+    summaries = ""
     key_concepts = []
 
     for page in context_pages:
         # Extract the key concepts and summaries from the page
         # Append the key concepts and summaries to the lists
-        print(f"[INFO] Generating compendium for page {page.page_num}", flush=True)
+        
         concept_template, summary_template = generate_compendium_template(page.text)
         concept = OpenAIFlashcardGenerator.request_chat_completion("system", message=concept_template)
         summary = OpenAIFlashcardGenerator.request_chat_completion("system", message=summary_template)
-        print(f"[INFO] Generated key concepts and summary for page {concept}", flush=True)
-        key_concepts.append(concept)
-        summaries.append(summary)
+        key_concepts.extend(concept.split("|"))
+        summaries += summary
 
-    # Definitions of Terms
 
-    # Equations and Formulas if any
-
-    # Create pages with the content
-    pages = []
-
-    compendium = Compendium(document, start, end, pages)
-    return key_concepts
+    compendium = Compendium(document_name, start, end, key_concepts, summaries)
+    return compendium
