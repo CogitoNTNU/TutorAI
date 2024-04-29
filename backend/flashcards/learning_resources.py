@@ -99,6 +99,11 @@ class Quiz:
 
 
 @dataclass
+class GradedQuiz:
+    graded_questions: list[str]
+
+
+@dataclass
 class RagAnswer:
     answer: str
     citations: list[Page]
