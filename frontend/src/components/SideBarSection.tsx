@@ -3,17 +3,13 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useState } from 'react';
 
 const SideBarSection: React.FC<{ className: string, title: string, children: React.ReactNode[] }> = ({ className, title, children }) => {
-    const [visibleSection, setVisibleSection] = useState<boolean>(true);
-    
-
+    const [visibleSection, setVisibleSection] = useState<boolean>(false);
 
     return (
         <div className={'w-full' + ' ' + className}>
-            <div className='pl-8 w-full bg-blue-300 flex justify-between items-center'>
+            <div className='py-1 pl-8 w-full bg-blue-300 hover:bg-blue-400 hover:cursor-pointer flex justify-between items-center' onClick={() => setVisibleSection(!visibleSection)}>
                 <h2 className=''>{title}</h2>
-                <button className='' onClick={() => setVisibleSection(!visibleSection)}>
-                    {visibleSection ? <KeyboardArrowDownIcon /> : <KeyboardArrowLeftIcon />}
-                </button>
+                {visibleSection ? <KeyboardArrowDownIcon /> : <KeyboardArrowLeftIcon />}
             </div>
             {visibleSection && children}
         </div>

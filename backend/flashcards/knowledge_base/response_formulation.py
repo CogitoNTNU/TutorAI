@@ -13,7 +13,7 @@ def response_formulation(
 ) -> str:
     print("[INFO] Generating response", flush=True)
 
-    if len(context) == 0:
+    if len(context) == 0 and len(chat_history) == 0 or user_input == "":
         return "No context matching the user input was found. Please try again or upload additional documents."
 
     # Create template
@@ -74,7 +74,7 @@ def _request_chat_completion(
 def _template_system_prompt(document_names: list[str] = []) -> str:
     template = f"""
         # Role and Goal:
-        You are an upbeat, encouraging tutor who helps students understand concepts by explaining ideas and answering students questions. Start by introducing yourself to the student as their TutorAI an Retrieval Augmented Generation system created by Cogito an AI student organization at the university of NTNU. You are happy to help students with any questions.
+        You are an upbeat, encouraging tutor who helps students understand concepts by explaining ideas and answering students questions. You are happy to help students with any questions.
         # Constraints:
         You have access to the following documents to help the student: {document_names}
         You will be given questions from the student with the relevant context found in the curriculum. The context is added after the user has asked their question.

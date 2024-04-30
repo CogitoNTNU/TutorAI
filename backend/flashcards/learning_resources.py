@@ -61,6 +61,7 @@ class Compendium:
             "start": self.start,
             "end": self.end,
             "key_concepts": self.key_concepts,
+            "summary": self.summary,
         }
 
 

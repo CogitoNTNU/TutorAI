@@ -3,8 +3,8 @@ import AppRoutes from './routes/Routes'
 import './App.css'
 import Header from './components/Header';
 import { useState, createContext } from "react";
-import { FlashcardsProps } from './components/Flashcard';
 import { User } from './types/User';
+import { FlashcardsProps } from './components/Flashcard';
 
 // const UserContext = createContext<User>({ username: '', password: '', files: [], sets: [{ name: '', flashcards: [] }] })
 const UserContext = createContext<{
@@ -54,12 +54,14 @@ function App() {
   const value = { user, setUser }
 
   return (
-    <Router>
-      <UserContext.Provider value={value}>
-        <Header />
-        <AppRoutes />
-      </UserContext.Provider>
-    </Router>
+    <div className='flex flex-col h-screen bg-blue-50 max-h-screen'>
+      <Router>
+        <UserContext.Provider value={value}>
+          <Header />
+          <AppRoutes />
+        </UserContext.Provider>
+      </Router>
+    </div>
   )
 }
 

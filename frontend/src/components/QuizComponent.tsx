@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
+import { Quiz } from '../types/Quiz';
 
 // Define the props type based on the Quiz interface
 interface QuizProps {
@@ -18,13 +19,13 @@ const QuizComponent: React.FC<QuizProps> = ({ quiz }) => {
     };
 
     return (
-        <div className='bg-gray-800 text-E3FEF7 p-8"'>
+        <div className='bg-blue-100 text-E3FEF7 p-8"'>
             <h1>Quiz on '{quiz.document}' covering pages {quiz.start} to {quiz.end} </h1>
             {quiz.questions.map((question, index) => (
                 <div key={index}>
                     <p>{question.question}</p>
                     <input
-                        className='bg-gray-700 text-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 w-full'
+                        className='bg-blue-200 text-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 w-full'
                         type="text"
                         placeholder={"Your answer: "}
                         onChange={(event) => handleInputChange(index, event)}

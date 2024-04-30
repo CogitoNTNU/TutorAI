@@ -7,7 +7,6 @@ const CreateFlashcards = async (file: string, start: number, end: number): Promi
     formData.append("document", file);
     formData.append("start", start.toString());
     formData.append("end", end.toString());
-    console.log(formData);
 
     const response = await axios
         .post(apiRoutes.createFlashcards, formData)

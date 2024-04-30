@@ -30,7 +30,6 @@ export default async function postSignupAttempt(
       const signupResponse: SignupResponse = {
         user: user,
       };
-      console.log(signupResponse);
 
       return signupResponse;
     } else {
