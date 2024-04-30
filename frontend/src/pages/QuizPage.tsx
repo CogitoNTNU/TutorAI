@@ -1,27 +1,32 @@
-import { useEffect, useState } from "react";
-import QuizService from "../services/QuizService";
+import { useState, createContext } from "react";
 import QuizComponent from "../components/QuizComponent";
 import { Quiz } from "../types/Quiz";
 import SideBar from "../components/SideBar";
 
+const QuizContext = createContext<{
+    activeQuiz: Quiz | null,
+    setActiveQuiz: (quiz: Quiz | null) => void;
+}>({
+    activeQuiz: null,
+    setActiveQuiz: () => {}
+});
+
 const QuizPage: React.FC = () => {
-    // Get all the quizzes 
-    const quizData: Quiz = {
-        document: "Sample Document",
-        start: 1,
-        end: 10,
-        questions: [
-            { question: "What is React?", answer: "My love" },
-            { question: "What is TypeScript?", answer: "" }
-        ]
-    };
+
+    const [activeQuiz, setActiveQuiz] = useState<Quiz | null>(null);
 
     return (
-        <>
-            <SideBar />
-            <QuizComponent quiz={quizData} />
-        </>
+        <div className="bg-blue-50 relative flex flex-grow w-full flex flex-col ">
+            <QuizContext.Provider value={{activeQuiz, setActiveQuiz}}>
+                <SideBar />
+                <div className="absolute left-1/2 transform -translate-x-1/2 w-2/5 h-full'">
+                    <QuizComponent />
+                </div>
+            </QuizContext.Provider>
+      
+        </div>
     );
 };
 
 export default QuizPage;
+export { QuizContext }

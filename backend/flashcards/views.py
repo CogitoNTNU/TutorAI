@@ -115,7 +115,7 @@ def create_rag_response(request):
         # Chat history is optional
 
         #TEMPORARY FIX
-        document_names.append("Demonstrasjon.pdf")
+        # document_names.append("Demonstrasjon.pdf")
         #TEMPORARY FIX
 
         chat_history = serializer.validated_data.get("chat_history", [])
