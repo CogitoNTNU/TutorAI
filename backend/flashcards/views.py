@@ -113,6 +113,11 @@ def create_rag_response(request):
         document_names = serializer.validated_data.get("documents")
         user_question = serializer.validated_data.get("user_question")
         # Chat history is optional
+
+        #TEMPORARY FIX
+        document_names.append("Exercise 1.pdf")
+        #TEMPORARY FIX
+
         chat_history = serializer.validated_data.get("chat_history", [])
 
         rag_answer: RagAnswer = process_answer(
