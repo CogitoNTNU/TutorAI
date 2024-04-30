@@ -5,18 +5,28 @@ import { FlashcardsProps } from "../components/Flashcard";
 import CreateFlashcards from "../services/CreateFlashcardsService";
 import { UserContext } from "../App";
 import { FlashcardsContext } from "../pages/FlashcardsPage";
+// import { CompendiumContext } from "../pages/CompendiumPage";
+import { QuizContext } from "../pages/QuizPage";
 import { FilesContext } from "../pages/ChatPage";
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import React from "react";
+import { createCompendium } from "../services/CompendiumService";
+import { createQuiz } from "../services/QuizService";
 
 const SideBar: React.FC = () => {
     const { user, setUser } = useContext(UserContext);
     const { activeSets, setActiveSets } = useContext(FlashcardsContext);
+    // const { activeCompendium, setActiveCompendium } = useContext(CompendiumContext);
+    const { activeQuiz, setActiveQuiz } = useContext(QuizContext); 
+
     const { activeFiles, setActiveFiles } = useContext(FilesContext);
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
     const [visibleNewSet, setVisibleNewSet] = useState<boolean>(false);
+    const [visibleNewCompendium, setVisibleNewCompendium] = useState<boolean>(false);
+    const [visibleNewQuiz, setVisibleNewQuiz] = useState<boolean>(false);
+
     const [files, setFiles] = useState<string[]>([]);
     const [newSetFile, setNewSetFile] = useState<string>('');
 
@@ -69,6 +79,42 @@ const SideBar: React.FC = () => {
         }
     }
 
+    const handleNewCompendium = async (e: React.ChangeEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            const response = await createCompendium({
+                document: newSetFile,
+                start: e.target.start.value,
+                end: e.target.end.value,
+            });
+
+            console.log('Response: compendium', response);
+            
+        }
+        catch (error) {
+            console.error('Error creating new compendium:', error);
+        }
+    }
+
+    const handleNewQuiz = async (e: React.ChangeEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            const response = await createQuiz({
+                document: newSetFile,
+                start: e.target.start.value,
+                end: e.target.end.value,
+            });
+            setActiveQuiz(response);
+            console.log('Response: quiz', response);
+            
+        }
+        catch (error) {
+            console.error('Error creating new quiz:', error);
+        }
+    }
+
+
+
     const handleSelectedSet = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedSet = e.target.value;
         
@@ -120,6 +166,7 @@ const SideBar: React.FC = () => {
                             <CloseIcon />
                         </button>
                     </div>
+
                     <SideBarSection className='' title='Files'>
                         <div className="flex flex-col">
                             {files.map((file, index) => (
@@ -147,6 +194,12 @@ const SideBar: React.FC = () => {
                         </label>
                         ))}
                         <button className='pl-10 w-full text-left' onClick={() => setVisibleNewSet(true)}>+ New set...</button>
+                    </SideBarSection>
+                    <SideBarSection className='' title='Compendium'>
+                        {[<button className='pl-10 w-full text-left' onClick={() => setVisibleNewCompendium(true)}>+ New Compendium...</button>]}
+                    </SideBarSection>
+                    <SideBarSection className='' title='Quiz'>
+                        {[<button className='pl-10 w-full text-left' onClick={() => setVisibleNewQuiz(true)}>+ New Quiz...</button>]}
                     </SideBarSection>
                 </div>
                 )}
@@ -185,8 +238,78 @@ const SideBar: React.FC = () => {
                 <button className='w-full bg-blue-100 hover:bg-blue-300' type='submit'>Create</button>
             </form>
             )}
+
+            {visibleNewCompendium && (
+            <form className='absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between p-5 bg-white p-4 w-96 h-72 rounded-lg shadow-lg' onSubmit={handleNewCompendium}> {/* TODO: check if translate tailwind works, or if it should be -translate-x-1/2 */}
+                <div className='w-full flex justify-between items-center'>
+                    <h1 className='font-bold'>New Compendium</h1>
+                    <button className='' onClick={() => setVisibleNewCompendium(false)}>
+                        <CloseIcon />
+                    </button>
+                </div>
+                <input className='' name='setname' type='text' placeholder='Set name...' />
+                <label className='font-semibold'>Select a file:</label>
+                <ul>
+                    {files.length === 0 && (
+                    <li className='pl-2 w-full text-left'>
+                        <p>No files uploaded yet.</p>
+                    </li>
+                    )}
+                    {files.map((file, index) => (
+                    <li key={index} className='pl-10 w-full text-left'>
+                        <label>
+                            <input type='radio' name='selectedFile' value={file} onChange={(e) => setNewSetFile(e.target.value)} />
+                            {file}
+                        </label>
+                    </li>
+                    ))}
+                </ul>
+                <label className='font-semibold'>Select a range:</label>
+                <div className='flex justify-between items-center w-full'>
+                    <input className='' name='start' type='number' placeholder='Start page...' />
+                    <input className='' name='end' type='number' placeholder='End page...' />
+                </div>
+                <button className='w-full bg-blue-100 hover:bg-blue-300' type='submit'>Create</button>
+            </form>
+            )}
+
+            {visibleNewQuiz && (<form className='absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between p-5 bg-white p-4 w-96 h-72 rounded-lg shadow-lg' onSubmit={handleNewQuiz}> {/* TODO: check if translate tailwind works, or if it should be -translate-x-1/2 */}
+                <div className='w-full flex justify-between items-center'>
+                    <h1 className='font-bold'>New Quiz</h1>
+                    <button className='' onClick={() => setVisibleNewQuiz(false)}>
+                        <CloseIcon />
+                    </button>
+                </div>
+                <input className='' name='setname' type='text' placeholder='Set name...' />
+                <label className='font-semibold'>Select a file:</label>
+                <ul>
+                    {files.length === 0 && (
+                    <li className='pl-2 w-full text-left'>
+                        <p>No files uploaded yet.</p>
+                    </li>
+                    )}
+                    {files.map((file, index) => (
+                    <li key={index} className='pl-10 w-full text-left'>
+                        <label>
+                            <input type='radio' name='selectedFile' value={file} onChange={(e) => setNewSetFile(e.target.value)} />
+                            {file}
+                        </label>
+                    </li>
+                    ))}
+                </ul>
+                <label className='font-semibold'>Select a range:</label>
+                <div className='flex justify-between items-center w-full'>
+                    <input className='' name='start' type='number' placeholder='Start page...' />
+                    <input className='' name='end' type='number' placeholder='End page...' />
+
+                </div>
+                <button className='w-full bg-blue-100 hover:bg-blue-300' type='submit'>Create</button>
+            </form>)}
+
         </>
     )
+
+    
 };
 
 export default SideBar;
