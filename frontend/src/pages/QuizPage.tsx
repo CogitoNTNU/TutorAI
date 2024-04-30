@@ -17,10 +17,14 @@ const QuizPage: React.FC = () => {
     };
 
     return (
-        <>
+        <div className="bg-blue-100 relative flex flex-grow w-full flex flex-col ">
+
             <SideBar />
-            <QuizComponent quiz={quizData} />
-        </>
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-2/5 h-full'">
+                <QuizComponent quiz={quizData} />
+            </div>
+      
+        </div>
     );
 };
 
