@@ -148,7 +148,7 @@ const SideBar: React.FC = () => {
     }
 
     useEffect(() => {
-        setFiles(['Demonstrasjon.pdf']);
+        setFiles(['Cogito.pdf']);
     }, []);
 
     return (
