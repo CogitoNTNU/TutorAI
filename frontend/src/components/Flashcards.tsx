@@ -46,6 +46,8 @@ const Flashcards: React.FC<{}> = () => {
                         front={activeFlashcards[flashcardIndex].front}
                         back={activeFlashcards[flashcardIndex].back}
                     />
+
+                    <p>{flashcardIndex+1} / {activeFlashcards.length} </p>
                     <div className='mt-5'>
                         <button
                             className='px-4 py-2 mr-10 w-24 bg-blue-500 text-white rounded select-none'
