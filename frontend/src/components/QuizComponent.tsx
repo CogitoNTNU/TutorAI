@@ -1,11 +1,13 @@
 import React, { useState, ChangeEvent, useContext } from 'react';
 import { QuizContext } from '../pages/QuizPage';
-
+import { gradeQuizAnswer } from "../services/QuizService";
+import { GradedQuiz, QuizStudentAnswerData } from '../types/Quiz';
 
 const QuizComponent: React.FC = () => {
     // Create a state to handle the answers
     const { activeQuiz } = useContext(QuizContext);
     const [answers, setAnswers] = useState<string[]>(activeQuiz?.questions.map(q => q.answer) || []);
+    const [gradedQuiz, setGradedQuiz] = useState<GradedQuiz>();
 
     // Handle input change
     const handleInputChange = (index: number, event: ChangeEvent<HTMLInputElement>) => {
@@ -13,6 +15,23 @@ const QuizComponent: React.FC = () => {
         newAnswers[index] = event.target.value;
         setAnswers(newAnswers);
     };
+
+    const handleSubmit = async () => {
+        
+        // Create QuizStudentAnswerData object
+        const quizStudentAnswerData : QuizStudentAnswerData= {
+            questions: activeQuiz?.questions.map(q => q.question) || [],
+            correct_answers: activeQuiz?.questions.map(q => q.answer) || [],
+            student_answers: answers,
+        };
+        try {
+            const gradedQuiz = await gradeQuizAnswer(quizStudentAnswerData);
+            console.log("Graded quiz", gradedQuiz);
+            setGradedQuiz(gradedQuiz);
+        } catch (error) {
+            console.error("Error grading quiz:", (error as Error).message || error);
+        }
+    }
 
     return (
         activeQuiz && (
@@ -30,7 +49,7 @@ const QuizComponent: React.FC = () => {
                     </div>
                 ))}
 
-                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4'>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4' onClick={() => handleSubmit()}>
                     Submit
                 </button>
             </div>
