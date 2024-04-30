@@ -1,5 +1,5 @@
 import SideBarSection from "./SideBarSection";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import FileUploadService from "../services/FileUploadService";
 import { FlashcardsProps } from "../components/Flashcard";
 import CreateFlashcards from "../services/CreateFlashcardsService";
@@ -113,8 +113,6 @@ const SideBar: React.FC = () => {
         }
     }
 
-
-
     const handleSelectedSet = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedSet = e.target.value;
         
@@ -148,6 +146,10 @@ const SideBar: React.FC = () => {
             setActiveFiles([...activeFiles, selectedFile]);
         }
     }
+
+    useEffect(() => {
+        setFiles(['Demonstrasjon.pdf']);
+    }, []);
 
     return (
         <>
