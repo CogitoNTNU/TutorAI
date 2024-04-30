@@ -1,16 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import Flashcard, { FlashcardProps } from './Flashcard'
 import { FlashcardsContext } from '../pages/FlashcardsPage';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Flashcards: React.FC<{}> = () => {
     const { activeSets } = useContext(FlashcardsContext);
     const [flashcardIndex, setFlashcardIndex] = React.useState<number>(0);
 
     useEffect(() => {
-        console.log('Active sets:', activeSets);
-
         if (activeSets.length === 0) {
-            console.log('No flashcards to display');
             setActiveFlashcards([]);
             return;
         }
@@ -19,12 +18,10 @@ const Flashcards: React.FC<{}> = () => {
         const cards: FlashcardProps[] = [];
         for (const set of activeSets) {
             if (!Array.isArray(set.flashcards) || set.flashcards.length === 0) {
-                console.log('No flashcards in set:', set.name);
                 continue;
             }
 
             for (const card of set.flashcards) {
-                console.log('Card:', card);
                 cards.push({ front: card.front, back: card.back });
             }
         }
@@ -51,16 +48,16 @@ const Flashcards: React.FC<{}> = () => {
                     />
                     <div className='mt-5'>
                         <button
-                            className='px-4 py-2 mr-10 w-24 bg-blue-500 text-white rounded'
+                            className='px-4 py-2 mr-10 w-24 bg-blue-500 text-white rounded select-none'
                             onClick={() => setFlashcardIndex((prevIndex) => prevIndex > 0 ? prevIndex - 1 : activeFlashcards.length - 1)}
                         >
-                            Previous
+                            <ArrowBackIcon />
                         </button>
                         <button
-                            className='px-4 py-2 w-24 bg-blue-500 text-white rounded'
+                            className='px-4 py-2 w-24 bg-blue-500 text-white rounded select-none'
                             onClick={() => setFlashcardIndex((prevIndex) => (prevIndex + 1) % activeFlashcards.length)}
                         >
-                            Next
+                            <ArrowForwardIcon />
                         </button>
                     </div>
                 </>

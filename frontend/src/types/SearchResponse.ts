@@ -1,5 +1,3 @@
-import { SearchProps } from "../pages/InformationSearch";
-
 export interface ChatMessageData {
   role: string;
   content: string;

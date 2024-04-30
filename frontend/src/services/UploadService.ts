@@ -5,11 +5,7 @@ import FlashcardResponse from "../types/FlashcardResponse";
 const UploadService = async (file: File): Promise<FlashcardResponse> => {
   let formData = new FormData();
   formData.append("curriculum", file);
-  console.log(formData);
-
-  for (let [key, value] of formData.entries()) {
-    console.log(key, value);
-  }
+  
   const response = await axios
     .post(apiRoutes.fileUpload, formData)
     .then((res) => {

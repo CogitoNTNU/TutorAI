@@ -13,7 +13,6 @@ export const createCompendium = async (
   try {
     const response = await axios.post(apiRoutes.createCompendium, data);
     if (response.status === 200) {
-      console.log("Compendium created successfully", response.data);
       return response.data;
     } else {
       throw new Error("Failed to create Compendium");

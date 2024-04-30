@@ -15,7 +15,6 @@ const Signup = () => {
     useEffect(() => {
         if (loginCredentials.accessToken) {
             // TODO - set login credentials in context both accessToken and accessToken
-            console.log("Login successful. Welcome " + loginCredentials.user.username);
         }
     }, [loginCredentials]);
     
@@ -28,12 +27,10 @@ const Signup = () => {
 
         await postSignupAttempt(username, password, confirmPassword)
         .then((response) => {
-            console.log(response);
             if (response) {
                 // Valid signup 
                 postLoginAttempt(username, password)
                 .then((response) => {
-                    console.log(response);
                     if (response) {
                         setLoginCredentials(response);
                     }
