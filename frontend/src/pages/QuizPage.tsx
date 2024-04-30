@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import QuizService from "../services/QuizService";
 import QuizComponent from "../components/QuizComponent";
+import { Quiz } from "../types/Quiz";
+import SideBar from "../components/SideBar";
 
 const QuizPage: React.FC = () => {
     // Get all the quizzes 
@@ -14,7 +16,12 @@ const QuizPage: React.FC = () => {
         ]
     };
 
-    return <QuizComponent quiz={quizData} />;
+    return (
+        <>
+            <SideBar />
+            <QuizComponent quiz={quizData} />
+        </>
+    );
 };
 
 export default QuizPage;
