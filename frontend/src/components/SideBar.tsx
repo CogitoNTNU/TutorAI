@@ -5,7 +5,7 @@ import { FlashcardsProps } from "../components/Flashcard";
 import CreateFlashcards from "../services/CreateFlashcardsService";
 import { UserContext } from "../App";
 import { FlashcardsContext } from "../pages/FlashcardsPage";
-// import { CompendiumContext } from "../pages/CompendiumPage";
+import { CompendiumContext } from "../pages/CompendiumPage";
 import { QuizContext } from "../pages/QuizPage";
 import { FilesContext } from "../pages/ChatPage";
 import AddIcon from '@mui/icons-material/Add';
@@ -18,7 +18,7 @@ import { createQuiz } from "../services/QuizService";
 const SideBar: React.FC = () => {
     const { user, setUser } = useContext(UserContext);
     const { activeSets, setActiveSets } = useContext(FlashcardsContext);
-    // const { activeCompendium, setActiveCompendium } = useContext(CompendiumContext);
+    const { activeCompendium, setActiveCompendium } = useContext(CompendiumContext);
     const { activeQuiz, setActiveQuiz } = useContext(QuizContext); 
 
     const { activeFiles, setActiveFiles } = useContext(FilesContext);
@@ -89,7 +89,7 @@ const SideBar: React.FC = () => {
             });
 
             console.log('Response: compendium', response);
-            
+            setActiveCompendium(response);
         }
         catch (error) {
             console.error('Error creating new compendium:', error);
