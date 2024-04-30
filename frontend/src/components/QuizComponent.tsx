@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, useContext } from 'react';
 import { QuizContext } from '../pages/QuizPage';
 import { gradeQuizAnswer } from "../services/QuizService";
-import { GradedQuiz, QuizStudentAnswerData, Question } from '../types/Quiz';
+import { GradedQuiz, QuizStudentAnswerData } from '../types/Quiz';
 
 const QuizComponent: React.FC = () => {
     // Create a state to handle the answers
@@ -33,7 +33,12 @@ const QuizComponent: React.FC = () => {
     }
 
     return (
-        activeQuiz && (
+        <>
+            {!activeQuiz && (
+            <h1 className='text-m font-bold'>Select or create a test...</h1>
+            )}
+        
+            {activeQuiz && (
             <div className='flex flex-col h-chatheight overflow-y-scroll'>
                 <h1>Quiz on '{activeQuiz?.document}' covering pages {activeQuiz?.start} to {activeQuiz?.end}</h1>
                 {activeQuiz.questions.map((question, index) => (
@@ -59,10 +64,11 @@ const QuizComponent: React.FC = () => {
                     className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4'
                     onClick={handleSubmit}
                 >
-                    Submit
+                    Grade
                 </button>
             </div>
-        )
+            )}
+        </>
     );
 };
 
