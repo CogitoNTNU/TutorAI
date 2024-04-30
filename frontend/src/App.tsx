@@ -34,11 +34,19 @@ const UserContext = createContext<{
 
 function App() {
   const mockFlashcards: FlashcardsProps = {
-    name: 'Test Set',
+    name: 'Cogito NTNU',
     flashcards: [
       {
-        front: 'Front of card',
-        back: 'Back of card'
+        front: 'What is Cogito NTNU?',
+        back: 'Cogito NTNU is a student-run organization that focuses on learning about AI through projectwork.'
+      },
+      {
+        front: 'How many members does Cogito NTNU have?',
+        back: '70 members'
+      },
+      {
+        front: 'When was Cogito NTNU founded?',
+        back: '10. mars 2018'
       }
     ]
   }
