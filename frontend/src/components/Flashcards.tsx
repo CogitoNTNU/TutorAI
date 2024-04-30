@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import Flashcard, { FlashcardProps } from './Flashcard'
 import { FlashcardsContext } from '../pages/FlashcardsPage';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Flashcards: React.FC<{}> = () => {
     const { activeSets } = useContext(FlashcardsContext);
@@ -49,13 +51,13 @@ const Flashcards: React.FC<{}> = () => {
                             className='px-4 py-2 mr-10 w-24 bg-blue-500 text-white rounded select-none'
                             onClick={() => setFlashcardIndex((prevIndex) => prevIndex > 0 ? prevIndex - 1 : activeFlashcards.length - 1)}
                         >
-                            Previous
+                            <ArrowBackIcon />
                         </button>
                         <button
                             className='px-4 py-2 w-24 bg-blue-500 text-white rounded select-none'
                             onClick={() => setFlashcardIndex((prevIndex) => (prevIndex + 1) % activeFlashcards.length)}
                         >
-                            Next
+                            <ArrowForwardIcon />
                         </button>
                     </div>
                 </>

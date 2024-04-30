@@ -153,17 +153,18 @@ const SideBar: React.FC = () => {
             </div>
 
             {visibleNewSet && (
-            <form className='absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between p-5 bg-white p-4 w-96 h-64 rounded-lg shadow-lg' onSubmit={handleNewSet}> {/* TODO: check if translate tailwind works, or if it should be -translate-x-1/2 */}
-                <div className='p-2 w-full flex justify-between items-center'>
-                    <input className='' name='setname' type='text' placeholder='Set name...' />
+            <form className='absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-between p-5 bg-white p-4 w-96 h-72 rounded-lg shadow-lg' onSubmit={handleNewSet}> {/* TODO: check if translate tailwind works, or if it should be -translate-x-1/2 */}
+                <div className='w-full flex justify-between items-center'>
+                    <h1 className='font-bold'>New Set</h1>
                     <button className='' onClick={() => setVisibleNewSet(false)}>
                         <CloseIcon />
                     </button>
                 </div>
+                <input className='' name='setname' type='text' placeholder='Set name...' />
                 <label className='font-semibold'>Select a file:</label>
                 <ul>
                     {files.length === 0 && (
-                    <li className='pl-10 w-full text-left'>
+                    <li className='pl-2 w-full text-left'>
                         <p>No files uploaded yet.</p>
                     </li>
                     )}
@@ -176,8 +177,11 @@ const SideBar: React.FC = () => {
                     </li>
                     ))}
                 </ul>
-                <input className='' name='start' type='number' placeholder='Start page...' />
-                <input className='' name='end' type='number' placeholder='End page...' />
+                <label className='font-semibold'>Select a range:</label>
+                <div className='flex justify-between items-center w-full'>
+                    <input className='' name='start' type='number' placeholder='Start page...' />
+                    <input className='' name='end' type='number' placeholder='End page...' />
+                </div>
                 <button className='w-full bg-blue-100 hover:bg-blue-300' type='submit'>Create</button>
             </form>
             )}
