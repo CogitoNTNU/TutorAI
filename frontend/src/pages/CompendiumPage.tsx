@@ -19,7 +19,9 @@ const CompendiumPage: React.FC = () => {
             <CompendiumContext.Provider value={{activeCompendium, setActiveCompendium}}>
                 <SideBar />
                 <div className="absolute left-1/2 transform -translate-x-1/2 w-2/5 h-full'">    
-                    <h1>Compendium Page</h1>
+                    {!activeCompendium && (
+                        <h1 className='text-m font-bold'>Select or create a compendium...</h1>
+                    )}
 
                     {activeCompendium && (
                         <div>

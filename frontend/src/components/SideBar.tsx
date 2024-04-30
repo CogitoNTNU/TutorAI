@@ -98,6 +98,7 @@ const SideBar: React.FC = () => {
 
     const handleNewQuiz = async (e: React.ChangeEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setVisibleNewQuiz(false);
         try {
             const response = await createQuiz({
                 document: newSetFile,

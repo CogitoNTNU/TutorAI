@@ -20,7 +20,6 @@ const QuizPage: React.FC = () => {
             <QuizContext.Provider value={{activeQuiz, setActiveQuiz}}>
                 <SideBar />
                 <div className="absolute left-1/2 transform -translate-x-1/2 w-2/5 h-full'">
-                    <h1>The quiz page</h1>
                     <QuizComponent />
                 </div>
             </QuizContext.Provider>
