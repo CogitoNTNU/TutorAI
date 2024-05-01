@@ -6,7 +6,7 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/SverreNystad/TutorAI)
 ![GitHub language count](https://img.shields.io/github/languages/count/SverreNystad/TutorAI)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Project Version](https://img.shields.io/badge/version-0.0.1-blue)](https://img.shields.io/badge/version-0.0.1-blue)
+[![Project Version](https://img.shields.io/badge/version-1.0.0-blue)](https://img.shields.io/badge/version-1.0.0-blue)
 
 <img src="docs/images/TutorAI.png" width="50%" alt="Cogito Image" style="display: block; margin-left: auto; margin-right: auto;">
 </div>
