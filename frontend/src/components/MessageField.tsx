@@ -1,11 +1,12 @@
 import { useContext, useState } from "react";
 import { ChatData } from "../types/SearchResponse";
-import { ChatContext, FilesContext } from "../pages/ChatPage";
+import { ChatContext, CitationContext, FilesContext } from "../pages/ChatPage";
 import SearchService from "../services/SearchService";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 const MessageField: React.FC = () => {
     const { chatHistory, setChatHistory } = useContext(ChatContext);
+    const { citations, setCitations } = useContext(CitationContext);
     const { activeFiles } = useContext(FilesContext);
     const [message, setMessage] = useState<string>('');
 
@@ -29,7 +30,7 @@ const MessageField: React.FC = () => {
 
         // Update the chat history
         setChatHistory([...chatHistory, {role: 'user', content: message}, {role: 'assistant', content: response.data.answer}]);
-
+        setCitations([...response.data.citations]);
         // Scroll to the bottom of the chat window
         if (chatWindow) {
             chatWindow.scrollTop = chatWindow.scrollHeight;
