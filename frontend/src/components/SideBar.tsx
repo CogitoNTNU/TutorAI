@@ -162,7 +162,7 @@ const SideBar: React.FC = () => {
                 )}
                 
                 {visibleSidebar && (
-                <div className={`z-10 bg-blue-200 w-full ${visibleSidebar ? '' : 'hidden'}`}>
+                <div className={`z-10 bg-blue-200 w-full h-full  ${visibleSidebar ? '' : 'hidden'}`}>
                     <div className='p-2 w-full bg-blue-300 flex justify-between items-center'>
                         <h1 className='font-semibold'>Select</h1>
                         <button className='' onClick={() => setVisibleSidebar(false)}>
