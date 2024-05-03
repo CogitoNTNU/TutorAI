@@ -203,13 +203,12 @@ npm run test
 <table align="center">
   <tr>
     <td align="center">
-    <a href="https://github.com/henrik392">
-        <img src="https://github.com/henrik392.png?size=100" width="100px;"/><br />
-        <sub><b>Henrik Halvorsen Kvamme</b></sub>
-    </a>
+        <a href="https://github.com/henrik392">
+            <img src="https://github.com/henrik392.png?size=100" width="100px;"/><br />
+            <sub><b>Henrik Halvorsen Kvamme</b></sub>
+        </a>
     </td>
-    <td>
-      <td align="center">
+    <td align="center">
         <a href="https://github.com/kaamyashinde">
             <img src="https://github.com/kaamyashinde.png?size=100" width="100px;"/><br />
             <sub><b>Kaamya Shinde</b></sub>
@@ -267,5 +266,4 @@ This project would not have been possible without the hard work and dedication o
 </div
 
 ## License
-
-Licensed under the [MIT License](LICENSE). Because this is a template repository, you need to change the license if you want to use it for your own project.
+Licensed under the [MIT License](LICENSE).
