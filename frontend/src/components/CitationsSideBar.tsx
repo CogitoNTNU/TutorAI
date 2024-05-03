@@ -13,7 +13,7 @@ const CitationSidebar: React.FC<CitationSidebarProps> = ({ citations }) => {
             {citations.map((citation, index) => (
                 <div key={index} className="border-b border-gray-300 py-2">
                     <p className="text-sm text-gray-700">{citation.text}</p>
-                    <p className="text-xs text-gray-500">Page {citation.page_num}</p>
+                    <p className="text-xs text-gray-500">Page {citation.page_num} from {citation.pdf_name}</p>
                 </div>
             ))}
         </div>
