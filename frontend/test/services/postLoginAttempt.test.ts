@@ -9,6 +9,8 @@ const mockTraversalMethods = {
   user: {
     username: "test",
     password: "test",
+    files: [],
+    sets: [],
   },
 };
 
