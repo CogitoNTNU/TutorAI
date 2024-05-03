@@ -11,7 +11,7 @@ ifthe configuration is loaded from a test environment file.
 class Config():
     def __init__(self, path='.env', gpt_model="gpt-3.5-turbo"):
         self.path = path
-        self.GPT_MODEL = os.getenv(key='GPT_MODEL', default='gpt-4')
+        self.GPT_MODEL = os.getenv(key='GPT_MODEL', default=gpt_model)
         load_dotenv(dotenv_path=path)
         self.API_KEY = os.getenv('OPENAI_API_KEY')
         self.MONGODB_URI = os.getenv('MONGODB_URI')
