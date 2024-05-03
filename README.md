@@ -262,8 +262,9 @@ npm run test
 
 This project would not have been possible without the hard work and dedication of all of the contributors. Thank you for the time and effort you have put into making TutorAI a reality.
 
-<img src="docs/images/tutorai_team.jpg" width="50%" alt="Cogito Team Image" align="center">
-
+<div align="center">
+    <img src="docs/images/tutorai_team.jpg" width="50%" alt="Cogito Team Image" style="display: block; margin-left: auto; margin-right: auto;">
+</div
 
 ## License
 
