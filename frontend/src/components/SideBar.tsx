@@ -18,8 +18,8 @@ import { createQuiz } from "../services/QuizService";
 const SideBar: React.FC = () => {
     const { user, setUser } = useContext(UserContext);
     const { activeSets, setActiveSets } = useContext(FlashcardsContext);
-    const { activeCompendium, setActiveCompendium } = useContext(CompendiumContext);
-    const { activeQuiz, setActiveQuiz } = useContext(QuizContext); 
+    const { setActiveCompendium } = useContext(CompendiumContext);
+    const { setActiveQuiz } = useContext(QuizContext); 
 
     const { activeFiles, setActiveFiles } = useContext(FilesContext);
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
@@ -154,7 +154,7 @@ const SideBar: React.FC = () => {
 
     return (
         <>
-            <div className='absolute w-64'>
+            <div className='absolute w-64 h-full'>
                 {!visibleSidebar && (
                 <button className='text-black px-4 py-2 rounded' onClick={() => setVisibleSidebar(true)}>
                     <MenuIcon fill='none' />
@@ -162,7 +162,7 @@ const SideBar: React.FC = () => {
                 )}
                 
                 {visibleSidebar && (
-                <div className={`z-10 bg-blue-200 w-full ${visibleSidebar ? '' : 'hidden'}`}>
+                <div className={`z-10 bg-blue-200 w-full h-full ${visibleSidebar ? '' : 'hidden'}`}>
                     <div className='p-2 w-full bg-blue-300 flex justify-between items-center'>
                         <h1 className='font-semibold'>Select</h1>
                         <button className='' onClick={() => setVisibleSidebar(false)}>

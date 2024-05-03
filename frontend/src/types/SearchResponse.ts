@@ -12,7 +12,7 @@ export interface ChatData {
 export interface Citation {
   pdf_name: string;
   text: string;
-  page_number: number;
+  page_num: number;
 }
 
 export interface SearchProps {
