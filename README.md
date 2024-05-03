@@ -191,20 +191,22 @@ docker-compose run tutorai python manage.py test flashcards
 ```
 
 ### Frontend
+To run all the tests, run the following command in the `frontend` directory of the project:
 
-There are currently no tests for the frontend.
+```bash
+npm run test
+```
 
 ## Contributors
 
 
 <table align="center">
   <tr>
-    <td>
-      <td align="center">
-        <a href="https://github.com/henrik392">
-            <img src="https://github.com/henrik392.png?size=100" width="100px;"/><br />
-            <sub><b>Henrik Halvorsen Kvamme</b></sub>
-        </a>
+    <td align="center">
+    <a href="https://github.com/henrik392">
+        <img src="https://github.com/henrik392.png?size=100" width="100px;"/><br />
+        <sub><b>Henrik Halvorsen Kvamme</b></sub>
+    </a>
     </td>
     <td>
       <td align="center">
@@ -257,8 +259,10 @@ There are currently no tests for the frontend.
     </td>
   </tr>
 </table>
+
 This project would not have been possible without the hard work and dedication of all of the contributors. Thank you for the time and effort you have put into making TutorAI a reality.
-<img src="docs/images/tutorai_team.jpg" width="50%" alt="Cogito Team Image" style="display: block; margin-left: auto; margin-right: auto;">
+
+<img src="docs/images/tutorai_team.jpg" width="50%" alt="Cogito Team Image" align="center">
 
 
 ## License
