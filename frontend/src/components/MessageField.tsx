@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { ChatData } from "../types/SearchResponse";
 import { ChatContext, CitationContext, FilesContext } from "../pages/ChatPage";
-import SearchService from "../services/SearchService";
+import sendRAGQuery from "../services/SearchService";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 const MessageField: React.FC = () => {
@@ -26,7 +26,7 @@ const MessageField: React.FC = () => {
             chat_history: chatHistory
         };
 
-        const response = await SearchService(chatData);
+        const response = await sendRAGQuery(chatData);
 
         // Update the chat history
         setChatHistory([...chatHistory, {role: 'user', content: message}, {role: 'assistant', content: response.data.answer}]);
