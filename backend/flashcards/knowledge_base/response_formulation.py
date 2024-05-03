@@ -183,8 +183,11 @@ def _parse_quiz_response(quiz_response: str) -> list[QuestionAnswer]:
     separator = "$"
     if separator not in quiz_response:
         return []
+
+    raw_response_list: str = quiz_response.lstrip("[")
+    raw_response_list = raw_response_list.rstrip("]")
     # Split the response into questions and answers
-    raw_response_list = quiz_response.split(separator)
+    raw_response_list = raw_response_list.split(separator)
     response_list = [response.strip() for response in raw_response_list]
 
     # Create a list of QuestionAnswer objects
