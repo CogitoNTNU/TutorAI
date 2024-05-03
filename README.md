@@ -26,18 +26,18 @@
 
 ## Introduction
 
-TutorAI is a language agent capable of assisting with learning academic subjects. The project revolves around building an application that ingests a textbook in PDF format and facilitates efficient learning of the course material.
+TutorAI is a language agent capable of assisting with learning academic subjects. The project revolves around building an application that ingests a textbook in most formats and facilitates efficient learning of the course material.
 
 ### Features
 
-TutorAI is designed to be an interactive and comprehensive educational tool aimed at enhancing the learning experience for users of all ages. Below are the planned features that we are excited to introduce:
+TutorAI is designed to be an interactive and comprehensive educational tool aimed at enhancing the learning experience for users of all ages. Below are the features that we are excited to introduce:
 
-- **PDF upload**: This functionality enables users to upload PDF documents directly into TutorAI. The application will integrate these documents seamlessly, allowing for an interactive and integrated learning experience.
+- **Document upload**: This functionality enables users to upload documents directly into TutorAI. The application will integrate these documents seamlessly, allowing for an interactive and integrated learning experience. The document upload feature support a wide range of file formats, including PDF, DOC, DOCX, PNG, JPG JPEG PPM, TIFF, BMP and more. For example, a user can upload one ore more PDF files containing the course material, and TutorAI will process the content and be able to use it.
 - **Information search**: Empower your learning with the ability to conduct in-depth searches within uploaded PDFs. Whether it's a quick fact verification or a deep dive into complex topics, TutorAI makes comprehensive information access simple and efficient.
 - **Learning plans**: These plans will be tailored to the user's learning pace, style, and goals, offering a structured path to mastering the subject.
-- **Flashcards and Memory aids**: Enhance memory retention with our range of digital memory aids, including customizable flashcards. These interactive tools are designed to make study sessions more productive and engaging.
+- **Flashcards and Memory aids**: Enhance memory retention with our range of digital memory aids, including customizable flashcards. These interactive tools are designed to make study sessions more productive and engaging. The flashcards are also exportable to Anki, and Quizlet.
 - **Quiz and test generation**: Automatic generation of quizzes and tests based on the material in the PDF
-- **Quiz and test grading**: Automatic grading of quizzes and tests. This feature will provide instant feedback on performance, allowing users to track their progress and identify areas for improvement.
+- **Quiz and test grading**: Automatic grading of quizzes and tests. This feature will provide feedback on performance, allowing users to track their progress and identify areas for improvement.
 - **Compendium**: A comprehensive database of knowledge that can be accessed and searched by users. This feature will provide a wealth of information on a wide range of topics, making learning more accessible and engaging.
 - **Study streaks**: This gamified element aims to motivate users to engage with their learning material regularly, making education a daily habit, and exams passed easily.
 
