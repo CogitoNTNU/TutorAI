@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import ChatMessage from "../components/ChatMessage";
 import { ChatMessageData, Citation } from "../types/SearchResponse";
 import MessageField from "../components/MessageField";

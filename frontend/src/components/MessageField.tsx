@@ -6,7 +6,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 const MessageField: React.FC = () => {
     const { chatHistory, setChatHistory } = useContext(ChatContext);
-    const { citations, setCitations } = useContext(CitationContext);
+    const { setCitations } = useContext(CitationContext);
     const { activeFiles } = useContext(FilesContext);
     const [message, setMessage] = useState<string>('');
 

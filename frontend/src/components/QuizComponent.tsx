@@ -6,7 +6,7 @@ import { GradedQuiz, QuizStudentAnswerData } from '../types/Quiz';
 const QuizComponent: React.FC = () => {
     // Create a state to handle the answers
     const { activeQuiz } = useContext(QuizContext);
-    const [answers, setAnswers] = useState<string[]>(activeQuiz?.questions.map(q => '') || []);
+    const [answers, setAnswers] = useState<string[]>(activeQuiz?.questions.map(() => '') || []);
     const [gradedQuiz, setGradedQuiz] = useState<GradedQuiz>();
 
     // Handle input change

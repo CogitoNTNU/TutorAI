@@ -18,8 +18,8 @@ import { createQuiz } from "../services/QuizService";
 const SideBar: React.FC = () => {
     const { user, setUser } = useContext(UserContext);
     const { activeSets, setActiveSets } = useContext(FlashcardsContext);
-    const { activeCompendium, setActiveCompendium } = useContext(CompendiumContext);
-    const { activeQuiz, setActiveQuiz } = useContext(QuizContext); 
+    const { setActiveCompendium } = useContext(CompendiumContext);
+    const { setActiveQuiz } = useContext(QuizContext); 
 
     const { activeFiles, setActiveFiles } = useContext(FilesContext);
     const [visibleSidebar, setVisibleSidebar] = useState<boolean>(false);
