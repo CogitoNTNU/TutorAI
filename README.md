@@ -196,6 +196,7 @@ There are currently no tests for the frontend.
 
 ## Contributors
 
+
 <table align="center">
   <tr>
     <td>
@@ -256,6 +257,9 @@ There are currently no tests for the frontend.
     </td>
   </tr>
 </table>
+This project would not have been possible without the hard work and dedication of all of the contributors. Thank you for the time and effort you have put into making TutorAI a reality.
+<img src="docs/images/tutorai_team.jpg" width="50%" alt="Cogito Team Image" style="display: block; margin-left: auto; margin-right: auto;">
+
 
 ## License
 
