@@ -106,15 +106,12 @@ def generate_quiz(
             "The start index of the document can not be after then the end index!"
         )
 
-    learning_goals = """Knowledge. The student has knowledge about basic concepts within complex function theory. The student knows about Fourier series and the use of these in the study of partial differential equations. The student knows basic theory of partial differential equations. The student has a solid foundation for further studies of complex analysis and differential equations. The student has knowledge of the requirements for stringency in mathematical analysis.
-Skills. The student has basic technical computational skills that are important in complex analysis and differential equations. The student can understand mathematical reasoning that combines different concepts and results from the course content. The student is able to derive simple results that are based on the academic content of the course."""
-
     # Generate the quiz
     questions: list[QuestionAnswer] = []
 
     pages: list[Page] = get_page_range(document, start, end)
     for page in pages:
-        new_questions = create_question_answer_pair(page.text, [learning_goals])
+        new_questions = create_question_answer_pair(page.text, learning_goals)
         questions.extend(new_questions)
 
     return Quiz(document, start, end, questions)
