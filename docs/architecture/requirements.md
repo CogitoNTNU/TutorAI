@@ -15,69 +15,72 @@ All functional requirements are listed below:
 
 
 ### **Document Upload**
-| ID   | Requirement Description |
-|------|-------------------------|
-| FR1.1| The system must allow users to upload documents in various formats including PDF, DOC, DOCX, PNG, JPG, JPEG, PPM, TIFF, BMP, TXT, PPTX |
-| FR1.2| The system must provide feedback on the status of the upload (e.g., success, failure due to unsupported format). |
-| FR1.3| The system must securely store uploaded documents and associate them with the user's account. And must remove documents when they are no longer in use.|
-| FR1.4| The system must support batch uploading of multiple documents at once. |
-| FR1.5| The system must allow users to upload Panopto recordings. |
-| FR1.6| The system must allow users to upload YouTube. |
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| FR1.1| The system must allow users to upload documents in various formats including PDF, DOC, DOCX, PNG, JPG, JPEG, PPM, TIFF, BMP, TXT, PPTX | High |
+| FR1.2| The system must provide feedback on the status of the upload (e.g., success, failure due to unsupported format). | High |
+| FR1.3| The system must securely store uploaded documents and associate them with the user's account. And must remove documents when they are no longer in use.| High |
+| FR1.4| The system must support batch uploading of multiple documents at once. | Low |
+| FR1.5| The system must allow users to upload Panopto recordings. | Medium |
+| FR1.6| The system must allow users to upload YouTube recordings. | Low |
 
 ### **Information Search**
-| ID   | Requirement Description |
-|------|-------------------------|
-| FR2.1| The system must enable full-text search within all uploaded documents. |
-| FR2.2| The system must return search results containing document excerpts where the search terms appear. |
-| FR2.3| The system must allow filtering of search results by documents selected by the user. |
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| FR2.1| The system must be able to search within all uploaded documents for relevant citations of curriculum based on user query. | High |
+| FR2.2| The system must allow filtering of search results by documents selected by the user. | High |
+
 
 ### **Learning Plans**
-| ID   | Requirement Description |
-|------|-------------------------|
-| FR3.1| The system must allow users to create personalized learning plans. |
-| FR3.2| The system must recommend a learning path based on the content of uploaded documents and the user’s goals. |
-| FR3.3| The system must enable users to modify and save their learning plans persistently. |
-| FR3.4| The system must provide notifications for upcoming deadlines (like dates of Exams or Tests) or recommended study sessions based on the learning plan. |
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| FR3.1| The system must allow users to create personalized learning plans. | Medium |
+| FR3.2| The system must recommend a learning path based on the content of uploaded documents and the user’s goals. | Low |
+| FR3.3| The system must enable users to modify and save their learning plans persistently. | Low |
+| FR3.4| The system must provide notifications for upcoming deadlines (like dates of Exams or Tests) or recommended study sessions based on the learning plan. | Low |
 
 ### **Flashcards and Memory Aids**
-| ID   | Requirement Description |
-|------|-------------------------|
-| FR4.1| The system must allow users to create digital flashcards from content within uploaded documents. |
-| FR4.2| The system must allow users to change the content of flashcards. |
-| FR4.3| The system must allow users to delete flashcards. |
-| FR4.4| The system must allow users to save flashcards persistently |
-| FR4.5| The system must provide an option to export flashcards to external platforms such as Anki and Quizlet. |
-| FR4.6| The system must be able to create memory aids like mnemonics and acronyms. |
-| FR4.7| The system must allow users to create and share flashcard decks with others. |
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| FR4.1| The system must allow users to create digital flashcards from content within uploaded documents. | High |
+| FR4.2| The system must allow users to change the content of flashcards. | Medium |
+| FR4.3| The system must allow users to delete flashcards. | Medium |
+| FR4.4| The system must allow users to save flashcards persistently | High |
+| FR4.5| The system must provide an option to export flashcards to external platforms such as Anki and Quizlet. | High |
+| FR4.6| The system must be able to create memory aids like mnemonics and acronyms. | Medium |
+| FR4.7| The system must allow users to create and share flashcard decks with others. | Low |
+
 
 ### **Quiz Generation**
-| ID   | Requirement Description |
-|------|-------------------------|
-| FR5.1| The system must automatically generate quizzes based on the content in uploaded documents and a page range. |
-| FR5.2| The system must allow users to specify parameters for quiz generation (e.g., number of questions, topics covered, difficulty level). |
-| FR5.3| The system must allow users to save quizzes persistently. |
-| FR5.4| The system must allow users to share quizzes with others. |
-| FR5.5| The system should be able to track the performance of users in quizzes. |
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| FR5.1| The system must automatically generate quizzes based on the content in uploaded documents and a page range. | High |
+| FR5.2| The system must allow users to specify learning goals and generate quizzes based on these goals. | Medium |
+| FR5.3| The system must allow users to save quizzes persistently. | High |
+| FR5.4| The system must allow users to share quizzes with others. | Low |
+| FR5.5| The system should be able to track the performance of users in quizzes. | Low |
 
 ### **Quiz Grading**
-| ID   | Requirement Description |
-|------|-------------------------|
-| FR6.1| The system must automatically grade quizzes. |
-| FR6.2| The system must provide detailed feedback on quiz and test results, including correct answers and explanations for each question. |
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| FR6.1| The system must automatically grade quizzes. | High |
+| FR6.2| The system must provide detailed feedback on quiz and test results, including correct answers and explanations for each question. | High |
 
 ### **Compendium**
-| ID   | Requirement Description |
-|------|-------------------------|
-| FR7.1| The system must create a compendium based on the content of uploaded document in a selected page range. |
-| FR7.2| The system must allow users to access and search this compendium for specific information. |
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| FR7.1| The system must create a compendium based on the content of uploaded document in a selected page range. | High |
+| FR7.2| The system must allow users to access and search this compendium for specific information. | High |
+| FR7.3| The system must allow users to save the compendium persistently. | Medium |
+| FR7.4| The system must allow users to share the compendium with others. | Low |
 
 ### **Study Streaks**
-| ID   | Requirement Description |
-|------|-------------------------|
-| FR8.1| The system must track the daily engagement of users with their learning materials. |
-| FR8.2| The system must display ongoing study streaks and provide motivational feedback. |
-| FR8.3| The system must allow users to set goals for their study streaks. |
-| FR8.4| The system should be able to send notifications to users to remind them to study. |
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| FR8.1| The system must track the daily engagement of users with their learning materials. | Medium |
+| FR8.2| The system must display ongoing study streaks and provide motivational feedback. | Medium |
+| FR8.3| The system must allow users to set goals for their study streaks. | Low |
+| FR8.4| The system should be able to send notifications to users to remind them to study. | Low |
 
 
 ### **User Registration**
