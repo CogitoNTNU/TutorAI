@@ -68,6 +68,15 @@
 | FR8.4| The system should be able to send notifications to users to remind them to study. |
 
 
+### **User Registration**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| FR9.1| The system must allow users to register for an account. | Medium |
+| FR9.2| The system must allow users to log in to their account. | Low |
+| FR9.3| The system must allow users to logout of their account | Low |
+| FR9.4| The system must allow users to reset their password. | Low |
+| FR9.5| The system must allow users to delete their account. | Low |
+
 
 ## Quality Attributes
 
