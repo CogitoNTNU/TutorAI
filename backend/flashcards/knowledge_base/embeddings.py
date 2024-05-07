@@ -4,7 +4,7 @@ from config import Config
 import numpy as np
 
 
-class EmbeddingsInterface(ABC):
+class EmbeddingsModel(ABC):
     @abstractmethod
     def get_embedding(self, text: str) -> list[float]:
         """
@@ -20,7 +20,7 @@ class EmbeddingsInterface(ABC):
         pass
 
 
-class OpenAIEmbedding(EmbeddingsInterface):
+class OpenAIEmbedding(EmbeddingsModel):
     def __init__(self, model_name: str = "text-embedding-ada-002"):
         api_key = Config().API_KEY
         self.client = openai.Client(api_key=api_key)

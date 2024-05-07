@@ -1,14 +1,14 @@
 """ Retrieval Augmented Generation Service """
 
 from flashcards.learning_resources import Page
-from flashcards.knowledge_base.db_interface import DatabaseInterface
-from flashcards.knowledge_base.embeddings import EmbeddingsInterface
+from flashcards.knowledge_base.db_interface import Database
+from flashcards.knowledge_base.embeddings import EmbeddingsModel
 from flashcards.knowledge_base.factory import create_database
 from flashcards.knowledge_base.factory import create_embeddings_model
 
 
-db: DatabaseInterface = create_database()
-embeddings: EmbeddingsInterface = create_embeddings_model()
+db: Database = create_database()
+embeddings: EmbeddingsModel = create_embeddings_model()
 
 
 def get_context(pdf_name: str, query: str) -> list[Page]:

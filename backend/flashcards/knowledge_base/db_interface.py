@@ -5,7 +5,7 @@ from pymongo import MongoClient
 from flashcards.learning_resources import Page
 
 
-class DatabaseInterface(ABC):
+class Database(ABC):
     """
     Abstract class for Connecting to a Database
     """
@@ -69,7 +69,7 @@ class DatabaseInterface(ABC):
         pass
 
 
-class MongoDB(DatabaseInterface):
+class MongoDB(Database):
     def __init__(self):
         self.client = MongoClient(Config().MONGODB_URI)
         self.db = self.client["test-curriculum-database"]
