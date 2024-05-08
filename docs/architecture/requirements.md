@@ -1,4 +1,5 @@
 # Architectural Drivers / Architectural Significant Requirements
+This document outlines the architectural drivers and significant requirements for the TutorAI system. It includes both functional and non-functional (quality) requirements that define the system's behavior, performance, and operational characteristics. The goal is to ensure that TutorAI meets the needs of its users and [Stakeholders](stakeholders.md) while maintaining a high standard of quality.
 
 ## Functional Requirements
 *Functional requirements define the specific behaviors, actions, and functionalities that the TutorAI system must provide to its users. They describe what the system will do under various conditions, detail the operations and activities the system must be capable of performing, and outline the explicit services it should deliver.*
@@ -6,13 +7,11 @@
 The functional requirements are divided into three different priorities: 
 | Priority | Description |
 |----------|-------------|
-| High     | These requirements are essential for the system to function properly, without these there will be a significant impact on the system's ability to give an enjoyable experience. |
+| High     | These requirements are essential for the system to function properly; without these, there will be a significant impact on the system's ability to provide an enjoyable experience. |
 | Medium   | These requirements are important but not critical for the system to function properly. |
 | Low      | These requirements are nice-to-have features that would enhance the system but are not essential for its core functionality. |
 
 All functional requirements are listed below:
-
-
 
 ### **Document Upload**
 | ID   | Requirement Description | Priority |
