@@ -150,3 +150,6 @@ All functional requirements are listed below:
 | S6 | The system must perform regular security audits and vulnerability assessments. | Low |
 
 ## Business Requirements
+*Business requirements are the high-level needs of the business that the system must meet to fulfill its purpose. They define the system's strategic goals, objectives, and constraints that guide the system's development and operation.*
+
+The Business Requirements for TutorAI are not yet defined. They will be added once they are finalized.
