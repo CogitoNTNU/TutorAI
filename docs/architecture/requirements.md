@@ -94,5 +94,60 @@ All functional requirements are listed below:
 
 
 ## Quality Attributes
+*Quality attributes are the system's non-functional requirements that specify the system's operational characteristics. They define the system's behavior, performance, and other qualities that are not directly related to the system's functionality.*
+
+### **Usability**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| U1 | The system must have an intuitive interface that allows users to understand essential functions within 30 seconds. | High |
+| U2 | The system must provide feedback on the status of the upload (e.g., success, failure due to unsupported format). | High |
+| U3 | 	The system must comply with WCAG 2.1 Level AA guidelines to ensure accessibility for users with disabilities. | Medium |
+
+### **Performance**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| P1 | The system must support up to 1,000 concurrent users with RAG search response times not exceeding 5 seconds. | High |
+| P2 | The system must flexibly scale to accommodate increased demand, especially during peak periods like Exams. | High |
+| P3 | The system must be able to upload any document in less then 5 minutes | High |
+| P4 | The system must be able to generate quizzes in less than 30 seconds | High |
+| P5 | The system must be able to grade quizzes in less than 10 seconds | High |
+| P6 | The system must be able to generate flashcards of 10 pages in less than 30 seconds | High |
+| P7 | The system must be able to generate a compendium of 10 pages in less than 60 seconds | High |
+
+### **Deployment**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| D1 | The system must enable straightforward deployment processes for updates and new features that introduce zero downtime or defects. | High |
+| D2 | The system must support automated deployment to streamline the release process. | Medium |
+
+### **Availability**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| A1 | System uptime must be 99%, with capabilities to handle critical operations around the clock. | Medium |
+| A2 | The system must be able to recover from failures within 15 minutes. | Low |
+| A3 | The system must have redundant failover mechanisms to ensure continuity during outages. | Low |
+
+### **Testability**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| T1 | The system must be designed to allow efficient testing of new features and updates to ensure functionality without extensive manual intervention. | High |
+| T2 | The system must have a test suite that covers all essential features | High |
+| T3 | The system must be able to mock external services for testing | Medium |
+
+### **Modifiability**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| M1 | The system must be designed to allow for easy modification and extension of features without significant rework or refactoring. | High |
+| M2 | The system must be able to change COTS (Commercial Off-The-Shelf) components with only local changes.| High |
+
+### **Security**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| S1 | The system must be secure to protect the user's data and financial information. | High |
+| S2 | The system must be able to detect and prevent unauthorized access to the system. | High |
+| S3 | The system must be able to restore user generated data in case of a security breach | low |
+| S4 | The system must comply with GDPR and other relevant data protection regulations. | High |
+| S5 | The system must encrypt all sensitive user data at rest and in transit. | High |
+| S6 | The system must perform regular security audits and vulnerability assessments. | Low |
 
 ## Business Requirements
