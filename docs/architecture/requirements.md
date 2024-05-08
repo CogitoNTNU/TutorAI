@@ -153,3 +153,33 @@ All functional requirements are listed below:
 *Business requirements are the high-level needs of the business that the system must meet to fulfill its purpose. They define the system's strategic goals, objectives, and constraints that guide the system's development and operation.*
 
 The Business Requirements for TutorAI are not yet defined. They will be added once they are finalized.
+### **Market Penetration and User Base**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+
+
+### **Revenue Generation**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+
+### **Partnerships and Integrations**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+
+### **User Engagement and Retention**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+
+### **Customer Satisfaction**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+
+### **Compliance and Standards**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+
+
+### **Cost Management**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+
