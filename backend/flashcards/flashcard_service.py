@@ -8,7 +8,11 @@ from flashcards.knowledge_base.response_formulation import (
     grade_question_answer_pair,
     response_formulation,
 )
-from flashcards.rag_service import get_context, get_page_range, post_context
+from flashcards.knowledge_base.rag_service import (
+    get_context,
+    get_page_range,
+    post_context,
+)
 from flashcards.text_to_flashcards import generate_flashcards, OpenAIFlashcardGenerator
 from flashcards.text_scraper.text_extractor import TextExtractor
 from flashcards.learning_resources import (
