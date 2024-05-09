@@ -7,7 +7,7 @@ import pytesseract
 import pypdfium2 as pdfium
 from pypdfium2 import PdfPage
 
-import flashcards.text_scraper.pipeline as piper
+from flashcards.text_scraper.pipeline import create_pipeline, Pipeline
 
 
 class OCR:
@@ -21,17 +21,11 @@ class OCR:
         preprocesses the image without changing it's size or shape,
         returns the preprocessed image
 
-        args:
-            none
         returns:
             Image: the preprocessed image
         """
-        chosen_pipeline = self.find_preprocessing_pipeline(self.image)
-        pipeline: piper.Pipeline = piper.PipelineFactory(self.image).create_pipeline(
-            chosen_pipeline
-        )
-        pipeline.apply_filters()
-        return pipeline.get_image()
+        pipeline: Pipeline = create_pipeline(self.image)
+        return pipeline.apply_filters()
 
     def make_pdf_into_image_list(self, file: InMemoryUploadedFile) -> list[Image.Image]:
         """
@@ -42,7 +36,7 @@ class OCR:
         Returns:
             List of image names for the given files' pages
         """
-        
+
         pdf = pdfium.PdfDocument(file)
 
         n_pages = len(pdf)
@@ -70,22 +64,6 @@ class OCR:
             image = Image.open(file)
             images.append(image)
         return images
-    
-        
-
-
-
-    def find_preprocessing_pipeline(self, image):
-        """
-        Finds the preprocessing pipeline for the image
-        """
-        """
-        TODO: Implement this function. For now, least viable product 
-        """
-        return 1
-    
-    
-    
 
     def ocr_images(self, file: InMemoryUploadedFile):
         """

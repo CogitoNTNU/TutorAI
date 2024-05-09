@@ -1,6 +1,7 @@
 import PIL.Image as Image
 
 from flashcards.text_scraper.image_filter import (
+    Filter,
     remove_borders,
     deskew,
     add_borders,
@@ -15,51 +16,54 @@ class Pipeline:
     The pipeline class is responsible for applying a series of filters to an image
     """
 
-    def __init__(self, image, filters):
-        self.image: Image = image
+    def __init__(self, filters: list[Filter]):
         self.filters = filters
 
-    def apply_filters(self):
+    def apply_filters(self, image: Image) -> Image:
         """
-        Method that applies all the filters in the pipeline to the image
+        Applies all filters in the pipeline to the image
         """
-
         for filter in self.filters:
-            self.image = filter(self.image)
-
-    def get_image(self) -> Image:
-        return self.image
+            image = filter(image)
+        return image
 
 
-class PipelineFactory:
-    def __init__(self, image):
-        self.image = image
+def create_pipeline(image: Image) -> Pipeline:
+    """
+    Creates a pipeline for the given image
 
-    def create_pipeline(self, pipeline_type) -> Pipeline:
-        """creates pipeline based on what type of pipeline is requested
+    Args:
+        image: the image to create the pipeline for
 
-        Args:
-            pipeline_type (_type_): per now only 1, 2, 3 are valid
+    Returns:
+        Pipeline: the pipeline object
+    """
+    pipeline_type = _determine_pipeline_type(image)
 
-        Returns:
-            _type_: a pipeline object
-        """
-        filters = []
-        match pipeline_type:
-            case 1:
-                filters.append(remove_noise())
-                filters.append(binarize())
-                filters.append(add_borders())
-                filters.append(deskew())
-                filters.append(remove_borders())
-            case 2:
-                filters.append(remove_noise())
-                filters.append(deskew())
-            case 3:
-                filters.append(grayscale())
-                filters.append(remove_borders())
+    filters = []
+    match pipeline_type:
+        case 1:
+            filters.append(remove_noise())
+            filters.append(binarize())
+            filters.append(add_borders())
+            filters.append(deskew())
+            filters.append(remove_borders())
+        case 2:
+            filters.append(remove_noise())
+            filters.append(deskew())
+        case 3:
+            filters.append(grayscale())
+            filters.append(remove_borders())
 
-            case _:
-                print("Invalid pipeline type")
+        case _:
+            print("Invalid pipeline type")
 
-        return Pipeline(self.image, filters)
+    return Pipeline(filters)
+
+
+def _determine_pipeline_type(image: Image) -> int:
+    """
+    Determines the pipeline type based on the image
+    """
+    # TODO: Implement this function
+    return 1
