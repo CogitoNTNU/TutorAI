@@ -29,7 +29,7 @@ class Invert_image(Filter):
         return cv2.bitwise_not(image)
 
 
-class Grayscale(Filter):
+class grayscale(Filter):
     """Grayscale the image, callable
 
     Args:
@@ -42,7 +42,7 @@ class Grayscale(Filter):
         return cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 
-class Binarize(Filter):
+class binarize(Filter):
     """Binarize the image, callable
 
     Args:
@@ -53,7 +53,7 @@ class Binarize(Filter):
 
     def __call__(self, image):
         try:  # if the image is already grayscale, this will throw an error
-            filter: Filter = Grayscale()
+            filter: Filter = grayscale()
             image = filter(image)
         except:
             pass
@@ -64,7 +64,7 @@ class Binarize(Filter):
         return im_bw
 
 
-class Remove_noise(Filter):
+class remove_noise(Filter):
     """Remove noice from the image, callable
 
     Args:
@@ -117,7 +117,7 @@ class Thick_font(Filter):
         return image
 
 
-class Remove_borders(Filter):
+class remove_borders(Filter):
     """Remove borders, callable
 
     Args:
@@ -137,7 +137,7 @@ class Remove_borders(Filter):
         return crop
 
 
-class Add_borders(Filter):
+class add_borders(Filter):
     """add boarders, callable
 
     Args:
@@ -155,7 +155,7 @@ class Add_borders(Filter):
         return image_with_border
 
 
-class Deskew(Filter):
+class deskew(Filter):
     """rotates the image in necessary, callable
 
     Args:
@@ -258,16 +258,3 @@ class Display(Filter):
         ax.imshow(im_data, cmap="gray")
 
         plt.show()
-
-
-if __name__ == "__main__":
-    image_file = "TutorAI/backend/flashcards/text_scraper/assets/page_01_rotated.jpg"
-    image = cv2.imread(image_file)
-
-    filter = Deskew()
-    image = filter(image)
-
-    filter = Invert_image()
-    image = filter(image)
-
-    Display()(image)

@@ -1,5 +1,13 @@
-import flashcards.text_scraper.image_filter as imF
 import PIL.Image as Image
+
+from flashcards.text_scraper.image_filter import (
+    remove_borders,
+    deskew,
+    add_borders,
+    remove_noise,
+    binarize,
+    grayscale,
+)
 
 
 class Pipeline:
@@ -39,17 +47,17 @@ class PipelineFactory:
         filters = []
         match pipeline_type:
             case 1:
-                filters.append(imF.Remove_noise())
-                filters.append(imF.Binarize())
-                filters.append(imF.Add_borders())
-                filters.append(imF.Deskew())
-                filters.append(imF.Remove_borders())
+                filters.append(remove_noise())
+                filters.append(binarize())
+                filters.append(add_borders())
+                filters.append(deskew())
+                filters.append(remove_borders())
             case 2:
-                filters.append(imF.Remove_noise())
-                filters.append(imF.Deskew())
+                filters.append(remove_noise())
+                filters.append(deskew())
             case 3:
-                filters.append(imF.Grayscale())
-                filters.append(imF.Remove_borders())
+                filters.append(grayscale())
+                filters.append(remove_borders())
 
             case _:
                 print("Invalid pipeline type")
