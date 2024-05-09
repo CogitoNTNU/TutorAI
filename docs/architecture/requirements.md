@@ -22,12 +22,17 @@ All functional requirements are listed below:
 | FR1.4| The system must support batch uploading of multiple documents at once. | Low |
 | FR1.5| The system must allow users to upload Panopto recordings. | Medium |
 | FR1.6| The system must allow users to upload YouTube recordings. | Low |
+| FR1.7| The system must allow users to upload locally if they want to. | Low |
 
 ### **Information Search**
 | ID   | Requirement Description | Priority |
 |------|-------------------------|----------|
 | FR2.1| The system must be able to search within all uploaded documents for relevant citations of curriculum based on user query. | High |
 | FR2.2| The system must allow filtering of search results by documents selected by the user. | High |
+| FR2.3| The system must handle queries specifically for citations. | Medium |
+| FR2.4| The system must handle queries in different languages. | Medium |
+| FR2.5| The system must be able to retrieve and display images from the the uploaded file. | Low |
+
 
 
 ### **Learning Plans**
@@ -101,13 +106,14 @@ All functional requirements are listed below:
 | U1 | The system must have an intuitive interface that allows users to understand essential functions within 30 seconds. | High |
 | U2 | The system must provide feedback on the status of the upload (e.g., success, failure due to unsupported format). | High |
 | U3 | 	The system must comply with WCAG 2.1 Level AA guidelines to ensure accessibility for users with disabilities. | Medium |
+| U4 | 	Instruction manual will be accessible, so that a user may ask the chat function about how to use it. | Low |
 
 ### **Performance**
 | ID   | Requirement Description | Priority |
 |------|-------------------------|----------|
 | P1 | The system must support up to 1,000 concurrent users with RAG search response times not exceeding 5 seconds. | High |
 | P2 | The system must flexibly scale to accommodate increased demand, especially during peak periods like Exams. | High |
-| P3 | The system must be able to upload any document in less then 5 minutes | High |
+| P3 | The system must be able to upload any document of reasonable lenght in less then 5 minutes | High |
 | P4 | The system must be able to generate quizzes in less than 30 seconds | High |
 | P5 | The system must be able to grade quizzes in less than 10 seconds | High |
 | P6 | The system must be able to generate flashcards of 10 pages in less than 30 seconds | High |
@@ -138,6 +144,7 @@ All functional requirements are listed below:
 |------|-------------------------|----------|
 | M1 | The system must be designed to allow for easy modification and extension of features without significant rework or refactoring. | High |
 | M2 | The system must be able to change COTS (Commercial Off-The-Shelf) components with only local changes.| High |
+| M3 | The system must be able to get new functionalities without much refactoring of existant code.| High |
 
 ### **Security**
 | ID   | Requirement Description | Priority |
@@ -145,9 +152,8 @@ All functional requirements are listed below:
 | S1 | The system must be secure to protect the user's data and financial information. | High |
 | S2 | The system must be able to detect and prevent unauthorized access to the system. | High |
 | S3 | The system must be able to restore user generated data in case of a security breach | low |
-| S4 | The system must comply with GDPR and other relevant data protection regulations. | High |
-| S5 | The system must encrypt all sensitive user data at rest and in transit. | High |
-| S6 | The system must perform regular security audits and vulnerability assessments. | Low |
+| S4 | The system must encrypt all sensitive user data at rest and in transit. | High |
+| S5 | The system must perform regular security audits and vulnerability assessments. | Low |
 
 ## Business Requirements
 *Business requirements are the high-level needs of the business that the system must meet to fulfill its purpose. They define the system's strategic goals, objectives, and constraints that guide the system's development and operation.*
@@ -156,6 +162,7 @@ The Business Requirements for TutorAI are not yet defined. They will be added on
 ### **Market Penetration and User Base**
 | ID   | Requirement Description | Priority |
 |------|-------------------------|----------|
+| B1.1 | The system should have different platforms for different markets. | Medium |
 
 
 ### **Revenue Generation**
@@ -177,7 +184,8 @@ The Business Requirements for TutorAI are not yet defined. They will be added on
 ### **Compliance and Standards**
 | ID   | Requirement Description | Priority |
 |------|-------------------------|----------|
-
+| BR6.1| The system must comply with GDPR and other relevant data protection regulations. | High |
+| BR6.2| The system must compy with copyright laws | High | 
 
 ### **Cost Management**
 | ID   | Requirement Description | Priority |
