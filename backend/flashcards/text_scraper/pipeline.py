@@ -1,5 +1,4 @@
 import flashcards.text_scraper.image_filter as imF
-import cv2
 import PIL.Image as Image
 
 
@@ -56,12 +55,3 @@ class PipelineFactory:
                 print("Invalid pipeline type")
 
         return Pipeline(self.image, filters)
-
-
-if __name__ == "__main__":
-    image_file = "TutorAI/backend/flashcards/text_scraper/assets/page_01_rotated.jpg"
-    image = cv2.imread(image_file)
-    pipeline: Pipeline = PipelineFactory(image).create_pipeline(1)
-    pipeline.apply_filters()
-
-    imF.Display()(pipeline.get_image())
