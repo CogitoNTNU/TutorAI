@@ -50,6 +50,6 @@ docker compose run tutorai python manage.py test
 To run Django migrations, you can use the following command:
 
 ```bash
-docker compose run tutorai python manage.py makemigration
+docker compose run tutorai python manage.py makemigrations
 docker compose run tutorai python manage.py migrate
 ```
