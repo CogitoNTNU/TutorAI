@@ -1,0 +1,63 @@
+@startuml
+
+!define RECTANGLE class
+skinparam rectangle {
+    BackgroundColor #F3F3F3
+    BorderColor black
+    Shadowing false
+}
+skinparam component {
+    BackgroundColor #DDDDDD
+    BorderColor black
+    Shadowing false
+}
+
+rectangle "Client Devices" as clientDevices {
+    node "Web Browser" as web {
+        component "TutorAI Web Application" as webApp
+    }
+}
+
+cloud "Cloud Infrastructure" as cloud {
+    node "Load Balancer" as loadBalancer
+
+    rectangle "<device> Application Servers [Multiple Instances]" as webServers {
+        component "Docker Engine" as dockerEngine
+
+        rectangle "<exectionEnvironment> Docker" as backend {
+            interface entryPoint 
+            node "Web Server" as webServer {
+                component "TutorAI Backend" as djangoApp
+                file "<deployment spec> .env" as envVars
+            }
+
+        }
+    }
+    
+    
+    node "Database Server" as dbServer {
+        database "(SQL) UserData Database" as UserDate
+        database "(NoSQL) Document Database" as DocumentData
+        database "(SQL) Learning resources Database" as learningResources
+    }
+}
+
+webApp --> loadBalancer : REST API / HTTPS
+
+loadBalancer --> webServers : HTTPS
+entryPoint -- djangoApp : REST API / HTTPS
+djangoApp --> envVars
+webServer --> dbServer : HTTPS / LAN
+
+
+note left of envVars
+    Environment Variables
+    are used to store
+    sensitive information
+    such as API keys
+    and database passwords
+end note
+
+
+
+@enduml
