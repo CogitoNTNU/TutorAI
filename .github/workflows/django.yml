@@ -21,6 +21,6 @@ jobs:
           docker compose build backend
           docker compose run backend python manage.py makemigrations
           docker compose run backend python manage.py migrate
-          docker compose up -d
           docker compose run backend python manage.py test
+          docker compose up -d backend
           docker compose down
