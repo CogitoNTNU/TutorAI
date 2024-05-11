@@ -59,8 +59,14 @@ def post_curriculum(request):
             # TODO: Handle failure case of store_curriculum
             if not wasUploaded:
                 print(f"[ERROR] Failed to upload file: {file}", flush=True)
+                return Response(
+                    {"error": f"Failed to upload file: {file.name}"},
+                    status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                )
 
-        return Response(status=status.HTTP_200_OK)
+        return Response(
+            {"message": "Files processed successfully"}, status=status.HTTP_200_OK
+        )
     else:
         print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
