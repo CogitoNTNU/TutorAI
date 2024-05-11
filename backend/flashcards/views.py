@@ -60,10 +60,10 @@ def post_curriculum(request):
             if not wasUploaded:
                 print(f"[ERROR] Failed to upload file: {file}", flush=True)
 
-        return Response(status=200)
+        return Response(status=status.HTTP_200_OK)
     else:
         print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(
@@ -112,10 +112,10 @@ def create_flashcards(request):
             "flashcards": flashcard_dicts,
             "exportable_flashcards": exportable_flashcard,
         }
-        return Response(data=response, status=200)
+        return Response(data=response, status=status.HTTP_200_OK)
 
     else:
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(
@@ -160,11 +160,11 @@ def create_rag_response(request):
             document_names, user_question, chat_history
         )
         response = rag_answer.to_dict()
-        return Response(response, status=200)
+        return Response(response, status=status.HTTP_200_OK)
 
     else:
         print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(
@@ -199,10 +199,10 @@ def create_quiz(request):
         end = serializer.validated_data.get("end")
         quiz = generate_quiz(document, start, end)
         response = quiz.to_dict()
-        return Response(response, status=200)
+        return Response(response, status=status.HTTP_200_OK)
     else:
         print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
-        return Response(status=400)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(
@@ -236,10 +236,10 @@ def grade_quiz_answer(request):
         # Grade the answers
         graded_answer = grade_quiz(questions, correct_answers, student_answers)
         response = graded_answer.to_dict()
-        return Response(response, status=200)
+        return Response(response, status=status.HTTP_200_OK)
     else:
         print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @swagger_auto_schema(
@@ -275,7 +275,7 @@ def create_compendium(request):
         # Generate the compendium
         compendium = generate_compendium(document, start, end)
         response = compendium.to_dict()
-        return Response(response, status=200)
+        return Response(response, status=status.HTTP_200_OK)
     else:
         print(f"[ERROR] Invalid request: {serializer.errors}", flush=True)
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
