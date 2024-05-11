@@ -20,6 +20,7 @@
   - [Quick Start](#quick-start)
     - [Prerequisites](#prerequisites)
     - [Clone the repository](#clone-the-repository)
+    - [Configuration](#configuration)
     - [Usage](#usage)
   - [📖 Documentations](#-documentations)
   - [Contributors](#contributors)
@@ -54,6 +55,21 @@ TutorAI offers a comprehensive set of features to enhance the learning experienc
 git clone https://github.com/CogitoNTNU/TutorAI.git
 cd TutorAI
 ```
+
+### Configuration
+Create a `.env` file in the root directory of the project and add the following environment variables:
+
+```bash
+OPENAI_API_KEY = 'your_openai_api_key'
+MONGODB_URI = 'your_secret_key'
+```
+
+Optionally, you can add the following environment variables to customize the project:
+
+```bash
+GPT_MODEL = 'gpt-3.5-turbo' # OpenAI model to use
+```
+
 
 ### Usage
 To start TutorAI, run the following command in the root directory of the project:
