@@ -96,6 +96,11 @@ All functional requirements are listed below:
 | FR9.4| The system must allow users to reset their password. | Low |
 | FR9.5| The system must allow users to delete their account. | Low |
 
+### **Reading**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| FR10.1| The system must allow users to read the documents they have uploaded. | Medium |
+
 
 ## Quality Attributes
 *Quality attributes are the system's non-functional requirements that specify the system's operational characteristics. They define the system's behavior, performance, and other qualities that are not directly related to the system's functionality.*

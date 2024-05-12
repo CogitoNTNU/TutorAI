@@ -1,13 +1,13 @@
 version: '3.8'
 
 services:
-  tutorai:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+  backend:
+    build:
+      context: ./backend
+    container_name: backend 
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - ./backend:/code
     ports:
       - "8000:8000"
     depends_on:
@@ -22,6 +22,14 @@ services:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - MONGODB_URI=${MONGODB_URI}
 
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
   db:
     image: postgres:13
     volumes:

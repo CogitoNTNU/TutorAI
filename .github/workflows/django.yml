@@ -18,10 +18,9 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
-          cd backend
-          docker compose build
-          docker compose run tutorai python manage.py makemigrations
-          docker compose run tutorai python manage.py migrate
-          docker compose up -d
-          docker compose run tutorai python manage.py test
+          docker compose build backend
+          docker compose run backend python manage.py makemigrations
+          docker compose run backend python manage.py migrate
+          docker compose run backend python manage.py test
+          docker compose up -d backend
           docker compose down
