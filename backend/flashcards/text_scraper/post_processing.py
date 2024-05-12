@@ -19,6 +19,8 @@ class PostProcessor:
         for index, page in enumerate(pages):
             prev_sentence = self.get_last_sentence_in_previous_page(index, pages)
             next_sentence = self.get_first_sentence_in_next_page(index, pages)
+            
+            # TODO: Add functionality here to guess the page number of current page
             post_processed_pages.append(
                 self._extract_paragraphs(page, prev_sentence, next_sentence)
             )

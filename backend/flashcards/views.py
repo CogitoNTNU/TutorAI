@@ -116,6 +116,10 @@ def create_rag_response(request):
 
         #TEMPORARY FIX
         # document_names.append("Demonstrasjon.pdf")
+        document_names.append("Computer.Networking A Top-Down Approach 6th Edition.pdf")
+        document_names.append("Book - Clean Architecture - Robert Cecil Martin.pdf")
+        document_names.append("Len Bass_ Paul Clements_ Rick Kazman - Software Architecture in Practice, 4th Edition-Addison-Wesley Professional (2021).pdf")
+        document_names.append("Compiler.pdf")
         #TEMPORARY FIX
 
         chat_history = serializer.validated_data.get("chat_history", [])
