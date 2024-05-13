@@ -57,3 +57,61 @@ class OpenAI(TextGenerator):
         )
         result = response.choices[0].message.content
         return result
+
+
+class NorwAI(TextGenerator):
+
+    def generate_response(
+        self, role: str, message: str, history: list[Chat] = []
+    ) -> str:
+        return "No response available"
+
+
+class Gemini(TextGenerator):
+
+    def generate_response(
+        self, role: str, message: str, history: list[Chat] = []
+    ) -> str:
+        return "No response available"
+
+
+class Grok(TextGenerator):
+
+    def generate_response(
+        self, role: str, message: str, history: list[Chat] = []
+    ) -> str:
+        return "No response available"
+
+
+class Claude(TextGenerator):
+
+    def generate_response(
+        self, role: str, message: str, history: list[Chat] = []
+    ) -> str:
+        return "No response available"
+
+
+class LLama(TextGenerator):
+
+    def generate_response(
+        self, role: str, message: str, history: list[Chat] = []
+    ) -> str:
+        return "No response available"
+
+
+def create_text_generator(text_generator: str = "openai") -> TextGenerator:
+    match text_generator.lower():
+        case "openai":
+            return OpenAI()
+        case "norwai":
+            return NorwAI()
+        case "gemini":
+            return Gemini()
+        case "grok":
+            return Grok()
+        case "claude":
+            return Claude()
+        case "llama":
+            return LLama()
+        case _:
+            raise ValueError(f"Text generator {text_generator} not supported")
