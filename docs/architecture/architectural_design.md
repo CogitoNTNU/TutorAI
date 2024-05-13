@@ -6,6 +6,11 @@ See [Quality Attribute Scenarios](quality_attribute_scenarios.md)
 ## Architectural Drivers / Architecturally Significant Requirements (ASRs) 
 See [Architectural Drivers](requirements.md)
 
+## Components
+
+The TutorAI uses the following COTS components:
+[COTS Components](cots.md)
+
 ## Stakeholders and Concerns
 See [Stakeholders and Concerns](stakeholders.md)
 

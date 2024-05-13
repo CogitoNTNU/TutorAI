@@ -85,8 +85,8 @@ To access the backend, navigate to `http://localhost:8000` in your browser.
 ## 📖 Documentations
 
 - [Developer Setup Guild](docs/manuals/setup)
+- [Testing](docs/manuals/testing.md)
 - [Architecture](docs/architecture/architectural_design.md)
-- [Testing](docs/testing.md)
 
 ## Contributors
 
