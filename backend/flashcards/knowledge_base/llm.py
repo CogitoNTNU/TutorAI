@@ -31,7 +31,7 @@ class TextGenerator(ABC):
         pass
 
 
-class OpenAITextGenerator(TextGenerator):
+class OpenAI(TextGenerator):
     """
     A class to generate text using the OpenAI API.
     This is a payment-based API so it requires an API key to use.
