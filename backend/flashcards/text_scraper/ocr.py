@@ -41,10 +41,12 @@ class OCR:
 
         n_pages = len(pdf)
         pages_as_images = []
+        resolution = 300
+        canvas_unit = 72
         for page_number in range(n_pages):
             page: PdfPage = pdf.get_page(page_number)
             pil_image = page.render(
-                scale=300 / 72
+                scale=resolution / canvas_unit 
             ).to_pil()  # Probably possible to optimize this.
             image_name = f"page_{page_number}"
             image_name = f"{image_name}.jpg"
