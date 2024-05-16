@@ -153,7 +153,7 @@ This project would not have been possible without the hard work and dedication o
 
 <div align="center">
     <img src="docs/images/tutorai_team.jpg" width="50%" alt="Cogito Team Image" style="display: block; margin-left: auto; margin-right: auto;">
-</div
+</div>
 
 
 
