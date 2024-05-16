@@ -1,12 +1,10 @@
-from multiprocessing import pool
 import pytesseract
-from PIL import Image
+from PIL.Image import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from flashcards.learning_resources import Page
-import pytesseract
 import pypdfium2 as pdfium
 from pypdfium2 import PdfPage
 
+from flashcards.learning_resources import Page
 from flashcards.text_scraper.pipeline import create_pipeline, Pipeline
 
 
@@ -16,7 +14,7 @@ class OCR:
         self.image = None
         self.page_data: list[Page] = []
 
-    def preprocess(self):
+    def _preprocess(self, image: Image) -> Image:
         """
         preprocesses the image without changing it's size or shape,
         returns the preprocessed image
@@ -24,10 +22,10 @@ class OCR:
         returns:
             Image: the preprocessed image
         """
-        pipeline: Pipeline = create_pipeline(self.image)
-        return pipeline.apply_filters()
+        pipeline: Pipeline = create_pipeline(image)
+        return pipeline.apply_filters(image)
 
-    def make_pdf_into_image_list(self, file: InMemoryUploadedFile) -> list[Image.Image]:
+    def make_pdf_into_image_list(self, file: InMemoryUploadedFile) -> list[Image]:
         """
         Converts a file into an image. The file can be in any format that can be converted into an image.
 
@@ -46,7 +44,7 @@ class OCR:
         for page_number in range(n_pages):
             page: PdfPage = pdf.get_page(page_number)
             pil_image = page.render(
-                scale=resolution / canvas_unit 
+                scale=resolution / canvas_unit
             ).to_pil()  # Probably possible to optimize this.
             image_name = f"page_{page_number}"
             image_name = f"{image_name}.jpg"
@@ -54,7 +52,7 @@ class OCR:
             pages_as_images.append(pil_image)
         return pages_as_images
 
-    def make_pillow_image(self, file: InMemoryUploadedFile) -> list[Image.Image]:
+    def make_pillow_image(self, file: InMemoryUploadedFile) -> list[Image]:
         """
         Converts a file into an image. The file can be in any format that can be converted into an image.
 
@@ -72,11 +70,14 @@ class OCR:
         take in pdf file, and calls a function that creates a list of images from the pdf file, then uses OCR to extract text from the images
         params: file: InMemoryUploadedFile
         """
+        # Prepare images
+        images: list[Image] = []
         if file.name.endswith(".pdf"):
-            images: list[Image.Image] = self.make_pdf_into_image_list(file)
+            images = self.make_pdf_into_image_list(file)
         else:
-            images: list[Image.Image] = self.make_pillow_image(file)
-        print("number of images: ", len(images), flush=True)
+            images = self.make_pillow_image(file)
+
+        # Retrieve text from images
         for index, image in enumerate(images):
             # TODO: self.preprocess()
             print("OCR-ing image-------------------------------------")
