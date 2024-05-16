@@ -6,7 +6,7 @@ const FileUploadService = async (file: File): Promise<Response> => {
   formData.append("curriculum", file);
 
   const response = await axios
-    .post(apiRoutes.fileupload, formData)
+    .post(apiRoutes.fileUpload, formData)
     .then((res) => {
       return res;
     })

@@ -1,14 +1,13 @@
 const baseAPIUrl: string = "http://localhost:8000/api";
 
 const apiRoutes = {
-  createFlashcards: `${baseAPIUrl}/create-flashcards/`,
+  createFlashcards: `${baseAPIUrl}/flashcards/create/`,
   login: `${baseAPIUrl}/login/`,
   signup: `${baseAPIUrl}/create-user/`,
   search: `${baseAPIUrl}/search/`,
-  fileupload: `${baseAPIUrl}/store-curriculum/`,
-  quiz: `${baseAPIUrl}/quiz/`,
-  gradeQuizAnswer: `${baseAPIUrl}/graded-quiz/`,
-  fileUpload: `${baseAPIUrl}/store-curriculum/`,
+  quiz: `${baseAPIUrl}/quiz/create/`,
+  gradeQuizAnswer: `${baseAPIUrl}/quiz/grade/`,
+  fileUpload: `${baseAPIUrl}/curriculum/`,
   createCompendium: `${baseAPIUrl}/compendium/`,
 };
 

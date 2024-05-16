@@ -1,24 +1,27 @@
 from django.urls import path
-
-
 from .views import health_check
 from flashcards.views import (
-    create_compendium,
-    create_flashcards,
-    create_quiz,
-    grade_quiz_answer,
-    create_rag_response,
-    post_curriculum,
+    CurriculumUploadView,
+    # post_curriculum,
+    FlashcardCreationView,
+    RAGResponseView,
+    QuizCreationView,
+    QuizGradingView,
+    CompendiumCreationView,
 )
 
+
 urlpatterns = [
-    # path("create-user/", register_user, name="create-user"),
-    # path("login/", login, name="login"),
-    path("health-check/", health_check, name="Health_check"),
-    path("store-curriculum/", post_curriculum, name="store-curriculum"),
-    path("create-flashcards/", create_flashcards, name="create-flashcards"),
-    path("search/", create_rag_response, name="create-rag-response"),
-    path("quiz/", create_quiz, name="create-quiz"),
-    path("graded-quiz/", grade_quiz_answer, name="create-graded-quiz"),
-    path("compendium/", create_compendium, name="create-compendium"),
+    path("health-check/", health_check, name="health-check"),
+    path("curriculum/", CurriculumUploadView.as_view(), name="store-curriculum"),
+    #    path("curriculum/", CurriculumUploadView.as_view(), name="store-curriculum"),
+    path(
+        "flashcards/create/", FlashcardCreationView.as_view(), name="create-flashcards"
+    ),
+    path("search/", RAGResponseView.as_view(), name="create-rag-response"),
+    path("quiz/create/", QuizCreationView.as_view(), name="create-quiz"),
+    path("quiz/grade/", QuizGradingView.as_view(), name="grade-quiz"),
+    path(
+        "compendium/create/", CompendiumCreationView.as_view(), name="create-compendium"
+    ),
 ]
