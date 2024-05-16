@@ -14,7 +14,6 @@ from flashcards.views import (
 urlpatterns = [
     path("health-check/", health_check, name="health-check"),
     path("curriculum/", CurriculumUploadView.as_view(), name="store-curriculum"),
-    #    path("curriculum/", CurriculumUploadView.as_view(), name="store-curriculum"),
     path(
         "flashcards/create/", FlashcardCreationView.as_view(), name="create-flashcards"
     ),

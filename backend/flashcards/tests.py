@@ -73,7 +73,7 @@ class RagAPITest(TestCase):
 class QuizGenerationTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.url = f"{base}quiz/"
+        self.url = f"{base}quiz/create/"
         self.valid_pdf_name = "test.pdf"
         self.invalid_pdf_name = "invalid.pdf"
 
@@ -116,7 +116,7 @@ class QuizGenerationTest(TestCase):
 class QuizGradingTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.url = f"{base}graded-quiz/"
+        self.url = f"{base}quiz/grade/"
 
     def test_invalid_request(self):
         invalid_payload = {}
@@ -137,7 +137,7 @@ class QuizGradingTest(TestCase):
 class FlashcardGenerationTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.url = f"{base}create-flashcards/"
+        self.url = f"{base}flashcards/create/"
         self.valid_pdf_name = "test.pdf"
         self.invalid_pdf_name = "invalid.pdf"
         self.valid_page_num_start = 0
@@ -171,7 +171,7 @@ class FlashcardGenerationTest(TestCase):
 class CompendiumAPITest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.url = "/api/compendium/"
+        self.url = f"{base}compendium/create/"
         self.valid_document = "test.pdf"
         self.start_page = 1
         self.end_page = 10
