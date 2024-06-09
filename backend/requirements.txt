@@ -1,4 +1,4 @@
-annotated-types==0.6.0
+annotated-types==0.7.0
 anyio==4.2.0
 asgiref==3.7.2
 certifi==2023.11.17
