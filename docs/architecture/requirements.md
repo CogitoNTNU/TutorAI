@@ -150,6 +150,7 @@ All functional requirements are listed below:
 | M1 | The system must be designed to allow for easy modification and extension of features without significant rework or refactoring. | High |
 | M2 | The system must be able to change COTS (Commercial Off-The-Shelf) components with only local changes.| High |
 | M3 | The system must be able to get new functionalities without much refactoring of existant code.| High |
+| M4 | The system must be able to easily change database without any side effects | High |
 
 ### **Security**
 | ID   | Requirement Description | Priority |
@@ -160,6 +161,11 @@ All functional requirements are listed below:
 | S4 | The system must encrypt all sensitive user data at rest and in transit. | High |
 | S5 | The system must perform regular security audits and vulnerability assessments. | Low |
 
+### **Safety**
+| ID   | Requirement Description | Priority |
+|------|-------------------------|----------|
+| Sa1  | The system should not display any harmfull ideas or language.| Low |
+
 ## Business Requirements
 *Business requirements are the high-level needs of the business that the system must meet to fulfill its purpose. They define the system's strategic goals, objectives, and constraints that guide the system's development and operation.*
 
@@ -167,16 +173,17 @@ The Business Requirements for TutorAI are not yet defined. They will be added on
 ### **Market Penetration and User Base**
 | ID   | Requirement Description | Priority |
 |------|-------------------------|----------|
-| B1.1 | The system should have different platforms for different markets. | Medium |
 
 
 ### **Revenue Generation**
 | ID   | Requirement Description | Priority |
 |------|-------------------------|----------|
+| B2.1 | Cost of services should not exceed the revenue | High |
 
 ### **Partnerships and Integrations**
 | ID   | Requirement Description | Priority |
 |------|-------------------------|----------|
+
 
 ### **User Engagement and Retention**
 | ID   | Requirement Description | Priority |
