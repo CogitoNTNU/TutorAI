@@ -17,7 +17,7 @@ django-rest-framework==0.1.0
 djangorestframework==3.15.1
 djangorestframework-simplejwt==5.3.1
 dnspython==2.6.1
-python-docx==1.1.0
+python-docx==1.1.2
 drf-yasg==1.21.7
 exceptiongroup==1.2.1
 fonttools==4.51.0
