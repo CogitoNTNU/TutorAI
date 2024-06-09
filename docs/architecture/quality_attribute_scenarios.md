@@ -74,6 +74,17 @@
 | Response            | Access is denied and logged                  |
 | Response measure    | Denial and logging occur within 2 seconds    |
 
+#### S5: Data breach attempt
+
+| Portion of scenario | Value                                        |
+| ------------------- | -------------------------------------------- |
+| Source              | Malicious user                               |
+| Stimulus            | Attempts to breach sensitive user data       |
+| Artifact            | Database and network security                |
+| Enviroment          | Normal operations                            |
+| Response            | Intrusion detected and connection terminated |
+| Response measure    | Connection termination within 1 second       |
+
 - **Modifiability**:
 
 #### M2: The system must be able to change COTS (Commercial Off-The-Shelf) components with only local changes.
