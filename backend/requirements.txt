@@ -19,7 +19,7 @@ djangorestframework-simplejwt==5.3.1
 dnspython==2.6.1
 python-docx==1.1.0
 drf-yasg==1.21.7
-exceptiongroup==1.2.0
+exceptiongroup==1.2.1
 fonttools==4.51.0
 h11==0.14.0
 httpcore==1.0.2
