@@ -27,7 +27,7 @@ httpx==0.26.0
 idna==3.7
 inflection==0.5.1
 kiwisolver==1.4.5
-matplotlib==3.8.4
+matplotlib==3.9.0
 numpy==1.26.4
 openai==1.6.1
 opencv-python==4.9.0.80
