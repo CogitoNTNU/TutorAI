@@ -33,7 +33,7 @@ openai==1.35.7
 opencv-python==4.10.0.84
 packaging==23.2
 pdfminer.six==20231228
-pillow==10.3.0
+pillow==10.4.0
 psycopg2==2.9.9
 pycparser==2.22
 pydantic==2.7.4
