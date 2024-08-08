@@ -11,7 +11,7 @@ contourpy==1.2.1
 cryptography==41.0.7
 cycler==0.12.1
 distro==1.9.0
-Django==5.0.8
+Django==5.1
 django-cors-headers==4.4.0
 django-rest-framework==0.1.0
 djangorestframework==3.15.2
