@@ -42,7 +42,7 @@ PyJWT==2.9.0
 pymongo==4.8.0
 PyMuPDF==1.24.9
 PyMuPDFb==1.24.9
-pyparsing==3.1.2
+pyparsing==3.1.4
 PyPDF2==3.0.1
 pypdfium2==4.30.0
 pytesseract==0.3.10
