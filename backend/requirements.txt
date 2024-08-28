@@ -7,7 +7,7 @@ chardet==5.2.0
 charset-normalizer==3.3.2
 colorama==0.4.6
 comtypes==1.4.5
-contourpy==1.2.1
+contourpy==1.3.0
 cryptography==41.0.7
 cycler==0.12.1
 distro==1.9.0
