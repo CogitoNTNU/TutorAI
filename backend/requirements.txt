@@ -2,7 +2,7 @@ annotated-types==0.7.0
 anyio==4.4.0
 asgiref==3.8.1
 certifi==2023.11.17
-cffi==1.16.0
+cffi==1.17.1
 chardet==5.2.0
 charset-normalizer==3.3.2
 colorama==0.4.6
