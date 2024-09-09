@@ -36,7 +36,7 @@ pdfminer.six==20231228
 pillow==10.4.0
 psycopg2==2.9.9
 pycparser==2.22
-pydantic==2.9.0
+pydantic==2.9.1
 pydantic_core==2.23.3
 PyJWT==2.9.0
 pymongo==4.8.0
