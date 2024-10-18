@@ -18,7 +18,7 @@ djangorestframework==3.15.2
 djangorestframework-simplejwt==5.3.1
 dnspython==2.7.0
 python-docx==1.1.2
-drf-yasg==1.21.7
+drf-yasg==1.21.8
 exceptiongroup==1.2.2
 fonttools==4.54.1
 h11==0.14.0
