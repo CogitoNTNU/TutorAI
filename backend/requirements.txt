@@ -15,7 +15,7 @@ Django==5.1.4
 django-cors-headers==4.6.0
 django-rest-framework==0.1.0
 djangorestframework==3.15.2
-djangorestframework-simplejwt==5.3.1
+djangorestframework-simplejwt==5.4.0
 dnspython==2.7.0
 python-docx==1.1.2
 drf-yasg==1.21.8
