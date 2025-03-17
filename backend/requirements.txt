@@ -37,7 +37,7 @@ pillow==10.4.0
 psycopg2==2.9.10
 pycparser==2.22
 pydantic==2.10.6
-pydantic_core==2.31.1
+pydantic_core==2.32.0
 PyJWT==2.10.1
 pymongo==4.11.2
 PyMuPDF==1.25.3
