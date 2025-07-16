@@ -29,7 +29,7 @@ inflection==0.5.1
 kiwisolver==1.4.8
 matplotlib==3.10.1
 numpy==1.26.4
-openai==1.95.1
+openai==1.96.1
 opencv-python==4.12.0.88
 packaging==23.2
 pdfminer.six==20231228
