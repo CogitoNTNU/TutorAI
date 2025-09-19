@@ -12,7 +12,7 @@ cryptography==41.0.7
 cycler==0.12.1
 distro==1.9.0
 Django==5.1.7
-django-cors-headers==4.7.0
+django-cors-headers==4.9.0
 django-rest-framework==0.1.0
 djangorestframework==3.16.1
 djangorestframework-simplejwt==5.5.1
