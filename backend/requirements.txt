@@ -34,7 +34,7 @@ opencv-python==4.12.0.88
 packaging==23.2
 pdfminer.six==20231228
 pillow==10.4.0
-psycopg2==2.9.10
+psycopg2==2.9.11
 pycparser==2.23
 pydantic==2.12.0
 pydantic_core==2.41.1
