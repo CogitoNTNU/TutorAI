@@ -40,7 +40,7 @@ pydantic==2.12.4
 pydantic_core==2.41.5
 PyJWT==2.10.1
 pymongo==4.15.4
-PyMuPDF==1.26.5
+PyMuPDF==1.26.6
 PyMuPDFb==1.24.10
 pyparsing==3.2.5
 PyPDF2==3.0.1
