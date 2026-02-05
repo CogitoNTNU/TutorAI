@@ -30,7 +30,7 @@ kiwisolver==1.4.9
 matplotlib==3.10.8
 numpy==1.26.4
 openai==1.109.1
-opencv-python==4.13.0.90
+opencv-python==4.13.0.92
 packaging==23.2
 pdfminer.six==20231228
 pillow==10.4.0
