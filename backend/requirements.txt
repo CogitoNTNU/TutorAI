@@ -38,7 +38,7 @@ psycopg2==2.9.11
 pycparser==2.23
 pydantic==2.12.5
 pydantic_core==2.41.5
-PyJWT==2.10.1
+PyJWT==2.11.0
 pymongo==4.16.0
 PyMuPDF==1.27.1
 PyMuPDFb==1.24.10
